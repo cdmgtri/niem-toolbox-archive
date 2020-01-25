@@ -13,6 +13,7 @@ import "./assets/styles/main.css";
 import "./assets/styles/main.scss";
 import "./assets/styles/navbar.css";
 import store from './store'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false;
 
