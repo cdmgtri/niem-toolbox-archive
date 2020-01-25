@@ -1,6 +1,6 @@
 
 module.exports = {
-  publicPath: '/niem-tool-template-vue/',
+  publicPath: '/niem-assistant/',
   assetsDir: 'src/assets',
   devServer: {
     watchOptions: {

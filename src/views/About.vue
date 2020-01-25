@@ -9,7 +9,7 @@
 
     <div class="alert alert-info">
       <p>
-        Please <a href="https://github.com/niem/niem-tool-template-vue/issues/new" class="alert-link">click here</a> to report an issue.
+        Please <a href="https://github.com/cdmtri/niem-assistant/issues/new" class="alert-link">click here</a> to report an issue.
       </p>
 
       <p>
