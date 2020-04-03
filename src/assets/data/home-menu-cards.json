@@ -1,0 +1,81 @@
+
+[
+  {
+    "title": "Explore NIEM and community content",
+    "text": "NIEM defines reusable data components across Core and multiple domains.  Community components can be leveraged as well.",
+    "img": {
+      "src": "niem.png",
+      "alt": "NIEM namespace diagram"
+    },
+    "links": [
+      {
+        "text": "View common NIEM components",
+        "route": "explore/demo"
+      },
+      {
+        "text": "Build new components",
+        "route": "explore/build"
+      },
+      {
+        "text": "Search components",
+        "route": "explore/search"
+      },
+      {
+        "text": "View stats and dependencies",
+        "route": "explore/stats"
+      }
+    ]
+  },
+  {
+    "title": "Work with messages",
+    "text": "NIEM messages leverage a common data model and architecture to promote consistency and reuse for better information sharing.",
+    "img": {
+      "src": "iepdlifecycle01.png",
+      "alt": "IEPD life cycle stages"
+    },
+    "links": [
+      {
+        "text": "View a demo message description",
+        "route": "message/demo"
+      },
+      {
+        "text": "Build message artifacts",
+        "route": "message/build"
+      },
+      {
+        "text": "Validate message artifacts",
+        "route": "message/validate"
+      },
+      {
+        "text": "Get implementation support",
+        "route": "message/implementer"
+      }
+    ]
+  },
+  {
+    "title": "Work with models",
+    "text": "Communities of interest can extend NIEM releases with their own content, which can be reused consistently across related messages.",
+    "img": {
+      "src": "eiem.png",
+      "alt": "Architecture with a NIEM release, an EIEM, and IEPDs"
+    },
+    "links": [
+      {
+        "text": "View a demo model",
+        "route": "model/demo"
+      },
+      {
+        "text": "Build a model",
+        "route": "model/build"
+      },
+      {
+        "text": "Validate a model",
+        "route": "model/validate"
+      },
+      {
+        "text": "Learn more about EIEMs",
+        "route": "model/learn"
+      }
+    ]
+  }
+]
