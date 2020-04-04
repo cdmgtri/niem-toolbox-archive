@@ -8,7 +8,7 @@
       <b-nav-item :to="'/search'" exact>Search</b-nav-item>
 
       <b-nav-form>
-        <b-input-group class="text-success" :prepend="`Release ${loaded}`" size="sm">
+        <b-input-group class="text-success" :prepend="`Release (${loaded})`" size="sm">
           <b-form-select v-model="releaseKey" :options="releaseKeys" size="sm"/>
         </b-input-group>
       </b-nav-form>
@@ -62,6 +62,16 @@
 <style scoped>
 
 .nav-item {
-  padding-right: 10px;
+  padding-right: 5px;
+  font-weight: 400;
 }
+
+.form-inline {
+  padding-left: 10px;
+}
+
+.router-link-active {
+  text-decoration: underline !important;
+}
+
 </style>
