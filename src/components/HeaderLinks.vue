@@ -61,9 +61,9 @@
 
 <style scoped>
 
-.nav-item {
+.nav-link {
   padding-right: 5px;
-  font-weight: 400;
+  /* font-weight: 400 !important; */
 }
 
 .form-inline {

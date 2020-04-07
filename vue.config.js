@@ -1,6 +1,6 @@
 
 module.exports = {
-  publicPath: '/niem-assistant/',
+  publicPath: '/',
   assetsDir: 'src/assets',
 
   devServer: {

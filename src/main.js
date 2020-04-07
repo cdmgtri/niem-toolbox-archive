@@ -1,31 +1,34 @@
 
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router';
 import BootstrapVue from "bootstrap-vue";
 import VueWorker from "vue-worker";
+import router from './router';
+import store from './store'
+import VueGoodTablePlugin from "vue-good-table";
 
 // TODO: Review how best to include these files
+import "jquery";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import "jquery";
 import "bootstrap/dist/js/bootstrap.bundle";
+import "vue-good-table/dist/vue-good-table.css";
 import "./assets/styles/main.css";
 import "./assets/styles/main.scss";
 import "./assets/styles/navbar.css";
-import store from './store'
 import './registerServiceWorker'
 
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 Vue.use(VueWorker);
+Vue.use(VueGoodTablePlugin);
 
 new Vue({
   router,
   store,
+  beforeCreate() {
+    store.dispatch("load");
+  },
   render: h => h(App),
-  // beforeCreate() {
-  //   store.dispatch("load");
-  // }
 }).$mount('#app');
