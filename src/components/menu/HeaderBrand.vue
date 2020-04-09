@@ -3,7 +3,7 @@
   <div class="navbar-brand-group">
     <!-- Logo -->
     <router-link class="navbar-brand" to="/">
-      <img src="../assets/images/logo.png" alt="NIEM" />
+      <img src="../../assets/images/logo.png" alt="NIEM" />
     </router-link>
 
     <!-- Tool name -->
@@ -32,6 +32,7 @@ export default {
 
 .navbar-brand {
   padding-left: 0;
+  padding-top: 20px;
 }
 
 </style>

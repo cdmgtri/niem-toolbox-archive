@@ -1,142 +1,93 @@
 
 <template>
   <div>
-    <b-container>
-      <b-row>
 
-        <!-- Sidebar -->
-        <b-col cols="4">
-          <p>Release: {{ this.$data.releaseKey }}</p>
-          <strong>Select release:</strong>
-          <b-form-select v-model="releaseKey" :options="releaseKeys" size="sm"/>
-          <strong>Features</strong>
-          <ul>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-          </ul>
-        </b-col>
+    <b-row>
+      <b-col cols="5">
+        <b-input-group size="sm">
+          <b-form-input
+            v-model="input" @change="search" @keydown.esc="reset"
+            size="sm" placeholder="Search..." debounce="800" trim :autofocus="true" ref="input"/>
+          <b-input-group-append>
+            <b-button @click="reset">x</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
+    </b-row>
 
-        <!-- Main panel -->
-        <b-col>
-          <strong>Features</strong>
-          <ul>
-            <li>Select release</li>
-            <li>Load release</li>
-            <li>Load progress bar</li>
-            <li>View namespaces</li>
-          </ul>
+    <br/>
 
-        </b-col>
-      </b-row>
-    </b-container>
+    <div v-if="properties.length > 0">
+      <h3>Results <b-badge pill variant="info">{{ properties.length }}</b-badge></h3>
+      <property-row v-for="property in properties" :key="property.qname" :property="property" path=""/>
+    </div>
 
   </div>
 </template>
 
 <script>
 
+import Utils from "../utils";
+import PropertyRow from "../components/row/PropertyRow.vue";
+import { Property } from "niem-model";
+
 export default {
 
-  name: "Search",
+  name: "Property",
+  components: {
+    PropertyRow
+  },
 
-  data: () => {
+  data() {
+    let { userKey, modelKey, releaseKey } = this.$route.params;
+
     return {
-      releaseKey: "5.0",
-      releaseKeys: [
-        { text: "5.0" },
-        { text: "4.2", disabled: true }
-      ]
+      userKey,
+      modelKey,
+      releaseKey,
+
+      input: "",
+
+      properties: []
+
     }
+  },
+
+  methods: {
+
+    reset() {
+      this.input = "";
+      this.properties = [];
+      this.$refs.input.$el.focus();
+    },
+
+    search(event) {
+
+      if (this.input == "") {
+        this.reset();
+        return;
+      }
+
+      // Get user search terms, convert to lower case, enable wildcards
+      let adjustedInput = this.input.trim().toLowerCase().replace(/\*/g, ".*").replace(/ /g, ".*");
+
+      this.properties = this.$store.getters.searchProperties(adjustedInput);
+
+    }
+
   }
 
 }
-
 </script>
 
 <style scoped>
 
-#sidebar {
-  padding-top: 70px;
+h1 {
+  display: inline;
+}
+
+div.property-summary {
+  display: inline;
 }
 
 </style>
-
-

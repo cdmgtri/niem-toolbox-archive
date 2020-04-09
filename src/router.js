@@ -10,6 +10,7 @@ import Version from  "./views/Version.vue";
 import Model from "./views/Model.vue";
 import Release from "./views/Release.vue";
 import Namespace from "./views/Namespace.vue";
+import Property from "./views/Property.vue";
 
 Vue.use(Router)
 
@@ -32,7 +33,11 @@ export default new Router({
 
     { path: "/:userKey/:modelKey/:releaseKey", name: "release", component: Release },
 
-    { path: "/:userKey/:modelKey/:releaseKey/:prefix", name: "namespace", component: Namespace }
+    { path: "/:userKey/:modelKey/:releaseKey/:prefix", name: "namespace", component: Namespace },
+
+    { path: "/:userKey/:modelKey/:releaseKey/:prefix/:contents", component: Namespace },
+
+    { path: "/:userKey/:modelKey/:releaseKey/:prefix/properties/:name", name: "property", component: Property },
 
   ]
 });

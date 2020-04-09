@@ -60,9 +60,18 @@ export default new Vuex.Store({
       return state.namespaces.find( namespace => namespace.prefix == prefix);
     },
 
+    property: (state) => (qname) => {
+      return state.properties.find( property => property.qname == qname );
+    },
+
     properties: (state) => (prefix) => {
       if (!prefix) return state.properties;
       return state.properties.filter( property => property.prefix == prefix );
+    },
+
+    searchProperties: (state) => (regex) => {
+      return state.properties.filter( property => property.qname.toLowerCase().match(regex));
+      // return Property.sortListByNamespaceStyle(state.release, results);
     },
 
     types: (state) => (prefix) => {
@@ -86,7 +95,7 @@ export default new Vuex.Store({
       if (typeQName) return state.subProperties.filter( subProperty => subProperty.typeQName == typeQName );
       if (propertyQName) return state.subProperties.filter( subProperty => subProperty.propertyQName == propertyQName );
       return state.subProperties;
-    }
+    },
 
   },
 
@@ -180,7 +189,10 @@ export default new Vuex.Store({
      */
     async loadRelease(context, options) {
 
+      console.log("LOADING...");
       context.dispatch("setLoaded", "in progress");
+
+      let start = Date.now();
 
       await context.state.niem.load(model);
 
@@ -210,7 +222,7 @@ export default new Vuex.Store({
 
       context.dispatch("setLoaded", "done");
 
-      console.log("LOADED RELEASE", new Date().toLocaleTimeString());
+      console.log(`LOADED RELEASE in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
 
     }
 

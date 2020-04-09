@@ -26,6 +26,11 @@ h4 {
   color: #01445D;
 }
 
+a {
+  /* color: var(--slate-blue); */
+  color: #0359b6;
+}
+
 .btn-link {
   color: var(--slate-blue);
   padding-left: 0;

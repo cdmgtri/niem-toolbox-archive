@@ -33,6 +33,8 @@
 
 <script>
 
+import Utils from "../utils";
+
 export default {
 
   name: "Model",
@@ -46,11 +48,7 @@ export default {
       modelKey,
       releaseKey,
 
-      breadcrumb: [
-        { text: userKey, to: `/` },
-        { text: modelKey, to: `/${userKey}/${modelKey}` },
-        { text: releaseKey, active: true },
-      ],
+      breadcrumb: Utils.getBreadcrumb({userKey, modelKey, releaseKey}),
 
       fields: [
         { key: "prefix", sortable: true },

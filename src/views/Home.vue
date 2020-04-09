@@ -18,13 +18,13 @@
         :title="card.title"
         :img-src="require('@/assets/images/' + card.img.src)"
         :img-alt="card.img.alt"
-        img-top>
+        img-top class="text-center">
 
         <b-card-text>{{card.text}}</b-card-text>
 
         <b-list-group flush>
           <b-list-group-item v-for="link in card.links" :key="link.route">
-            <router-link :to="link.route">{{link.text}}</router-link>
+            <b-link :to="link.route" :disabled="link.disabled" >{{link.text}}</b-link>
           </b-list-group-item>
         </b-list-group>
 

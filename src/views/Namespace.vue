@@ -24,17 +24,17 @@
       <b-card no-body>
         <b-tabs  card text-secondary>
 
-          <b-tab title="Properties" active>
-            <b-table small hover :items="properties" :fields="['name', 'typeQName']"/>
+          <b-tab title="Properties" :active="!contents || contents=='properties'">
+            <property-row v-for="property in properties" :key="property.qname" :property="property" path=""/>
           </b-tab>
 
-          <b-tab title="Types">
+          <b-tab title="Types" :active="contents=='types'">
             <b-list-group>
               <b-list-group-item v-for="type of types" :key="type.name">{{ type.name }}</b-list-group-item>
             </b-list-group>
           </b-tab>
 
-          <b-tab title="Local Terms">
+          <b-tab title="Local Terms" :active="contents=='terms'">
             <b-table :items="localTerms" :fields="localTermFields"/>
           </b-tab>
 
@@ -51,28 +51,28 @@
 
 <script>
 
+import Utils from "../utils";
+import PropertyRow from "../components/row/PropertyRow.vue";
 import { Namespace } from "niem-model";
 
 export default {
 
-
   name: "Namespace",
+  components: {
+    PropertyRow
+  },
 
   data() {
-    let { userKey, modelKey, releaseKey, prefix } = this.$route.params;
+    let { userKey, modelKey, releaseKey, prefix, contents } = this.$route.params;
 
     return {
       userKey,
       modelKey,
       releaseKey,
       prefix,
+      contents,
 
-      breadcrumb: [
-        { text: userKey, to: `/` },
-        { text: modelKey, to: `/${userKey}/${modelKey}` },
-        { text: releaseKey, to: `/${userKey}/${modelKey}/${releaseKey}` },
-        { text: prefix, active: true },
-      ],
+      breadcrumb: Utils.getBreadcrumb({userKey, modelKey, releaseKey, prefix}),
 
       localTermFields: [
         { key: "term" },
@@ -128,6 +128,13 @@ export default {
 
   methods: {
 
+    async loadPropertyContents(event, property) {
+      if (event.target.open) {
+        let contents = await property.contents();
+        console.log(JSON.stringify(contents, null, 2));
+      }
+    }
+
   }
 
 
@@ -140,9 +147,8 @@ h1 {
   display: inline;
 }
 
-td ::before {
-  width: 20% !important;
-  text-align: left;
+div.property-summary {
+  display: inline;
 }
 
 </style>

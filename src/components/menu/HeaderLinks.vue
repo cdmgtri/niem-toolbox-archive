@@ -8,7 +8,7 @@
       <b-nav-item :to="'/search'" exact>Search</b-nav-item>
 
       <b-nav-form>
-        <b-input-group class="text-success" :prepend="`Release (${loaded})`" size="sm">
+        <b-input-group class="text-success" :prepend="`Release`" size="sm">
           <b-form-select v-model="releaseKey" :options="releaseKeys" size="sm"/>
         </b-input-group>
       </b-nav-form>

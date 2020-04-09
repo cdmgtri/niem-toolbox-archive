@@ -10,19 +10,23 @@
     "links": [
       {
         "text": "View common NIEM components",
-        "route": "explore/demo"
+        "route": "explore/demo",
+        "disabled": true
       },
       {
         "text": "Build new components",
-        "route": "explore/build"
+        "route": "explore/build",
+        "disabled": true
       },
       {
         "text": "Search components",
-        "route": "explore/search"
+        "route": "explore/search",
+        "disabled": false
       },
       {
         "text": "View stats and dependencies",
-        "route": "explore/stats"
+        "route": "explore/stats",
+        "disabled": true
       }
     ]
   },
@@ -36,19 +40,23 @@
     "links": [
       {
         "text": "View a demo message description",
-        "route": "message/demo"
+        "route": "message/demo",
+        "disabled": true
       },
       {
         "text": "Build message artifacts",
-        "route": "message/build"
+        "route": "message/build",
+        "disabled": true
       },
       {
         "text": "Validate message artifacts",
-        "route": "message/validate"
+        "route": "message/validate",
+        "disabled": true
       },
       {
         "text": "Get implementation support",
-        "route": "message/implementer"
+        "route": "message/implementer",
+        "disabled": true
       }
     ]
   },
@@ -62,19 +70,23 @@
     "links": [
       {
         "text": "View a demo model",
-        "route": "model/demo"
+        "route": "model/demo",
+        "disabled": true
       },
       {
         "text": "Build a model",
-        "route": "model/build"
+        "route": "model/build",
+        "disabled": true
       },
       {
         "text": "Validate a model",
-        "route": "model/validate"
+        "route": "model/validate",
+        "disabled": true
       },
       {
         "text": "Learn more about EIEMs",
-        "route": "model/learn"
+        "route": "model/learn",
+        "disabled": true
       }
     ]
   }

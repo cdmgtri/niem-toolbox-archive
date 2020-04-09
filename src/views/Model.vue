@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <b-breadcrumb :items="breadcrumb"/>
     <div v-if="releases">
 
       <h1>{{ userKey}} {{ modelKey }}</h1>
@@ -16,14 +17,19 @@
 
 <script>
 
+import Utils from "../utils";
+
 export default {
 
   name: "Model",
 
   data() {
+    let { userKey, modelKey } = this.$route.params;
+
     return {
-      userKey: this.$route.params.userKey,
-      modelKey: this.$route.params.modelKey
+      userKey,
+      modelKey,
+      breadcrumb: Utils.getBreadcrumb({userKey, modelKey}),
     }
   },
   computed: {
