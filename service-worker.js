@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a5a24aef9d0fc0dbf1198ee7426e6710.js"
+  "/precache-manifest.752603b449559869b3e0380d724f3bd0.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "niem-assistant"});
