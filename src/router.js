@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Home from  "./views/Home.vue";
-import Browse from "./views/Browse.vue";
+import Models from "./views/Models.vue";
 import Search from "./views/Search.vue";
 import About from  "./views/About.vue";
 import Version from  "./views/Version.vue";
@@ -21,7 +21,7 @@ export default new Router({
 
     { path: "/", name: "home", component: Home },
 
-    { path: "/browse", name: "browse", component: Browse },
+    { path: "/browse", name: "browse", component: Models },
 
     { path: "/search", name: "search", component: Search },
 
@@ -33,11 +33,23 @@ export default new Router({
 
     { path: "/:userKey/:modelKey/:releaseKey", name: "release", component: Release },
 
-    { path: "/:userKey/:modelKey/:releaseKey/:prefix", name: "namespace", component: Namespace },
+    // { path: "/:userKey/:modelKey/:releaseKey/namespaces", name: "namespaces", component: Namespaces },
 
-    { path: "/:userKey/:modelKey/:releaseKey/:prefix/:contents", component: Namespace },
+    { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix", name: "namespace", component: Namespace },
 
-    { path: "/:userKey/:modelKey/:releaseKey/:prefix/properties/:name", name: "property", component: Property },
+    { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix/:contents", component: Namespace },
+
+    // { path: "/:userKey/:modelKey/:releaseKey/properties/", name: "properties", component: Properties },
+
+    { path: "/:userKey/:modelKey/:releaseKey/properties/:prefix/:name", name: "property", component: Property },
+
+    // { path: "/:userKey/:modelKey/:releaseKey/types/", name: "types", component: Types },
+
+    // { path: "/:userKey/:modelKey/:releaseKey/types/:prefix/:name", name: "type", component: Type },
+
+    // { path: "/:userKey/:modelKey/:releaseKey/terms/", name: "terms", component: Terms },
+
+    // { path: "/:userKey/:modelKey/:releaseKey/terms/:prefix/:term", name: "term", component: Term },
 
   ]
 });

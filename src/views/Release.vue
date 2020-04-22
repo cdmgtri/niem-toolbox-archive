@@ -3,26 +3,33 @@
   <div>
 
     <b-breadcrumb :items="breadcrumb"/>
-    <h1>{{ userKey}} {{ modelKey }} {{ releaseKey }} </h1>
+
+    <b-alert show>
+      <h1>{{ userKey}} {{ modelKey }} {{ releaseKey }} </h1>
+      <hr/>
+      <span>NIEM Release</span>
+    </b-alert>
 
     <div v-if="namespaces">
       <b-table :items="namespaces" :fields="fields">
+
+        <!-- Namespace prefix as hyperlink column -->
         <template v-slot:cell(prefix)="data">
           <b-link :to="namespaceLink(data.value)">{{ data.value }}</b-link>
         </template>
 
-        <template slot="more" slot-scope="row">
-          <!-- Button to display more info -->
-          <button class="btn btn-outline-secondary btn-sm" @click.stop="row.toggleDetails">
+        <!-- More info column -->
+        <template v-slot:cell(more)="row">
+          <button class="btn btn-outline-secondary btn-sm" @click="row.toggleDetails">
             <i v-if="!row.detailsShowing" class="fa fa-chevron-circle-down"/>
             <i v-else class="fa fa-chevron-circle-up"/>
           </button>
         </template>
 
         <!-- Additional IEPD metadata for row -->
-        <template slot="row-details" slot-scope="row">
+        <template v-slot:row-details="row">
           <b-card>
-            <p class="card-text">{{ row.item.uri }}</p>
+            <stacked-object-table :object="summary(row.item)" :htmlFields="['uri', 'website', 'updateURI']"/>
           </b-card>
         </template>
 
@@ -34,10 +41,14 @@
 <script>
 
 import Utils from "../utils";
+import StackedObjectTable from "../components/StackedObjectTable.vue";
 
 export default {
 
   name: "Model",
+  components: {
+    StackedObjectTable
+  },
 
   data() {
 
@@ -65,8 +76,24 @@ export default {
     }
   },
   methods: {
+    summary(namespace) {
+      let properties = this.$store.getters.properties(namespace.prefix);
+      let types = this.$store.getters.types(namespace.prefix);
+      let localTerms = this.$store.getters.localTerms(namespace.prefix);
+
+      return {
+        prefix: namespace.prefix,
+        "file name": namespace.fileName,
+        definition: namespace.definition,
+        uri: namespace.uri,
+        "property count": properties.length,
+        "type count": types.length,
+        "local term count": localTerms.length,
+        ...namespace.origin
+      }
+    },
     namespaceLink(prefix) {
-      return `/${this.userKey}/${this.modelKey}/${this.releaseKey}/${prefix}/`;
+      return `/${this.userKey}/${this.modelKey}/${this.releaseKey}/namespaces/${prefix}/`;
     }
   }
 }

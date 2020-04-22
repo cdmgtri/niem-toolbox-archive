@@ -2,7 +2,7 @@
 <template>
   <div>
     <b-card>
-      <details v-on:toggle="loadContents($event, property)">
+      <details v-on:toggle="load($event, property)">
         <summary>
           <span>
             <!-- property summary component -->
@@ -13,11 +13,11 @@
             <span v-else>(abstract)</span>
 
             <!-- copy button -->
-            <copy-button label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/>
+            <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/>
           </span>
         </summary>
 
-        <div class="component-summary">
+        <div v-if="loaded" class="component-summary">
 
           <b-row>
             <b-col cols="11">
@@ -26,42 +26,55 @@
             </b-col>
           </b-row>
 
-          <!-- Base of property's type -->
+          <!-- User-traversed path to component -->
+          <component-path-links :path="path"/>
+
           <b-row v-if="base">
             <b-col cols="2">Base type:</b-col>
             <b-col cols="9">{{ base }}</b-col>
           </b-row>
 
-          <!-- User-traversed path to component -->
-          <b-row v-if="path">
-            <b-col cols="2">Path:</b-col>
-            <b-col cols="9">{{ path }}</b-col>
-          </b-row>
+          <!-- namespace info -->
+          <details>
+            <summary>Namespace</summary>
+            <stacked-object-table :object="namespaceFields" :htmlFields="['link']"/>
+          </details>
 
-          <br v-if="base || path"/>
+          <!-- sub-properties -->
+          <details v-if="properties.length > 0">
+            <summary>
+              <span>Properties </span>
+              <b-badge variant="info" pill>{{ properties.length }}</b-badge>
+            </summary>
+            <property-row v-for="subProperty of properties" :key="subProperty.qname" :property="subProperty" :path="updatedPath" :map="map" :subset="subset"/>
+          </details>
 
+          <!-- substitutions -->
+          <details v-if="substitutions.length > 0">
+            <summary>
+              <span>Substitutions </span>
+              <b-badge variant="info" pill>{{ substitutions.length }}</b-badge>
+            </summary>
+            <property-row v-for="substitution of substitutions" :key="substitution.qname" :property="substitution" :path="updatedPath" :map="map" :subset="subset"/>
+          </details>
 
-          <div v-if="contentLength > 0">
-
-            <!-- Contents header and badge -->
-            <strong class="contents-header">{{ contentStyle }} </strong>
-            <b-badge variant="info" pill>{{ contentLength }}</b-badge>
-            <br/><br/>
-
-            <div v-if="properties">
-              <!-- sub-properties -->
-              <property-row v-for="subProperty of properties" :key="subProperty.qname" :property="subProperty" :path="`${path}/${property.qname}/`"/>
-            </div>
-
-            <div v-if="substitutions">
-              <!-- substitutions -->
-              <property-row v-for="substitution of substitutions" :key="substitution.qname" :property="substitution"/>
-            </div>
-
-            <!-- facets -->
+          <!-- facets -->
+          <details v-if="facets.length > 0">
+            <summary>
+              <span>Facets </span>
+              <b-badge variant="info" pill>{{ facets.length }}</b-badge>
+            </summary>
             <b-table small v-if="facets" :items="facets" :fields="['style', 'value', 'definition']" :head-variant="null"/>
+          </details>
 
-          </div>
+          <details v-if="containerTypes.length > 0">
+            <summary>
+              <span>In types </span>
+              <b-badge variant="info" pill>{{ containerTypes.length }}</b-badge>
+            </summary>
+            <sub-property-row v-for="subProperty of subProperties" :key="subProperty.typeQName" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
+          </details>
+
         </div>
 
       </details>
@@ -75,29 +88,56 @@
 import Utils from "../../utils";
 import CopySpan from "../CopySpan.vue";
 import CopyButton from "../CopyButton.vue";
+import ComponentPathLinks from "../ComponentPathLinks.vue";
+import StackedObjectTable from "../StackedObjectTable.vue";
+import SubPropertyRow from "./SubPropertyRow.vue";
+import { Property } from "niem-model";
 
 export default {
 
   name: "PropertyRow",
-  props: ["property", "path"],
+
+  props: {
+    property: Property,
+    path: {
+      type: Array,
+      default: () => []
+    },
+    map: {
+      type: Boolean,
+      default: false
+    },
+    subset: {
+      type: Boolean,
+      default: false
+    }},
+
   components: {
     CopySpan,
-    CopyButton
+    CopyButton,
+    ComponentPathLinks,
+    StackedObjectTable,
+    SubPropertyRow
   },
 
   data() {
     let { userKey, modelKey, releaseKey } = this.property;
 
     return {
+      open: false,
+      loaded: false,
       userKey,
       modelKey,
       releaseKey,
       base: undefined,
+      namespace: undefined,
       contentStyle: undefined,
       contentLength: -1,
-      facets: undefined,
-      properties: undefined,
-      substitutions: undefined,
+      facets: [],
+      properties: [],
+      substitutions: [],
+      containerTypes: [],
+      subProperties: [],
       propertyRoute: Utils.getPropertyRoute(this.property),
       typeRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.property.typePrefix, name: this.property.typeName })
     }
@@ -107,39 +147,52 @@ export default {
 
     cellsPropertyTypeDefinition() {
       return `${this.property.qname}\t${this.property.typeQName}\t${this.property.definition}`;
+    },
+
+    updatedPath() {
+      return Utils.updatePath(this.property, this.path);
+    },
+
+    namespaceFields() {
+      return {
+        namespace: this.namespace.fileName || "",
+        uri: this.namespace.uri,
+        link: Utils.getNamespaceRoute(this.namespace)
+      }
     }
 
   },
 
   methods: {
 
-    async loadContents(event, property) {
+    async load(event, property) {
+
+      this.$data.open = event.target.open;
+      this.$data.loaded = false;
+
       if (event.target.open) {
+
         let contents = await property.contents();
         this.base = contents.base;
         if (contents.base) {
           delete contents.base;
         }
+        this.namespace = await property.namespace();
+        this.$data.loaded = true;
+
         this.contentStyle = Object.keys(contents)[0];
         this.contentLength = contents[this.contentStyle].length;
-        this.facets = contents.facets;
-        this.properties = contents.properties;
-        this.substitutions = contents.substitutions;
+        this.facets = contents.facets || [];
+        this.properties = contents.properties || [];
+        this.substitutions = contents.substitutions || [];
 
+        this.subProperties = await property.subProperties.find();
+        this.containerTypes = this.subProperties.map( subProperty => subProperty.typeQName );
       }
     },
 
     copy(text) {
       this.$copyText(text)
-    },
-
-    getPathLinks() {
-      let links = "";
-      let qnames = this.path.split("/");
-
-      for (let qname of qnames) {
-        links += `<b-router :to="getPropertyLink(qname)">qname</b-router> `;
-      }
     },
 
     getPropertyRoute(property) {
@@ -148,9 +201,9 @@ export default {
 
     getTypeRoute(type) {
       return Utils.getTypeRoute(type);
-    }
+    },
 
-  }
+},
 
 }
 

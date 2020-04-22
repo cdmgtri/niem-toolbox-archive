@@ -1,12 +1,18 @@
 
+import { Component } from "niem-model";
+
 class Utils {
 
   static getPropertyRoute({userKey, modelKey, releaseKey, prefix, name}) {
-    return `/${userKey}/${modelKey}/${releaseKey}/${prefix}/properties/${name}`;
+    return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
   }
 
   static getTypeRoute({userKey, modelKey, releaseKey, prefix, name}) {
-    return `/${userKey}/${modelKey}/${releaseKey}/${prefix}/types/${name}`;
+    return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
+  }
+
+  static getNamespaceRoute({userKey, modelKey, releaseKey, prefix}) {
+    return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
   }
 
   static getBreadcrumb({userKey, modelKey, releaseKey, prefix, name}, style) {
@@ -31,18 +37,20 @@ class Utils {
       activeIndex = 2;
     }
 
-    if (prefix) {
-      path += `/${prefix}`;
+    if (prefix && !name) {
+      breadcrumb.push({text: "namespaces", to: path});
+
+      path += `/namespaces/${prefix}`;
       breadcrumb.push({text: prefix, to: path});
-      activeIndex = 3;
+      activeIndex = 4;
     }
 
     if (name) {
-      path += `/${style}`;
-      breadcrumb.push({text: style, to: path});
+      breadcrumb.push({text: style, to: `${path}/${style}`});
 
-      path += `/name`;
-      breadcrumb.push({text:name, to: path});
+      breadcrumb.push({text: prefix, to: `${path}/namespaces/${prefix}/${style}`});
+
+      breadcrumb.push({text:name, to: `${path}/${style}/${prefix}/${name}`});
       activeIndex = 5;
     }
 
@@ -52,6 +60,40 @@ class Utils {
 
     return breadcrumb;
   }
+
+  /**
+   * @param {Component} component
+   * @param {{label: string, link: string}[]} path
+   */
+  static updatePath(component, path) {
+
+    let link = (component.constructor.name == "Type") ? Utils.getTypeRoute(component) : Utils.getPropertyRoute(component);
+
+    return [
+      ...path,
+      {
+        label: component.qname,
+        link
+      }
+    ];
+
+  }
+
+
+  /**
+   * @param {ComponentInstance} component1
+   * @param {ComponentInstance} component2
+   */
+  static sortComponentsCoreFirst(component1, component2) {
+
+    if (component1.prefix != component2.prefix) {
+      if (component1.prefix == "nc") {
+        return -1;
+      }
+    }
+    return component1.qname.localeCompare(component2.qname);
+
+}
 
 }
 

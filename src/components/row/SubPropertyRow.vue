@@ -2,11 +2,11 @@
 <template>
   <div>
     <b-card>
-      <details v-on:toggle="loadContents($event, subProperty)">
+      <details>
         <summary><b-link :to="getTypeRoute(subProperty.typeQName)">{{ subProperty.typeQName }}</b-link></summary>
 
         <br/>
-        <b-table small v-if="subProperties.length > 0" :items="subProperties" :fields="fields" :head-variant="null"/>
+        <b-table small v-if="subProperties.length > 0" :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
 
       </details>
     </b-card>
@@ -22,7 +22,7 @@ import CopySpan from "../CopySpan.vue";
 export default {
 
   name: "PropertyRow",
-  props: ["subProperty", "path"],
+  props: ["subProperty", "path", "highlight"],
   components: {
     // CopySpan
   },
@@ -52,23 +52,6 @@ export default {
   },
 
   methods: {
-
-    async loadContents(event, subProperty) {
-      if (event.target.open) {
-        let subProperties = this.$store.getters.subP
-        // let contents = await property.contents();
-        // this.base = contents.base;
-        // if (contents.base) {
-        //   delete contents.base;
-        // }
-        // this.contentStyle = Object.keys(contents)[0];
-        // this.contentLength = contents[this.contentStyle].length;
-        // this.facets = contents.facets;
-        // this.properties = contents.properties;
-        // this.substitutions = contents.substitutions;
-
-      }
-    },
 
     copy(text) {
       this.$copyText(text)
@@ -103,6 +86,10 @@ export default {
         prefix,
         name
       });
+    },
+
+    rowClass(subProperty, type) {
+      if (subProperty.propertyQName == this.highlight) return "table-secondary";
     }
 
   }

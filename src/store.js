@@ -6,11 +6,11 @@ import NIEMModel from "niem-model";
 
 import model from "../src/assets/data/niem-5.0-release.json";
 
-// eslint-disable-next-line no-unused-vars
-let { NIEM, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } = NIEMModel;
+let { NIEM, Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty, Component } = NIEMModel;
 
 Vue.use(Vuex);
 
+let ModelInstance = new Model();
 let ReleaseInstance = new Release();
 let NamespaceInstance = new Namespace();
 let LocalTermInstance = new LocalTerm();
@@ -18,6 +18,7 @@ let PropertyInstance = new Property();
 let TypeInstance = new Type();
 let FacetInstance = new Facet();
 let SubPropertyInstance = new SubProperty();
+let ComponentInstance = new Component();
 
 export default new Vuex.Store({
 
@@ -30,6 +31,12 @@ export default new Vuex.Store({
 
     /** @type {ReleaseInstance} */
     release: undefined,
+
+    /** @type {string[]} */
+    users: [],
+
+    /** @type {ModelInstance[]} */
+    models: [],
 
     /** @type {ReleaseInstance[]} */
     releases: [],
@@ -56,6 +63,14 @@ export default new Vuex.Store({
 
   getters: {
 
+    models: (state) => (userKey) => {
+      return state.models.filter( model => model.userKey == userKey );
+    },
+
+    releases: (state) => (userKey, modelKey) => {
+      return state.releases.filter( release => release.userKey == userKey && release.modelKey == modelKey );
+    },
+
     namespace: (state) => (prefix) => {
       return state.namespaces.find( namespace => namespace.prefix == prefix);
     },
@@ -70,7 +85,7 @@ export default new Vuex.Store({
     },
 
     searchProperties: (state) => (regex) => {
-      return state.properties.filter( property => property.qname.toLowerCase().match(regex));
+      return state.properties.filter( property => property.qname.toLowerCase().match(regex))
       // return Property.sortListByNamespaceStyle(state.release, results);
     },
 
@@ -107,6 +122,14 @@ export default new Vuex.Store({
 
     setRelease(state, release) {
       state.release = release;
+    },
+
+    setUsers(state, users) {
+      state.users = users;
+    },
+
+    setModels(state, models) {
+      state.models = models;
     },
 
     setReleases(state, releases) {
@@ -150,6 +173,14 @@ export default new Vuex.Store({
 
     setRelease(context, release) {
       context.commit("setRelease", release);
+    },
+
+    setUsers(context, users) {
+      context.commit("setUsers", users);
+    },
+
+    setModels(context, models) {
+      context.commit("setModels", models);
     },
 
     setReleases(context, releases) {
@@ -198,6 +229,12 @@ export default new Vuex.Store({
 
       let release = await context.state.niem.releases.get(options.userKey, options.modelKey, options.releaseKey);
       context.dispatch("setRelease", release);
+
+      let models = await context.state.niem.models.find();
+      context.dispatch("setModels", models);
+
+      let users = new Set( models.map( model => model.userKey ) );
+      context.dispatch("setUsers", Array.from(users));
 
       let releases = await context.state.niem.releases.find();
       context.dispatch("setReleases", releases);

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "assets": "vue-asset-generate -a src/assets/images/logo.2.png -o public/img/icons",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
@@ -44,6 +45,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
+    "vue-pwa-asset-generator": "^0.3.0",
     "vue-template-compiler": "^2.6.11"
   }
 }

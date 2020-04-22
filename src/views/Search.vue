@@ -17,9 +17,29 @@
 
     <br/>
 
-    <div v-if="properties.length > 0">
+    <div v-if="showResults">
+      <!-- Results header -->
       <h3>Results <b-badge pill variant="info">{{ properties.length }}</b-badge></h3>
-      <property-row v-for="property in properties" :key="property.qname" :property="property" path=""/>
+
+      <span v-if="properties.length > 0" class="pull-right">
+
+        <!-- Sort options -->
+        <b-button variant="link" @click="sortCore" class="options" :class="{active: sortOrder=='core'}">Core first</b-button>
+        <b-button variant="link" @click="sortQName" class="options" :class="{active: sortOrder=='qname'}">Namespace</b-button>
+        <b-button variant="link" @click="sortName" class="options" :class="{active: sortOrder=='name'}">Name</b-button>
+
+        |
+
+        <!-- Support options -->
+        <b-button variant="link" @click="enableMap" class="options" :class="{active: map}">Map</b-button>
+        <b-button variant="link" @click="enableSubset" class="options" :class="{active: subset}">Subset</b-button>
+
+      </span>
+      <br/><br/>
+
+      <!-- Results -->
+      <property-row v-for="property in properties" :key="property.qname"
+        :property="property" :path="[]" :map="map" :subset="subset"/>
     </div>
 
   </div>
@@ -47,6 +67,11 @@ export default {
       releaseKey,
 
       input: "",
+      showResults: false,
+      sortOrder: "core",
+
+      map: false,
+      subset: false,
 
       properties: []
 
@@ -59,6 +84,7 @@ export default {
       this.input = "";
       this.properties = [];
       this.$refs.input.$el.focus();
+      this.showResults = false;
     },
 
     search(event) {
@@ -71,8 +97,33 @@ export default {
       // Get user search terms, convert to lower case, enable wildcards
       let adjustedInput = this.input.trim().toLowerCase().replace(/\*/g, ".*").replace(/ /g, ".*");
 
+      this.showResults = true;
       this.properties = this.$store.getters.searchProperties(adjustedInput);
+      this.sortCore();
 
+    },
+
+    sortCore() {
+      this.sortOrder = "core";
+      this.properties = this.properties.sort(Utils.sortComponentsCoreFirst);
+    },
+
+    sortQName() {
+      this.sortOrder = "qname";
+      this.properties = this.properties.sort(Property.sortByQName);
+    },
+
+    sortName() {
+      this.sortOrder = "name";
+      this.properties = this.properties.sort(Property.sortByName);
+    },
+
+    enableMap() {
+      this.map = ! this.map;
+    },
+
+    enableSubset() {
+      this.subset = ! this.subset;
     }
 
   }
@@ -82,12 +133,29 @@ export default {
 
 <style scoped>
 
-h1 {
+h1, h3 {
   display: inline;
 }
 
 div.property-summary {
   display: inline;
+}
+
+button {
+  padding: 6px;
+}
+
+button.options.active {
+  font-weight: 500;
+  /* text-decoration: underline; */
+}
+
+button.options.active::before {
+  content: "[";
+}
+
+button.options.active::after {
+  content: "]";
 }
 
 </style>
