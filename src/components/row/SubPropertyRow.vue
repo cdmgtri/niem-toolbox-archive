@@ -3,7 +3,7 @@
   <div>
     <b-card>
       <details>
-        <summary><b-link :to="getTypeRoute(subProperty.typeQName)">{{ subProperty.typeQName }}</b-link></summary>
+        <summary><b-link :to="getTypeRoute(subProperty.typeQName)">{{ subProperty.label }}</b-link></summary>
 
         <br/>
         <b-table small v-if="subProperties.length > 0" :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>

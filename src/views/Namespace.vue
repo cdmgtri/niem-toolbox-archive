@@ -28,27 +28,23 @@
 
           </b-tab>
 
+          <!-- Properties -->
           <b-tab :active="contents=='properties'">
-            <!-- Tab title -->
             <template v-slot:title>
               <span>Properties <b-badge pill variant="info"> {{ properties.length }}</b-badge></span>
             </template>
-
-            <!-- Property list -->
             <property-row v-for="property in properties" :key="property.qname" :property="property"/>
           </b-tab>
 
+          <!-- Types -->
           <b-tab :active="contents=='types'">
             <template v-slot:title>
               <span>Types <b-badge pill variant="info"> {{ types.length }}</b-badge></span>
             </template>
-
             <type-row v-for="type in types" :key="type.qname" :type="type"/>
-            <!-- <b-list-group>
-              <b-list-group-item v-for="type of types" :key="type.name">{{ type.name }}</b-list-group-item>
-            </b-list-group> -->
           </b-tab>
 
+          <!-- Local terms -->
           <b-tab :active="contents=='terms'">
             <template v-slot:title>
               <span>Local Terms <b-badge pill variant="info"> {{ localTerms.length }}</b-badge></span>
@@ -56,7 +52,38 @@
             <b-table :items="localTerms" :fields="localTermFields" head-variant="light"/>
           </b-tab>
 
-          <b-tab title="Dependencies"></b-tab>
+          <!-- Dependents -->
+          <b-tab :active="contents=='dependents'">
+            <template v-slot:title>
+              <span>Used By <b-badge pill variant="info"> {{ dependents.count }}</b-badge></span>
+            </template>
+
+            <substitutions v-if="dependents.substitutions" :substitutions="dependents.substitutions"/>
+
+            <details v-if="dependents.dataProperties.length > 0">
+              <summary>
+                <span>Data Properties </span>
+                <b-badge variant="info" pill>{{ dependents.dataProperties.length }}</b-badge>
+              </summary>
+              <property-row v-for="property in dependents.dataProperties" :key="property.qname" :property="property"/>
+            </details>
+
+            <details v-if="dependents.childTypes.length > 0">
+              <summary>
+                <span>Child Types </span>
+                <b-badge variant="info" pill>{{ dependents.childTypes.length }}</b-badge>
+              </summary>
+              <type-row v-for="type in dependents.childTypes" :key="type.qname" :type="type"/>
+            </details>
+
+            <details v-if="dependents.subProperties.length > 0">
+              <summary>
+                <span>Sub-properties </span>
+                <b-badge variant="info" pill>{{ dependents.subProperties.length }}</b-badge>
+              </summary>
+              <sub-property-row v-for="subProperty in dependents.subProperties" :key="subProperty.label" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
+            </details>
+          </b-tab>
 
         </b-tabs>
       </b-card>
@@ -73,6 +100,7 @@ import { Namespace } from "niem-model";
 import Utils from "../utils";
 import PropertyRow from "../components/row/PropertyRow.vue";
 import TypeRow from "../components/row/TypeRow.vue";
+import SubPropertyRow from "../components/row/SubPropertyRow.vue";
 import StackedObjectTable from "../components/StackedObjectTable.vue";
 
 export default {
@@ -81,7 +109,9 @@ export default {
   components: {
     PropertyRow,
     TypeRow,
-    StackedObjectTable
+    SubPropertyRow,
+    StackedObjectTable,
+    Substitutions: () => import("../components/row/Substitutions.vue")
   },
 
   data() {
@@ -100,7 +130,15 @@ export default {
         { key: "term" },
         { key: "field", label: "Field" },
         { key: "value", label: "Literal / Definition"}
-      ]
+      ],
+
+      dependents: {
+        substitutions: [],
+        dataProperties: [],
+        childTypes: [],
+        subProperties: [],
+        count: 0
+      }
 
     }
   },
@@ -158,13 +196,10 @@ export default {
 
   methods: {
 
-    async loadPropertyContents(event, property) {
-      if (event.target.open) {
-        let contents = await property.contents();
-        console.log(JSON.stringify(contents, null, 2));
-      }
-    }
+  },
 
+  async mounted() {
+    this.dependents = await this.namespace.dependencies();
   }
 
 

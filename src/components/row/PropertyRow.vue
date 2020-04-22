@@ -51,13 +51,7 @@
           </details>
 
           <!-- substitutions -->
-          <details v-if="substitutions.length > 0">
-            <summary>
-              <span>Substitutions </span>
-              <b-badge variant="info" pill>{{ substitutions.length }}</b-badge>
-            </summary>
-            <property-row v-for="substitution of substitutions" :key="substitution.qname" :property="substitution" :path="updatedPath" :map="map" :subset="subset"/>
-          </details>
+          <substitutions :substitutions="substitutions" :path="updatedPath"/>
 
           <!-- facets -->
           <details v-if="facets.length > 0">
@@ -116,7 +110,8 @@ export default {
     CopySpan,
     CopyButton,
     ComponentPathLinks,
-    SubPropertyRow
+    SubPropertyRow,
+    Substitutions: () => import("./Substitutions.vue")
   },
 
   data() {
