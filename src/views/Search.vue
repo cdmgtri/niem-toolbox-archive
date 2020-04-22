@@ -3,7 +3,14 @@
   <div>
 
     <b-row>
-      <b-col cols="5">
+
+      <!-- Search panel-->
+      <b-col cols="3">
+
+        <h3>Search</h3>
+        <br/><br/>
+
+        <!-- Main search box -->
         <b-input-group size="sm">
           <b-form-input
             v-model="input" @change="search" @keydown.esc="reset"
@@ -12,35 +19,68 @@
             <b-button @click="reset">x</b-button>
           </b-input-group-append>
         </b-input-group>
+
+        <br/>
+
+        <details open>
+          <summary>Advanced</summary>
+          <br/>
+
+          <!-- Data type search box -->
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="dataTypeInput" @change="search" @keydown.esc="dataTypeInput=''"
+              size="sm" placeholder="Filter data types..." debounce="800" trim ref="dataTypeInput"/>
+            <b-input-group-append>
+              <b-button @click="dataTypeInput=''">x</b-button>
+            </b-input-group-append>
+          </b-input-group>
+          <br/>
+
+          <!-- <b-input-group size="sm">
+            <b-form-input
+              v-model="containerTypeInput" @change="search" @keydown.esc="containerTypeInput=''"
+              size="sm" placeholder="Filter container types..." debounce="800" trim ref="containerTypeInput"/>
+            <b-input-group-append>
+              <b-button @click="containerTypeInput=''">x</b-button>
+            </b-input-group-append>
+          </b-input-group> -->
+
+        </details>
+
+      </b-col>
+
+
+      <!-- Results panel -->
+      <b-col>
+
+        <div v-if="showResults">
+          <!-- Results header -->
+          <h3>Results <b-badge pill variant="info">{{ properties.length }}</b-badge></h3>
+
+          <span v-if="properties.length > 0" class="pull-right">
+
+            <!-- Sort options -->
+            <b-button variant="link" @click="sortCore" class="options" :class="{active: sortOrder=='core'}">Core first</b-button>
+            <b-button variant="link" @click="sortQName" class="options" :class="{active: sortOrder=='qname'}">Namespace</b-button>
+            <b-button variant="link" @click="sortName" class="options" :class="{active: sortOrder=='name'}">Name</b-button>
+
+            |
+
+            <!-- Support options -->
+            <b-button variant="link" @click="enableMap" class="options" :class="{active: map}">Map</b-button>
+            <b-button variant="link" @click="enableSubset" class="options" :class="{active: subset}">Subset</b-button>
+
+          </span>
+          <br/><br/>
+
+          <!-- Results -->
+          <property-row v-for="property in properties" :key="property.qname"
+            :property="property" :path="[]" :map="map" :subset="subset"/>
+        </div>
+
       </b-col>
     </b-row>
-
-    <br/>
-
-    <div v-if="showResults">
-      <!-- Results header -->
-      <h3>Results <b-badge pill variant="info">{{ properties.length }}</b-badge></h3>
-
-      <span v-if="properties.length > 0" class="pull-right">
-
-        <!-- Sort options -->
-        <b-button variant="link" @click="sortCore" class="options" :class="{active: sortOrder=='core'}">Core first</b-button>
-        <b-button variant="link" @click="sortQName" class="options" :class="{active: sortOrder=='qname'}">Namespace</b-button>
-        <b-button variant="link" @click="sortName" class="options" :class="{active: sortOrder=='name'}">Name</b-button>
-
-        |
-
-        <!-- Support options -->
-        <b-button variant="link" @click="enableMap" class="options" :class="{active: map}">Map</b-button>
-        <b-button variant="link" @click="enableSubset" class="options" :class="{active: subset}">Subset</b-button>
-
-      </span>
-      <br/><br/>
-
-      <!-- Results -->
-      <property-row v-for="property in properties" :key="property.qname"
-        :property="property" :path="[]" :map="map" :subset="subset"/>
-    </div>
 
   </div>
 </template>
@@ -67,6 +107,9 @@ export default {
       releaseKey,
 
       input: "",
+      dataTypeInput: "",
+      containerTypeInput: "",
+
       showResults: false,
       sortOrder: "core",
 
@@ -87,18 +130,22 @@ export default {
       this.showResults = false;
     },
 
+    adjustInput(input) {
+    },
+
     search(event) {
 
-      if (this.input == "") {
+      if (this.input == "" && this.dataTypeInput == "" && this.containerTypeInput == "") {
         this.reset();
         return;
       }
 
-      // Get user search terms, convert to lower case, enable wildcards
-      let adjustedInput = this.input.trim().toLowerCase().replace(/\*/g, ".*").replace(/ /g, ".*");
-
       this.showResults = true;
-      this.properties = this.$store.getters.searchProperties(adjustedInput);
+
+      this.properties = Utils.searchProperties(this.$store.getters.properties(), "qname", this.input);
+      this.properties = Utils.searchProperties(this.properties, "typeQName", this.dataTypeInput);
+
+      // Sort results
       this.sortCore();
 
     },

@@ -34,11 +34,12 @@
             <b-col cols="9">{{ base }}</b-col>
           </b-row>
 
-          <!-- namespace info -->
-          <details>
-            <summary>Namespace</summary>
-            <stacked-object-table :object="namespaceFields" :htmlFields="['link']"/>
-          </details>
+          <b-row v-if="property.groupQName">
+            <b-col cols="2">Group:</b-col>
+            <b-col cols="9">{{ property.groupQName }}</b-col>
+          </b-row>
+
+          <br v-if="base || property.groupQName"/>
 
           <!-- sub-properties -->
           <details v-if="properties.length > 0">
@@ -89,7 +90,6 @@ import Utils from "../../utils";
 import CopySpan from "../CopySpan.vue";
 import CopyButton from "../CopyButton.vue";
 import ComponentPathLinks from "../ComponentPathLinks.vue";
-import StackedObjectTable from "../StackedObjectTable.vue";
 import SubPropertyRow from "./SubPropertyRow.vue";
 import { Property } from "niem-model";
 
@@ -116,7 +116,6 @@ export default {
     CopySpan,
     CopyButton,
     ComponentPathLinks,
-    StackedObjectTable,
     SubPropertyRow
   },
 
@@ -152,14 +151,6 @@ export default {
     updatedPath() {
       return Utils.updatePath(this.property, this.path);
     },
-
-    namespaceFields() {
-      return {
-        namespace: this.namespace.fileName || "",
-        uri: this.namespace.uri,
-        link: Utils.getNamespaceRoute(this.namespace)
-      }
-    }
 
   },
 

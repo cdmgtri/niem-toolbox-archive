@@ -1,5 +1,7 @@
 
-import { Component } from "niem-model";
+import { Component, Property } from "niem-model";
+
+let PropertyInstance = new Property();
 
 class Utils {
 
@@ -13,6 +15,17 @@ class Utils {
 
   static getNamespaceRoute({userKey, modelKey, releaseKey, prefix}) {
     return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
+  }
+
+  /**
+   * @param {PropertyInstance[]} properties
+   * @param {string} field
+   * @param {string} input
+   */
+  static searchProperties(properties, field, input) {
+    if (!input) return properties;
+    let regex = input.trim().toLowerCase().replace(/\*/g, ".*").replace(/ /g, ".*");
+    return properties.filter( property => property[field].toLowerCase().match(regex))
   }
 
   static getBreadcrumb({userKey, modelKey, releaseKey, prefix, name}, style) {
