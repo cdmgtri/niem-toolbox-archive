@@ -28,23 +28,24 @@
 
           <!-- User-traversed path to component -->
           <component-path-links :path="path"/>
+          <br v-if="path.length > 0"/>
 
-          <b-row v-if="base">
-            <b-col cols="2">Base type:</b-col>
-            <b-col cols="9">{{ base }}</b-col>
-          </b-row>
+          <div v-if="base">
+            <h4>Base type</h4>
+            <type-row v-if="base" :type="base" :path="updatedPath"/>
+            <br/>
+          </div>
 
-          <b-row v-if="property.groupQName">
-            <b-col cols="2">Group:</b-col>
-            <b-col cols="9">{{ property.groupQName }}</b-col>
-          </b-row>
-
-          <br v-if="base || property.groupQName"/>
+          <div v-if="group">
+            <h4>Substitution group</h4>
+            <property-row :property="group" :path="updatedPath"/>
+            <br/>
+          </div>
 
           <!-- sub-properties -->
           <details v-if="properties.length > 0">
             <summary>
-              <span>Properties </span>
+              <h4>Properties </h4>
               <b-badge variant="info" pill>{{ properties.length }}</b-badge>
             </summary>
             <property-row v-for="subProperty of properties" :key="subProperty.qname" :property="subProperty" :path="updatedPath" :map="map" :subset="subset"/>
@@ -56,7 +57,7 @@
           <!-- facets -->
           <details v-if="facets.length > 0">
             <summary>
-              <span>Facets </span>
+              <h4>Facets </h4>
               <b-badge variant="info" pill>{{ facets.length }}</b-badge>
             </summary>
             <b-table small v-if="facets" :items="facets" :fields="['style', 'value', 'definition']" :head-variant="null"/>
@@ -64,7 +65,7 @@
 
           <details v-if="containerTypes.length > 0">
             <summary>
-              <span>In types </span>
+              <h4>In types </h4>
               <b-badge variant="info" pill>{{ containerTypes.length }}</b-badge>
             </summary>
             <sub-property-row v-for="subProperty of subProperties" :key="subProperty.typeQName" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
@@ -111,7 +112,8 @@ export default {
     CopyButton,
     ComponentPathLinks,
     SubPropertyRow,
-    Substitutions: () => import("./Substitutions.vue")
+    Substitutions: () => import("./Substitutions.vue"),
+    TypeRow: () => import("./TypeRow.vue")
   },
 
   data() {
@@ -123,7 +125,9 @@ export default {
       userKey,
       modelKey,
       releaseKey,
+      type: undefined,
       base: undefined,
+      group: undefined,
       namespace: undefined,
       contentStyle: undefined,
       contentLength: -1,
@@ -158,11 +162,22 @@ export default {
 
       if (event.target.open) {
 
+        this.type = await property.type();
+
+        if (this.type) {
+          this.base = await this.type.base();
+        }
+
         let contents = await property.contents();
-        this.base = contents.base;
+        // this.base = contents.base;
         if (contents.base) {
           delete contents.base;
         }
+
+        if (property.groupQName) {
+          this.group = await property.group();
+        }
+
         this.namespace = await property.namespace();
         this.$data.loaded = true;
 
@@ -205,6 +220,10 @@ div.card-body {
 div.component-summary {
   padding-top: 10px;
   padding-left: 18px;
+}
+
+h4 {
+  display: inline;
 }
 
 </style>

@@ -27,14 +27,16 @@
             </b-col>
           </b-row>
 
-          <!-- Base of type's type -->
-          <type-row v-if="base" :type="base" :path="updatedPath"/>
-
           <!-- User-traversed path to component -->
           <component-path-links :path="path"/>
+          <br v-if="path.length > 0"/>
 
-          <br v-if="base || path"/>
-
+          <!-- Base of type's type -->
+          <div v-if="base">
+            <h4>Base type</h4>
+            <type-row :type="base" :path="updatedPath"/>
+            <br/>
+          </div>
 
           <div v-if="contentLength > 0">
 
@@ -173,6 +175,10 @@ div.card-body {
 div.component-summary {
   padding-top: 10px;
   padding-left: 18px;
+}
+
+h4 {
+  display: inline;
 }
 
 </style>
