@@ -36,7 +36,7 @@
           <!-- xPath -->
           <b-row v-if="xpath">
             <b-col cols="11">
-              <p>XPath: <small><copy-span :label="'XPath'" :text="xpath"/></small></p>
+              <p class="break">XPath: <small><copy-span :label="'XPath'" :text="xpath"/></small></p>
             </b-col>
           </b-row>
           <!-- <br v-if="path.length > 0"/> -->
@@ -199,7 +199,8 @@ export default {
     xpath() {
       let path = this.updatedPath;
       let labels = path.map( segment => segment.label );
-      return labels.filter( label => !label.endsWith("Abstract") && !label.endsWith("Type") ).join("/");
+      // let excludedRepresentationTerms = ["Type", "Abstract", "AugmentationPoint", "Representation"];
+      return labels.filter( label => !label.endsWith("Abstract") && !label.endsWith("Type") && !label.endsWith("AugmentationPoint") && !label.endsWith("Representation") ).join("/");
     }
 
   },
@@ -217,7 +218,6 @@ export default {
 
         if (this.type) {
           this.base = await this.type.base();
-          // this.containedProperties = await this.type.contents.containedProperties();
         }
 
         if (property.groupQName) {
@@ -234,7 +234,7 @@ export default {
         this.facets = await property.contents.facets();
         this.containedProperties = await property.contents.containedProperties();
         this.inheritedProperties = await property.contents.inheritedProperties();
-        this.substitutions = await property.substitutions();
+        this.substitutions = (await property.substitutions()).sort(Property.sortByQName);
         this.subProperties = await property.subProperties.find();
         this.containerTypes = this.subProperties.map( subProperty => subProperty.typeQName );
 
@@ -273,6 +273,10 @@ div.component-summary {
 
 h4 {
   display: inline;
+}
+
+p.break {
+  word-break: break-all;
 }
 
 </style>
