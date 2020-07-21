@@ -5,6 +5,9 @@
       <details v-on:toggle="loadContents($event, type)">
         <summary>
           <span>
+            <!-- Row label -->
+            <span v-if="label">{{ label }}</span>
+
             <!-- type summary component -->
             <strong><b-link :to="typeRoute">{{ type.qname }} </b-link></strong>
 
@@ -32,28 +35,39 @@
           <br v-if="path.length > 0"/>
 
           <!-- Base of type's type -->
-          <div v-if="base">
+          <div v-if="base && parents.length == 0">
             <h4>Base type</h4>
             <type-row :type="base" :path="updatedPath"/>
             <br/>
           </div>
 
-          <div v-if="contentLength > 0">
-
-            <!-- Contents header and badge -->
-            <strong class="contents-header">{{ contentStyle }} </strong>
-            <b-badge variant="info" pill>{{ contentLength }}</b-badge>
+          <!-- parent types -->
+          <div v-if="parents.length > 0">
+            <strong class="contents-header">Parent types </strong>
+            <b-badge variant="info" pill>{{ parents.length }}</b-badge>
             <br/><br/>
-
-            <div v-if="properties">
-              <!-- sub-properties -->
-              <property-row v-for="subProperty of properties" :key="subProperty.qname" :property="subProperty" :path="updatedPath" :map="map" :subset="subset"/>
-            </div>
-
-            <!-- facets -->
-            <b-table small v-if="facets" :items="facets" :fields="['style', 'value', 'definition']" :head-variant="null"/>
-
+            <type-row v-for="type of parents" :key="type.qname" :type="type" :path="updatedPath" :map="map" :subset="subset"/>
+            <br/>
           </div>
+
+          <!-- sub-properties -->
+          <div v-if="properties">
+            <strong class="contents-header">Properties </strong>
+            <b-badge variant="info" pill>{{ properties.length }}</b-badge>
+            <br/><br/>
+            <property-row v-for="property of properties" :key="property.qname" :property="property" :path="updatedPath" :map="map" :subset="subset"/>
+            <br/>
+          </div>
+
+          <!-- facets -->
+          <div v-if="facets.length > 0">
+            <strong class="contents-header">Facets </strong>
+            <b-badge variant="info" pill>{{ facets.length }}</b-badge>
+            <br/><br/>
+            <b-table small v-if="facets" :items="facets" :fields="['style', 'value', 'definition']" :head-variant="null"/>
+            <br/>
+          </div>
+
         </div>
 
       </details>
@@ -81,6 +95,10 @@ export default {
       type: Array,
       default: () => []
     },
+    label: {
+      type: String,
+      default: ""
+    },
     map: {
       type: Boolean,
       default: false
@@ -105,10 +123,9 @@ export default {
       modelKey,
       releaseKey,
       base: undefined,
-      contentStyle: undefined,
-      contentLength: -1,
-      facets: undefined,
-      properties: undefined,
+      parents: [],
+      facets: [],
+      properties: [],
       typeRoute: Utils.getTypeRoute(this.type),
       baseRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName })
     }
@@ -130,19 +147,13 @@ export default {
 
     async loadContents(event, type) {
       if (event.target.open) {
-        let contents = await type.contents();
-
         if (type.baseQName && type.prefix != "structures") {
           this.base = await type.base();
         }
 
-        if (contents.base) {
-          delete contents.base;
-        }
-        this.contentStyle = Object.keys(contents)[0];
-        this.contentLength = contents[this.contentStyle].length;
-        this.facets = contents.facets;
-        this.properties = contents.properties;
+        this.parents = await type.parents();
+        this.facets = await type.contents.facets();
+        this.properties = await type.contents.containedProperties();
 
       }
     },

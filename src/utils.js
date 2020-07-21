@@ -2,6 +2,7 @@
 import { Component, Property } from "niem-model";
 
 let PropertyInstance = new Property();
+let ComponentInstance = new Component();
 
 class Utils {
 
@@ -100,9 +101,7 @@ class Utils {
   static sortComponentsCoreFirst(component1, component2) {
 
     if (component1.prefix != component2.prefix) {
-      if (component1.prefix == "nc") {
-        return -1;
-      }
+      return component1.prefix == "nc" ? -1 : 1;
     }
     return component1.qname.localeCompare(component2.qname);
 

@@ -18,7 +18,7 @@
     "bootstrap-vue": "^2.10.1",
     "core-js": "^3.6.4",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "niem-model": "github:cdmgtri/niem-model#dev",
     "popper.js": "^1.16.1",
     "register-service-worker": "^1.7.1",
@@ -43,7 +43,7 @@
     "babel-jest": "^25.2.6",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-pwa-asset-generator": "^0.3.0",
     "vue-template-compiler": "^2.6.11"
