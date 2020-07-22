@@ -30,16 +30,19 @@
             </b-col>
           </b-row>
 
-          <!-- User-traversed path to component -->
-          <component-path-links :path="path"/>
+          <details open>
+            <summary>Details</summary>
 
-          <!-- xPath -->
-          <b-row v-if="xpath">
-            <b-col cols="11">
-              <p class="break">XPath: <small><copy-span :label="'XPath'" :text="xpath"/></small></p>
-            </b-col>
-          </b-row>
-          <!-- <br v-if="path.length > 0"/> -->
+            <b-table small id="table-details" :items="propertyTable" :fields="fields" thead-class="d-none">
+              <template v-slot:cell()="data">
+                <copy-span :label="data.item.field" :text="data.value"/>
+              </template>
+            </b-table>
+
+            <!-- User-traversed path to component -->
+            <component-path-links :path="path"/>
+          </details>
+          <br/>
 
           <div v-if="base">
             <!-- <h4>Base type</h4> -->
@@ -158,6 +161,17 @@ export default {
       base: undefined,
       group: undefined,
       namespace: undefined,
+
+      fields: [
+        {
+          key: "field",
+          tdClass: "td-field"
+        },
+        {
+          key: "value"
+        }
+      ],
+
       facets: [],
       containedProperties: [],
       inheritedProperties: {},
@@ -184,6 +198,70 @@ export default {
       let isAbstract = this.property.isAbstract == true ? true : "";
 
       return `${this.xpath}\t${this.property.prefix}\t${this.property.name}\t${this.property.definition}\t${this.property.typeQName}\t${group}\t${isElement}\t${isAbstract}`;
+    },
+
+    propertyTable() {
+
+      let style = this.property.isElement ? "element" : "attribute";
+      if (this.property.isAbstract == true) style = "abstract element";
+
+      let propertyTypeLabel = this.property.qname;
+      if (this.property.typeQName) propertyTypeLabel += " (" + this.property.typeQName + ")";
+
+      let fields = [
+        { field: "NAMESPACE", value: "" },
+        { field: "- Prefix", value: this.property.prefix },
+        { field: "- URI", value: this.namespace.uri },
+        { field: "- Definition", value: this.namespace.definition },
+
+        { field: "PROPERTY", value: "" },
+        { field: "- Name", value: this.property.name },
+        { field: "- Style", value: style },
+        { field: "- Qualified name", value: this.property.qname },
+      ];
+
+      if (this.property.keywords) {
+        fields.push({ field: "- Keywords", value: this.property.keywords });
+      }
+
+      if (this.property.exampleContent) {
+        fields.push({ field: "- Example content", value: this.property.exampleContent });
+      }
+
+      if (this.property.usageInfo) {
+        fields.push({ field: "- Usage info", value: this.property.usageInfo });
+      }
+
+      // Add type info
+
+      fields.push({ field: "TYPE", value: "" });
+      fields.push({ field: "- Qualified type", value: this.property.typeQName || "(none)" });
+
+      if (this.parents.length > 0) {
+        fields.push({ field: "- Parents", value: this.parents.map( type => type.qname ).join(", ") });
+      }
+
+      if (this.property.typeQName) {
+        fields.push({ field: "- Style", value: this.type.style });
+      }
+
+
+      // Add other info
+
+      fields.push({ field: "OTHER", value: "" });
+
+      if (this.property.typeQName) {
+        fields.push({ field: "-Label-", value: propertyTypeLabel });
+      }
+
+      if (this.xpath) {
+        fields.push({ field: "-Current XPath-", value: this.xpath });
+      }
+
+      fields.push({ field: "-Navigated path-", value: this.updatedPathText });
+
+      return fields;
+
     },
 
     updatedPath() {
@@ -277,6 +355,19 @@ h4 {
 
 p.break {
   word-break: break-all;
+}
+
+table {
+  word-wrap: break-word;
+}
+
+</style>
+
+<style>
+
+
+.td-field {
+  width: 150px !important;
 }
 
 </style>

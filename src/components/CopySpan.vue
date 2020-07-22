@@ -19,6 +19,7 @@ export default {
       // Change the cursor
       let span = this.$refs.span;
       span.style.cursor = "grabbing";
+      span.style.color = "#006699";
 
       // Copy text to the clipboard
       await this.$copyText(this.text);
@@ -26,6 +27,7 @@ export default {
       // Reset the cursor and hide the tooltip
       setTimeout( () => {
         span.style.cursor = "grab";
+        span.style.color = "#212529";
         this.$root.$emit('bv::hide::tooltip');
       }, 600);
 
