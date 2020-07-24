@@ -1,11 +1,28 @@
 
 <template>
   <div class="container-fluid" @scroll="scrollFunction">
+
     <Header/>
+
+    <!-- Display alert while loading release data -->
+    <div v-if="storeLoaded==false">
+      <b-alert show variant="info">
+        <h4 class="alert-heading">
+          <span>Loading </span>
+          <b-spinner small/>
+        </h4>
+        <p>The latest NIEM release data is loading.  This typically takes 20 - 30 seconds to complete.</p>
+      </b-alert>
+    </div>
+
     <b-button id="top" @click="top()" v-if="showTopButton" pill variant="outline-secondary">
       <i class="fa fa-angle-up" aria-hidden="true"/>
     </b-button>
-    <router-view :key="$route.fullPath"/>
+
+    <keep-alive>
+      <router-view :key="$route.fullPath"/>
+    </keep-alive>
+
     <Footer/>
 
   </div>
@@ -29,6 +46,14 @@
       }
     },
 
+    computed: {
+
+      storeLoaded() {
+        return this.$store.getters.storeLoaded;
+      }
+
+    },
+
     methods: {
 
       scrollFunction() {
@@ -41,10 +66,18 @@
 
     },
 
-    mounted() {
+    async mounted() {
+
+      // Attach the scroll-to-top button
       this.$nextTick( function() {
         $(document).bind("scroll", this.scrollFunction);
-      })
+      });
+
+      // Load release data
+      setTimeout( async function() {
+        await this.$store.dispatch("load");
+      }.bind(this), 100);
+
     }
 
 }

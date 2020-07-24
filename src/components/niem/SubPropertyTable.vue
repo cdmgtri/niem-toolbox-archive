@@ -3,43 +3,72 @@
   <div>
     <b-card>
       <details>
-        <summary><b-link :to="getTypeRoute(subProperty.typeQName)">{{ subProperty.label }}</b-link></summary>
+        <summary>
+          <!-- Type link -->
+          <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
+          <span> - </span>
+
+          <!-- Property link -->
+          <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
+
+          <!-- (min occurs, max occurs) -->
+          <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
+        </summary>
 
         <br/>
         <b-table small v-if="subProperties.length > 0" :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
-
       </details>
     </b-card>
-
   </div>
 </template>
 
 <script>
 
 import Utils from "../../utils";
-import CopySpan from "../CopySpan.vue";
 
 export default {
 
-  name: "PropertyRow",
-  props: ["subProperty", "path", "highlight"],
-  components: {
-    // CopySpan
+  name: "SubPropertyTable",
+  props: {
+    typeQName: {
+      type: String,
+      required: true
+    },
+
+    propertyQName: {
+      type: String,
+      required: false
+    }
   },
 
   data() {
-    let { userKey, modelKey, releaseKey } = this.subProperty;
+
+    let property = undefined;
+    let propertyRoute = undefined;
+    let subProperty = undefined;
+
+    if (this.propertyQName) {
+      property = this.$store.getters.property(this.propertyQName);
+      propertyRoute = Utils.getPropertyRoute(property);
+      subProperty = this.$store.getters.subProperty(this.typeQName, this.propertyQName);
+    }
+
+    let type = this.$store.getters.type(this.typeQName);
+
+    let { userKey, modelKey, releaseKey } = type;
 
     return {
       userKey,
       modelKey,
       releaseKey,
 
-      typeRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.subProperty.typePrefix, name: this.subProperty.typeName }),
+      property,
+      type,
+      subProperty,
+      subProperties: this.$store.getters.subProperties(undefined, this.typeQName),
 
-      propertyRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.subProperty.propertyPrefix, name: this.subProperty.propertyName }),
-
-      subProperties: this.$store.getters.subProperties(undefined, this.subProperty.typeQName),
+      typeRoute: Utils.getTypeRoute(type),
+      propertyRoute,
 
       fields: [
         { key: "typeQName", label: "Type"},
@@ -89,9 +118,13 @@ export default {
     },
 
     rowClass(subProperty, type) {
-      if (subProperty.propertyQName == this.highlight) return "table-secondary";
+      if (subProperty.propertyQName == this.propertyQName) return "table-secondary";
     }
 
+  },
+
+  async mounted() {
+    // this.type = await this.$store.getters.type(this.typeQName);
   }
 
 }

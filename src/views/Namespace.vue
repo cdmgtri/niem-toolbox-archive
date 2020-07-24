@@ -58,7 +58,7 @@
               <span>Used By <b-badge pill variant="info"> {{ dependents.count }}</b-badge></span>
             </template>
 
-            <substitutions v-if="dependents.substitutions" :substitutions="dependents.substitutions"/>
+            <property-list :substitutions="dependents.substitutions" :label="Substitutions"/>
 
             <details v-if="dependents.dataProperties.length > 0">
               <summary>
@@ -81,7 +81,7 @@
                 <span>Sub-properties </span>
                 <b-badge variant="info" pill>{{ dependents.subProperties.length }}</b-badge>
               </summary>
-              <sub-property-row v-for="subProperty in dependents.subProperties" :key="subProperty.label" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
+              <sub-property-table v-for="subProperty in dependents.subProperties" :key="subProperty.label" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
             </details>
           </b-tab>
 
@@ -98,9 +98,9 @@
 
 import { Namespace } from "niem-model";
 import Utils from "../utils";
-import PropertyRow from "../components/row/PropertyRow.vue";
-import TypeRow from "../components/row/TypeRow.vue";
-import SubPropertyRow from "../components/row/SubPropertyRow.vue";
+import PropertyRow from "../components/niem/PropertyRow.vue";
+import TypeRow from "../components/niem/TypeRow.vue";
+import SubPropertyTable from "../components/niem/SubPropertyTable.vue";
 import StackedObjectTable from "../components/StackedObjectTable.vue";
 
 export default {
@@ -109,9 +109,9 @@ export default {
   components: {
     PropertyRow,
     TypeRow,
-    SubPropertyRow,
+    SubPropertyTable,
     StackedObjectTable,
-    Substitutions: () => import("../components/row/Substitutions.vue")
+    PropertyList: () => import("../components/niem/PropertyList.vue")
   },
 
   data() {

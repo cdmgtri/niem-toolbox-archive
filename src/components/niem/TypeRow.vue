@@ -1,19 +1,21 @@
 
 <template>
-  <div>
+  <div v-if="type">
     <b-card>
       <details v-on:toggle="loadContents($event, type)">
         <summary>
           <span>
             <!-- Row label -->
-            <span v-if="label">{{ label }}</span>
+            <span v-if="label">{{ label }} </span>
 
             <!-- type summary component -->
-            <strong><b-link :to="typeRoute">{{ type.qname }} </b-link></strong>
+            <strong><b-link :to="typeRoute">{{ type.qname }}</b-link></strong>
 
             <!-- base type -->
             <span v-if="type.baseQName && type.prefix != 'structures'">
-              <b-link :to="baseRoute">({{type.baseQName}})</b-link>
+              <small>
+                (extends <b-link :to="baseRoute">{{type.baseQName}}</b-link>)
+              </small>
             </span>
 
             <!-- copy button -->
@@ -72,7 +74,7 @@
 
       </details>
     </b-card>
-
+    <br v-if="space"/>
   </div>
 </template>
 
@@ -85,12 +87,14 @@ import ComponentPathLinks from "../ComponentPathLinks.vue";
 import PropertyRow from "./PropertyRow.vue";
 import { Type } from "niem-model";
 
+let TypeInstance = new Type();
+
 export default {
 
   name: "TypeRow",
 
   props: {
-    type: Type,
+    type: TypeInstance,
     path: {
       type: Array,
       default: () => []
@@ -99,14 +103,11 @@ export default {
       type: String,
       default: ""
     },
-    map: {
+    space: {
       type: Boolean,
       default: false
-    },
-    subset: {
-      type: Boolean,
-      default: false
-    }},
+    }
+  },
 
   components: {
     CopySpan,
@@ -116,9 +117,18 @@ export default {
   },
 
   data() {
-    let { userKey, modelKey, releaseKey } = this.type;
+
+    let userKey = this.type ? this.type.userKey : null;
+    let modelKey = this.type ? this.type.modelKey : null;
+    let releaseKey = this.type ? this.type.releaseKey : null;
+    let typeRoute = this.type ? Utils.getTypeRoute(this.type) : null;
+    let baseRoute = this.type ? Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName}) : "";
 
     return {
+
+      map: this.$store.getters.options.map,
+      subset: this.$store.getters.options.subset,
+
       userKey,
       modelKey,
       releaseKey,
@@ -126,8 +136,8 @@ export default {
       parents: [],
       facets: [],
       properties: [],
-      typeRoute: Utils.getTypeRoute(this.type),
-      baseRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName })
+      typeRoute,
+      baseRoute
     }
   },
 
