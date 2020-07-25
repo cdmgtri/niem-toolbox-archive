@@ -79,7 +79,7 @@
               <h4>In types </h4>
               <b-badge variant="info" pill>{{ containerTypes.length }}</b-badge>
             </summary>
-            <sub-property-table v-for="subProperty of subProperties" :key="subProperty.typeQName" :subProperty="subProperty" :highlight="subProperty.propertyQName"/>
+            <sub-property-table v-for="subProperty of subProperties" :key="subProperty.typeQName" :typeQName="subProperty.typeQName" :propertyQName="subProperty.propertyQName"/>
           </details>
 
         </div>
