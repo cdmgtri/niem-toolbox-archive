@@ -17,7 +17,7 @@
             <span>Properties inherited from <strong>{{ parentQName }} </strong></span>
             <b-badge variant="info" pill>{{ inheritedProperties[parentQName].length }}</b-badge>
           </summary>
-          <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :path="updatedPath"/>
+          <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :path="path"/>
         </details>
       </div>
 
@@ -29,6 +29,9 @@
 </template>
 
 <script>
+
+import Utils from "../../utils";
+
 export default {
 
   name: "ContainedPropertiesList",

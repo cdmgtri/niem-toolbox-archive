@@ -26,7 +26,7 @@
     <facet-table :facets="facets"/>
 
     <!-- Inherited and contained properties -->
-    <contained-properties-list :containedProperties="containedProperties" :inheritedProperties="inheritedProperties"/>
+    <contained-properties-list :containedProperties="containedProperties" :inheritedProperties="inheritedProperties" :xpath="xpath"/>
 
     <!-- Full sub-property for each type that contains this property -->
     <sub-property-list :property="property"/>
@@ -72,6 +72,7 @@ export default {
       prefix,
       name,
       qname,
+      xpath: "",
 
       property: {},
       type: {},
@@ -142,6 +143,8 @@ export default {
       this.substitutions = (await this.property.substitutions()).sort(Property.sortByQName);
       this.subProperties = await this.property.subProperties.find();
       this.containerTypes = this.subProperties.map( subProperty => subProperty.typeQName );
+
+      this.xpath = Utils.updateXPath("", this.property);
 
       this.loaded = true;
     }

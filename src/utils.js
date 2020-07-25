@@ -76,21 +76,14 @@ class Utils {
   }
 
   /**
-   * @param {Component} component
-   * @param {{label: string, link: string}[]} path
+   * Adds the property qname to the current xpath if the property is not abstract.
+   * @param {String} currentXPath
+   * @param {PropertyInstance} property
    */
-  static updatePath(component, path) {
-
-    let link = (component.constructor.name == "Type") ? Utils.getTypeRoute(component) : Utils.getPropertyRoute(component);
-
-    return [
-      ...path,
-      {
-        label: component.qname,
-        link
-      }
-    ];
-
+  static updateXPath(currentXPath="", property) {
+    if (property.isAbstract == true) return currentXPath;
+    if (currentXPath == "") return property.qname;
+    return currentXPath + "/" + property.qname;
   }
 
 

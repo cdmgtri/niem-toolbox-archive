@@ -16,7 +16,7 @@
             <span v-else>(abstract)</span>
 
             <!-- copy button -->
-            <copy-button v-if="map" label="Path + CR spreadsheet fields" :text="cellsPathCR"/>
+            <copy-button v-if="options.map == true" label="Path + CR spreadsheet fields" :text="cellsPathCR"/>
             <!-- <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/> -->
           </span>
         </summary>
@@ -37,15 +37,11 @@
             </b-col>
           </b-row>
 
-          <!-- User-traversed path to component -->
-          <component-path-links :path="path"/>
-          <br/>
-
           <!-- Type -->
-          <type-row :type="type" label="Type" :path="updatedPath"/>
+          <type-row :type="type" label="Type" :parentXPath="xpath"/>
 
           <div v-if="group">
-            <property-row :property="group" :label="'Substitution group - '" :path="updatedPath"/>
+            <property-row :property="group" :label="'Substitution group - '" :parentXPath="xpath"/>
             <br/>
           </div>
 
@@ -63,16 +59,16 @@
                   <span>Properties inherited from <strong>{{ parentQName }} </strong></span>
                   <b-badge variant="info" pill>{{ inheritedProperties[parentQName].length }}</b-badge>
                 </summary>
-                <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :path="updatedPath"/>
+                <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :parentXPath="xpath"/>
               </details>
             </div>
 
             <!-- Current sub-properties -->
-            <property-row v-for="subProperty of containedProperties" :key="subProperty.qname" :property="subProperty" :path="updatedPath"/>
+            <property-row v-for="subProperty of containedProperties" :key="subProperty.qname" :property="subProperty" :parentXPath="xpath"/>
           </details>
 
           <!-- substitutions -->
-          <property-list :properties="substitutions" :path="updatedPath" :label="'Substitutions'"/>
+          <property-list :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'"/>
 
           <!-- facets -->
           <facet-table :facets="facets"/>
@@ -96,10 +92,10 @@
 
 <script>
 
+import { mapGetters } from "vuex";
 import Utils from "../../utils";
 import CopySpan from "../CopySpan.vue";
 import CopyButton from "../CopyButton.vue";
-import ComponentPathLinks from "../ComponentPathLinks.vue";
 import FacetTable from "./FacetTable.vue";
 import SubPropertyTable from "./SubPropertyTable.vue";
 import { Property } from "niem-model";
@@ -110,9 +106,9 @@ export default {
 
   props: {
     property: Property,
-    path: {
-      type: Array,
-      default: () => []
+    parentXPath: {
+      type: String,
+      default: ""
     },
     label: {
       type: String,
@@ -123,7 +119,6 @@ export default {
   components: {
     CopySpan,
     CopyButton,
-    ComponentPathLinks,
     FacetTable,
     SubPropertyTable,
     PropertyList: () => import("./PropertyList.vue"),
@@ -144,6 +139,8 @@ export default {
       base: undefined,
       group: undefined,
       namespace: undefined,
+
+      xpath: Utils.updateXPath(this.parentXPath, this.property),
 
       fields: [
         {
@@ -170,6 +167,8 @@ export default {
 
   computed: {
 
+    ...mapGetters(["options"]),
+
     cellsPropertyTypeDefinition() {
       return `${this.property.qname}\t${this.property.typeQName}\t${this.property.definition}`;
     },
@@ -181,25 +180,6 @@ export default {
       let isAbstract = this.property.isAbstract == true ? true : "";
 
       return `${this.xpath}\t${this.property.prefix}\t${this.property.name}\t${this.property.definition}\t${this.property.typeQName}\t${group}\t${isElement}\t${isAbstract}`;
-    },
-
-    map() {
-      return this.$store.getters.options.map;
-    },
-
-    subset() {
-      return this.$store.getters.options.subset;
-    },
-
-    updatedPath() {
-      return Utils.updatePath(this.property, this.path);
-    },
-
-    xpath() {
-      let path = this.updatedPath;
-      let labels = path.map( segment => segment.label );
-      // let excludedRepresentationTerms = ["Type", "Abstract", "AugmentationPoint", "Representation"];
-      return labels.filter( label => !label.endsWith("Abstract") && !label.endsWith("Type") && !label.endsWith("AugmentationPoint") && !label.endsWith("Representation") ).join("/");
     }
 
   },

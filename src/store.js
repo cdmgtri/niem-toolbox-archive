@@ -75,6 +75,22 @@ export default new Vuex.Store({
       return state.options;
     },
 
+    routes: (state) => {
+      return {
+        property({userKey, modelKey, releaseKey, prefix, name}) {
+          return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
+        },
+
+        type({userKey, modelKey, releaseKey, prefix, name}) {
+          return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
+        },
+
+        namespace({userKey, modelKey, releaseKey, prefix}) {
+          return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
+        }
+      }
+    },
+
     models: (state) => (userKey) => {
       return state.models.filter( model => model.userKey == userKey );
     },
@@ -187,13 +203,6 @@ export default new Vuex.Store({
   },
 
   actions: {
-
-    /**
-     * @param {"not started"|"in progress"|"done"} progress
-     */
-    setLoaded(context, progress) {
-      context.commit("setLoaded", progress);
-    },
 
     setRelease(context, release) {
       context.commit("setRelease", release);

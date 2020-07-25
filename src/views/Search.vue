@@ -104,8 +104,7 @@
           <br/><br/>
 
           <!-- Results -->
-          <property-row v-for="property in filteredProperties" :key="property.qname"
-            :property="property" :path="[]" />
+          <property-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
         </div>
 
       </b-col>

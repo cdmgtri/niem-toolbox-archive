@@ -6,7 +6,7 @@
         <span>{{ label }} </span>
         <b-badge variant="info" pill>{{ properties.length }}</b-badge>
       </summary>
-      <property-row v-for="property of properties" :key="property.qname" :property="property" :path="path"/>
+      <property-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
     </details>
     <br v-if="properties.length"/>
   </div>
@@ -24,9 +24,9 @@ export default {
       type: Array,
       default: () => []
     },
-    path: {
-      type: Array,
-      default: () => []
+    parentXPath: {
+      type: String,
+      default: ""
     },
     label: {
       type: String,

@@ -32,14 +32,10 @@
             </b-col>
           </b-row>
 
-          <!-- User-traversed path to component -->
-          <component-path-links :path="path"/>
-          <br v-if="path.length > 0"/>
-
           <!-- Base of type's type -->
           <div v-if="base && parents.length == 0">
             <h4>Base type</h4>
-            <type-row :type="base" :path="updatedPath"/>
+            <type-row :type="base" :parentXPath="parentXPath"/>
             <br/>
           </div>
 
@@ -48,7 +44,7 @@
             <strong class="contents-header">Parent types </strong>
             <b-badge variant="info" pill>{{ parents.length }}</b-badge>
             <br/><br/>
-            <type-row v-for="type of parents" :key="type.qname" :type="type" :path="updatedPath" :map="map" :subset="subset"/>
+            <type-row v-for="type of parents" :key="type.qname" :type="type" :parentXPath="parentXPath" :map="map" :subset="subset"/>
             <br/>
           </div>
 
@@ -57,7 +53,7 @@
             <strong class="contents-header">Properties </strong>
             <b-badge variant="info" pill>{{ properties.length }}</b-badge>
             <br/><br/>
-            <property-row v-for="property of properties" :key="property.qname" :property="property" :path="updatedPath" :map="map" :subset="subset"/>
+            <property-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath" :map="map" :subset="subset"/>
             <br/>
           </div>
 
@@ -83,7 +79,6 @@
 import Utils from "../../utils";
 import CopySpan from "../CopySpan.vue";
 import CopyButton from "../CopyButton.vue";
-import ComponentPathLinks from "../ComponentPathLinks.vue";
 import PropertyRow from "./PropertyRow.vue";
 import { Type } from "niem-model";
 
@@ -95,9 +90,9 @@ export default {
 
   props: {
     type: TypeInstance,
-    path: {
-      type: Array,
-      default: () => []
+    parentXPath: {
+      type: String,
+      default: ""
     },
     label: {
       type: String,
@@ -112,7 +107,6 @@ export default {
   components: {
     CopySpan,
     CopyButton,
-    ComponentPathLinks,
     PropertyRow
   },
 
@@ -145,10 +139,6 @@ export default {
 
     cellsTypeBaseDefinition() {
       return `${this.type.qname}\t${this.type.baseQName}\t${this.type.definition}`;
-    },
-
-    updatedPath() {
-      return Utils.updatePath(this.type, this.path);
     },
 
   },
