@@ -7,14 +7,17 @@ let ComponentInstance = new Component();
 class Utils {
 
   static getPropertyRoute({userKey, modelKey, releaseKey, prefix, name}) {
+    if (!prefix || !name) return "";
     return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
   }
 
   static getTypeRoute({userKey, modelKey, releaseKey, prefix, name}) {
+    if (!prefix || !name) return "";
     return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
   }
 
   static getNamespaceRoute({userKey, modelKey, releaseKey, prefix}) {
+    if (!prefix) return "";
     return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
   }
 
@@ -81,7 +84,7 @@ class Utils {
    * @param {PropertyInstance} property
    */
   static updateXPath(currentXPath="", property) {
-    if (property.isAbstract == true) return currentXPath;
+    if (!property || property.isAbstract == true) return currentXPath;
     if (currentXPath == "") return property.qname;
     return currentXPath + "/" + property.qname;
   }

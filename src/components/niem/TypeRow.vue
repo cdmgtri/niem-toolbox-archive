@@ -2,7 +2,7 @@
 <template>
   <div v-if="type">
     <b-card>
-      <details v-on:toggle="loadContents($event, type)">
+      <details v-on:toggle="load=true">
         <summary>
           <span>
             <!-- Row label -->
@@ -23,54 +23,15 @@
           </span>
         </summary>
 
-        <div class="component-summary">
+        <div v-if="load==true" class="component-summary">
 
-          <b-row>
-            <b-col cols="11">
-              <!-- Definition -->
-              <p><copy-span :label="'Definition'" :text="type.definition"/></p>
-            </b-col>
-          </b-row>
-
-          <!-- Base of type's type -->
-          <div v-if="base && parents.length == 0">
-            <h4>Base type</h4>
-            <type-row :type="base" :parentXPath="parentXPath"/>
-            <br/>
-          </div>
-
-          <!-- parent types -->
-          <div v-if="parents.length > 0">
-            <strong class="contents-header">Parent types </strong>
-            <b-badge variant="info" pill>{{ parents.length }}</b-badge>
-            <br/><br/>
-            <type-row v-for="type of parents" :key="type.qname" :type="type" :parentXPath="parentXPath" :map="map" :subset="subset"/>
-            <br/>
-          </div>
-
-          <!-- sub-properties -->
-          <div v-if="properties">
-            <strong class="contents-header">Properties </strong>
-            <b-badge variant="info" pill>{{ properties.length }}</b-badge>
-            <br/><br/>
-            <property-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath" :map="map" :subset="subset"/>
-            <br/>
-          </div>
-
-          <!-- facets -->
-          <div v-if="facets.length > 0">
-            <strong class="contents-header">Facets </strong>
-            <b-badge variant="info" pill>{{ facets.length }}</b-badge>
-            <br/><br/>
-            <b-table small v-if="facets" :items="facets" :fields="['style', 'value', 'definition']" :head-variant="null"/>
-            <br/>
-          </div>
+          <type-info :type="type" :xpath="xpath"/>
 
         </div>
 
       </details>
     </b-card>
-    <br v-if="space"/>
+    <br v-if="spacer"/>
   </div>
 </template>
 
@@ -98,16 +59,17 @@ export default {
       type: String,
       default: ""
     },
-    space: {
+    spacer: {
       type: Boolean,
       default: false
     }
   },
 
   components: {
-    CopySpan,
+    // CopySpan,
     CopyButton,
-    PropertyRow
+    TypeInfo: () => import("./TypeInfo.vue")
+    // PropertyRow
   },
 
   data() {
@@ -120,8 +82,12 @@ export default {
 
     return {
 
+      load: false,
+
       map: this.$store.getters.options.map,
       subset: this.$store.getters.options.subset,
+
+      xpath: this.parentXPath,
 
       userKey,
       modelKey,

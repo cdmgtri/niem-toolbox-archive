@@ -3,7 +3,7 @@
   <div v-if="subProperties.length > 0">
     <details open>
       <summary>
-        <h4>
+        <h4 class="section">
           <span>{{ label }} </span>
           <b-badge variant="info" pill>{{ subProperties.length }}</b-badge>
         </h4>

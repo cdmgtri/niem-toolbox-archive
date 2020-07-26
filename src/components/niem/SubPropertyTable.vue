@@ -4,15 +4,21 @@
     <b-card>
       <details>
         <summary>
-          <!-- Type link -->
-          <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
-          <span> - </span>
+          <span v-if="subProperty">
+            <!-- Type link -->
+            <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
 
-          <!-- Property link -->
-          <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
+            <!-- Property link -->
+            <span> - </span>
+            <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
 
-          <!-- (min occurs, max occurs) -->
-          <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
+            <!-- (min occurs, max occurs) -->
+            <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
+          </span>
+
+          <span v-else>
+            <span>Properties (table format) of type <strong>{{ typeQName }}</strong></span>
+          </span>
         </summary>
 
         <br/>

@@ -3,7 +3,7 @@
   <div v-if="facets.length > 0">
     <details :open="open">
       <summary>
-        <h4>
+        <h4 class="section">
           <span>Codes and other facets </span>
           <b-badge variant="info" pill> {{ facets.length }}</b-badge>
         </h4>

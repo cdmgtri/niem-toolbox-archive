@@ -1,8 +1,8 @@
 
 <template>
-  <div>
+  <div v-if="property">
     <b-card>
-      <details v-on:toggle="load($event, property)">
+      <details v-on:toggle="load=true">
         <summary>
           <span>
             <!-- Row label -->
@@ -21,71 +21,16 @@
           </span>
         </summary>
 
-        <div v-if="loaded" class="component-summary">
+        <div v-if="load==true" class="component-summary">
 
-          <b-row>
-            <b-col cols="11">
-              <!-- Definition -->
-              <p><copy-span :label="'Definition'" :text="property.definition"/></p>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <b-col cols="11">
-              <!-- Current XPath -->
-              <p>Current XPath: <copy-span :label="'Current XPath'" :text="xpath"/></p>
-            </b-col>
-          </b-row>
-
-          <!-- Type -->
-          <type-row :type="type" label="Type" :parentXPath="xpath"/>
-
-          <div v-if="group">
-            <property-row :property="group" :label="'Substitution group - '" :parentXPath="xpath"/>
-            <br/>
-          </div>
-
-          <!-- contained and inherited properties -->
-          <details v-if="containedProperties.length > 0" open>
-            <summary>
-              <h4>Properties </h4>
-              <b-badge variant="info" pill>{{ containedProperties.length }}</b-badge>
-            </summary>
-
-            <!-- Inherited properties -->
-            <div v-for="parentQName of Object.keys(inheritedProperties)" :key="parentQName" class="ml-3">
-              <details>
-                <summary>
-                  <span>Properties inherited from <strong>{{ parentQName }} </strong></span>
-                  <b-badge variant="info" pill>{{ inheritedProperties[parentQName].length }}</b-badge>
-                </summary>
-                <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :parentXPath="xpath"/>
-              </details>
-            </div>
-
-            <!-- Current sub-properties -->
-            <property-row v-for="subProperty of containedProperties" :key="subProperty.qname" :property="subProperty" :parentXPath="xpath"/>
-          </details>
-
-          <!-- substitutions -->
-          <property-list :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'"/>
-
-          <!-- facets -->
-          <facet-table :facets="facets"/>
-
-          <!-- Types in which this property appears -->
-          <details v-if="containerTypes.length > 0">
-            <summary>
-              <h4>In types </h4>
-              <b-badge variant="info" pill>{{ containerTypes.length }}</b-badge>
-            </summary>
-            <sub-property-table v-for="subProperty of subProperties" :key="subProperty.typeQName" :typeQName="subProperty.typeQName" :propertyQName="subProperty.propertyQName"/>
-          </details>
+          <property-info :property="property" :xpath="xpath"/>
 
         </div>
 
       </details>
     </b-card>
+
+    <br v-if="spacer==true"/>
 
   </div>
 </template>
@@ -93,12 +38,9 @@
 <script>
 
 import { mapGetters } from "vuex";
-import Utils from "../../utils";
-import CopySpan from "../CopySpan.vue";
-import CopyButton from "../CopyButton.vue";
-import FacetTable from "./FacetTable.vue";
-import SubPropertyTable from "./SubPropertyTable.vue";
 import { Property } from "niem-model";
+import Utils from "../../utils";
+import CopyButton from "../CopyButton.vue";
 
 export default {
 
@@ -113,55 +55,27 @@ export default {
     label: {
       type: String,
       default: ""
+    },
+    spacer: {
+      // Trailing line break following the row
+      type: Boolean,
+      default: false
     }
   },
 
   components: {
-    CopySpan,
     CopyButton,
-    FacetTable,
-    SubPropertyTable,
-    PropertyList: () => import("./PropertyList.vue"),
-    TypeRow: () => import("./TypeRow.vue")
+    PropertyInfo: () => import("./PropertyInfo.vue")
   },
 
   data() {
-    let { userKey, modelKey, releaseKey } = this.property;
+    let { userKey, modelKey, releaseKey, typePrefix, typeName } = this.property || ["", "", "", "", ""];
 
     return {
-      open: false,
-      loaded: false,
-
-      userKey,
-      modelKey,
-      releaseKey,
-      type: undefined,
-      base: undefined,
-      group: undefined,
-      namespace: undefined,
-
+      load: false,
       xpath: Utils.updateXPath(this.parentXPath, this.property),
-
-      fields: [
-        {
-          key: "field",
-          tdClass: "td-field"
-        },
-        {
-          key: "value"
-        }
-      ],
-
-      facets: [],
-      containedProperties: [],
-      inheritedProperties: {},
-      substitutions: [],
-      containerTypes: [],
-      subProperties: [],
-      parents: [],
-
-      propertyRoute: Utils.getPropertyRoute(this.property),
-      typeRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.property.typePrefix, name: this.property.typeName })
+      propertyRoute: Utils.getPropertyRoute(this.property || {}),
+      typeRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: typePrefix, name: typeName })
     }
   },
 
@@ -186,50 +100,8 @@ export default {
 
   methods: {
 
-    async load(event, property) {
-
-      this.$data.open = event.target.open;
-      this.$data.loaded = false;
-
-      if (event.target.open) {
-
-        this.type = await property.type();
-
-        if (this.type) {
-          this.base = await this.type.base();
-        }
-
-        if (property.groupQName) {
-          this.group = await property.group();
-        }
-
-        this.namespace = await property.namespace();
-        this.$data.loaded = true;
-
-        if (this.type) {
-          this.parents = await this.type.parents();
-        }
-
-        this.facets = await property.contents.facets();
-        this.containedProperties = await property.contents.containedProperties();
-        this.inheritedProperties = await property.contents.inheritedProperties();
-        this.substitutions = (await property.substitutions()).sort(Property.sortByQName);
-        this.subProperties = await property.subProperties.find();
-        this.containerTypes = this.subProperties.map( subProperty => subProperty.typeQName );
-
-      }
-    },
-
     copy(text) {
       this.$copyText(text)
-    },
-
-    getPropertyRoute(property) {
-      return Utils.getPropertyRoute(property);
-    },
-
-    getTypeRoute(type) {
-      return Utils.getTypeRoute(type);
     },
 
 },
@@ -248,30 +120,6 @@ div.card-body {
 div.component-summary {
   padding-top: 10px;
   padding-left: 18px;
-}
-
-h4 {
-  display: inline;
-}
-
-p.break {
-  word-break: break-all;
-}
-
-table {
-  word-wrap: break-word;
-}
-
-</style>
-
-<style>
-
-table {
-  word-wrap: break-word;
-}
-
-.td-field {
-  width: 150px !important;
 }
 
 </style>

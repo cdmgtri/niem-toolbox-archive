@@ -106,7 +106,6 @@ input:focus {
 summary {
   color: black;
   padding: 2px 0;
-  margin:
 }
 
 summary:focus {
@@ -121,6 +120,15 @@ a {
 a:focus {
   outline: 0;
   color: #17A2B8;
+}
+
+h4.section {
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+p.definition {
+  padding-right: 10px;
 }
 
 </style>
