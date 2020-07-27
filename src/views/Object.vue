@@ -3,7 +3,11 @@
   <div v-if="loaded">
     <b-breadcrumb :items="breadcrumb"/>
 
-    <h1 v-if="label=='Namespace'">Namespace {{ namespace.fileName }} ({{ namespace.prefix }})</h1>
+    <h1 v-if="label=='Namespace'">Namespace {{ namespace.fileName }}
+      <span v-if="namespace.fileName != namespace.prefix">
+       ({{ namespace.prefix }})
+      </span>
+    </h1>
     <h1 v-else>{{ label }} {{ qname }}</h1>
 
     <namespace-info v-if="namespace" :namespace="namespace"/>
@@ -89,9 +93,7 @@ export default {
         this.xpath = Utils.updateXPath("", this.type);
       }
       else if (this.label == "Namespace") {
-        console.log("IN NS LOAD", this.prefix);
         this.namespace = this.$store.getters.namespace(this.prefix);
-        console.log("IN NS LOAD", this.namespace.prefix);
       }
 
       this.loaded = true;

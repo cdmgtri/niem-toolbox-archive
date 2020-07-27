@@ -10,6 +10,9 @@
 
     <div v-if="loaded">
 
+      <!-- Namespace -->
+      <object-row :namespace="namespace" label="Namespace" :spacer="true"/>
+
       <!-- Parents -->
       <object-list :types="parents" label="Parent types" :parentXPath="xpath"/>
 
@@ -62,8 +65,8 @@ export default {
   data() {
     return {
       loaded: false,
+      namespace: undefined,
       parents: [],
-      namespace: {},
       facets: [],
       properties: [],
     }
@@ -82,9 +85,9 @@ export default {
   },
 
   async mounted() {
+    this.namespace = await this.type.namespace();
     this.parents = await this.type.parents();
     this.facets = await this.type.contents.facets();
-    this.namespace = await this.type.namespace();
     this.properties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
     this.loaded = true;
   }

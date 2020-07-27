@@ -11,7 +11,7 @@
     <field-value-table :object="details" label="More details" :links="['URI']"/>
 
     <!-- Namespace source -->
-    <field-value-table v-if="source" :object="source" label="Source"/>
+    <field-value-table v-if="source" :object="source" label="Source" :links="[]"/>
 
     <div v-if="loaded == true">
 
@@ -24,10 +24,10 @@
       <!-- Local Terms -->
       <local-term-table :localTerms="localTerms" :open="false"/>
 
-      <!-- Dependents (used by other namespaces) -->
+      <!-- TODO: Dependents (used by other namespaces) -->
 
 
-      <!-- Dependencies (uses of other namespaces) -->
+      <!-- TODO: Dependencies (uses of other namespaces) -->
 
 
     </div>

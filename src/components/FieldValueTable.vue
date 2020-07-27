@@ -71,7 +71,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 table {
   word-wrap: break-word;
@@ -80,6 +80,10 @@ table {
 .td-field {
   width: 150px !important;
 }
+
+</style>
+
+<style scoped>
 
 i {
   padding-left: 10px;

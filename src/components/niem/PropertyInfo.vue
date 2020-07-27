@@ -10,6 +10,9 @@
 
     <div v-if="loaded == true">
 
+      <!-- Namespace -->
+      <object-row :namespace="namespace" label="Namespace" :spacer="true"/>
+
       <!-- Type -->
       <object-row :type="type" label="Type" :parentXPath="xpath" :spacer="true"/>
 
@@ -70,7 +73,7 @@ export default {
       loaded: false,
       type: undefined,
       group: undefined,
-      namespace: {},
+      namespace: undefined,
       facets: [],
       substitutions: [],
     }

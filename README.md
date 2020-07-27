@@ -26,15 +26,19 @@ npm run deploy
 - [x] Load component page directly from url
 - [x] Fix errors on component page before loading
 - [x] Fix to reload successfully from component page
-- [ ] Merge object list pages
-- [ ] Merge object row pages
-- [ ] Merge object pages
-- [ ] Property
-- [ ] Type
-- [ ] Namespace
-- [ ] Make loading calls async to support later calls to database backend
+- [x] Merge object list pages
+- [x] Merge object row pages
+- [x] Merge object pages
+- [x] Property
+- [x] Type
+- [x] Namespace
 - [ ] Add facet copy table button (markdown table, tabbed table)
 - [ ] Add SM copy buttons (markdown table, markdown list, tabbed table)
+- [ ] Add contained property copy buttons
+- [ ] Update Release page with namespace list
+- [ ] Additional namespace fields
+  - [ ] dependencies
+  - [ ] dependents
 
 **Search**
 
@@ -51,7 +55,7 @@ npm run deploy
 
 **Browse**
 
-- [ ] Namespace list
+- [ ] Release page (namespace list)
   - [ ] Namespace metadata
   - [ ] Property, type, and local term counts
   - [ ] Namespace term cloud
@@ -63,7 +67,9 @@ npm run deploy
 - [x] Unblock page on load and add a loading message
 - [x] Move subset and map options from parameters to store
 - [x] Add a loading spinner
-- [ ] Fix h4 spacing
+- [x] Fix h4 spacing
+- [ ] **lazy load sections**
+- [ ] **lazy load rows**
 - [ ] Fix xpath word wrap
 - [ ] Model QA status?
 - [ ] Release stats

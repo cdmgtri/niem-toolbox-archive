@@ -1,6 +1,6 @@
 
 <template>
-  <div v-if="property || type">
+  <div v-if="property || type || namespace">
     <b-card>
       <details v-on:toggle="load=true">
         <summary>
@@ -8,6 +8,7 @@
           <!-- Row label -->
           <span v-if="label">{{ label }} </span>
 
+          <!-- Label for a property row -->
           <span v-if="property">
 
             <!-- property summary component -->
@@ -24,6 +25,7 @@
             <!-- <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/> -->
           </span>
 
+          <!-- Label for a type row -->
           <span v-else-if="type">
 
             <!-- type summary component -->
@@ -38,12 +40,19 @@
 
           </span>
 
+          <!-- Label for a namespace row -->
+          <span v-else-if="namespace">
+            <strong><b-link :to="namespaceRoute">{{ namespace.fileName }}</b-link></strong>
+            <span v-if="namespace.fileName != namespace.prefix"> ({{ namespace.prefix }})</span>
+          </span>
+
         </summary>
 
         <div v-if="load==true" class="component-summary">
 
           <property-info v-if="property" :property="property" :xpath="xpath"/>
           <type-info v-if="type" :type="type" :xpath="xpath"/>
+          <namespace-info v-if="namespace" :namespace="namespace"/>
 
         </div>
 
@@ -72,6 +81,9 @@ export default {
     type: {
       type: Object
     },
+    namespace: {
+      type: Object
+    },
     parentXPath: {
       type: String,
       default: ""
@@ -90,13 +102,14 @@ export default {
   components: {
     CopyButton,
     PropertyInfo: () => import("./PropertyInfo.vue"),
-    TypeInfo: () => import("./TypeInfo.vue")
+    TypeInfo: () => import("./TypeInfo.vue"),
+    NamespaceInfo: () => import("./NamespaceInfo.vue")
   },
 
   data() {
 
     let { userKey, modelKey, releaseKey } = this.property || this.type || ["", "", ""];
-    let { propertyRoute, typeRoute, baseRoute } = ["", "", ""];
+    let { propertyRoute, typeRoute, baseRoute, namespaceRoute } = ["", "", "", ""];
 
     if (this.property) {
       propertyRoute = Utils.getPropertyRoute(this.property);
@@ -108,12 +121,17 @@ export default {
       baseRoute = Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName});
     }
 
+    if (this.namespace) {
+      namespaceRoute = Utils.getNamespaceRoute(this.namespace);
+    }
+
     return {
       load: false,
       xpath: Utils.updateXPath(this.parentXPath, this.property),
       propertyRoute,
       typeRoute,
-      baseRoute
+      baseRoute,
+      namespaceRoute
     }
   },
 
