@@ -12,9 +12,9 @@
         </slot>
       </summary>
 
-      <p>Copy table as:
+      <p>Copy table for
         <b-button variant="link" @click="copyMarkdown()" v-b-tooltip.click.v-success="'Markdown copied'">Markdown</b-button> |
-        <b-button variant="link" @click="copyExcel()" v-b-tooltip.click.v-success="'Excel cells copied'">Excel cells</b-button>
+        <b-button variant="link" @click="copyExcel()" v-b-tooltip.click.v-success="'Excel cells copied'">Excel</b-button>
       </p>
 
       <b-table small :items="items" :fields="fields" :tbody-tr-class="rowClassFunction">

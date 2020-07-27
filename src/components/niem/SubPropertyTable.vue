@@ -1,7 +1,7 @@
 
 <template>
   <b-card>
-    <copy-table :items="items" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
+    <copy-table :items="items" :fields="fields" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
       <span v-if="subProperty">
         <!-- Type link -->
         <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
@@ -73,7 +73,14 @@ export default {
       subProperties: this.$store.getters.subProperties(undefined, this.typeQName),
 
       typeRoute: Utils.getTypeRoute(type),
-      propertyRoute
+      propertyRoute,
+
+      fields: [
+        { key: "Type", tdClass: "td-sm-type" },
+        { key: "Property", tdClass: "td-sm-property" },
+        { key: "Min", tdClass: "td-sm-min" },
+        { key: "Max", tdClass: "td-sm-max" },
+      ]
 
     }
   },
@@ -152,11 +159,11 @@ export default {
 <style>
 
 .td-sm-min {
-  width: 70px !important;
+  width: 60px !important;
 }
 
 .td-sm-max {
-  width: 150px !important;
+  width: 120px !important;
 }
 
 </style>

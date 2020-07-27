@@ -1,9 +1,39 @@
 
 # NIEM Assistant
 
+This is a Vue Single-Page Application (SPA) built for improved model management support.
+
 ## Features
 
+### Information pages
+
+- Information pages available for releases, namespaces, properties, and types
+- Easy navigation to help users walk the model
+- Pages use readable URLs
+- Sections are grouped under drop-downs to quickly show/hide info without a lot of scrolling
+- Table cells can be clicked to quickly copy the value
+- Tables can be easily copied to Markdown or Excel
+
+### Search
+
+- Keyword property searches
+  - Include a namespace prefix (e.g., "nc:" to restrict results by namespace)
+  - Search or filter by property type keywords
+- Results filtering
+  - Filter by namespace prefix
+- Saves recent searches
+
+### Map
+
+- Enable in the Search Results panel for mapping support
+- Navigating through the search panel maintains track of the followed XPath for better mapping details
+- Copy button on each property to copy the `XPath`, `Prefix`, `Property Name`, `Definition`, `Qualified Type`, and `Substitution Group` fields for Excel
+
 ## Getting started
+
+```sh
+npm i cdmgtri:niem-assistant
+```
 
 ## Usage
 
@@ -23,18 +53,6 @@ npm run deploy
 
 **Component and Row Pages**
 
-- [x] Load component page directly from url
-- [x] Fix errors on component page before loading
-- [x] Fix to reload successfully from component page
-- [x] Merge object list pages
-- [x] Merge object row pages
-- [x] Merge object pages
-- [x] Property
-- [x] Type
-- [x] Namespace
-- [x] Add local term copy table
-- [x] Add facet copy table button (markdown table, tabbed table)
-- [x] Add SM copy buttons (markdown table, markdown list, tabbed table)
 - [ ] Add contained property copy buttons
 - [ ] Update Release page with namespace list
 - [ ] Additional namespace fields
@@ -43,6 +61,7 @@ npm run deploy
 
 **Search**
 
+- [ ] Search terms in any order
 - [ ] Use tabs to allow for multiple searches and/or data pages at the same time
   - [ ] New tab as new search instance
   - [ ] Open in tab for component link clicks - *if route includes search, open tab*
@@ -65,14 +84,7 @@ npm run deploy
 
 **App**
 
-- [x] Unblock page on load and add a loading message
-- [x] Move subset and map options from parameters to store
-- [x] Add a loading spinner
-- [x] Fix h4 spacing
-- [x] Create CopyTable template for table with easy-copy cells and entire table Markdown and Excel copy buttons
-- [ ] Moved fixed table column widths to App.vue style section
-- [ ] **lazy load sections**
-- [ ] **lazy load rows**
+- [ ] Pin and cache items
 - [ ] Fix xpath word wrap
 - [ ] Model QA status?
 - [ ] Release stats
@@ -80,18 +92,18 @@ npm run deploy
 - [ ] Pass current xpath into property pages?
 - [ ] Support all releases
 - [ ] Upload local release
+- [ ] Swap out backend
 
-**NIEM Spreadsheet**
+**Performance**
+
+- [ ] lazy load sections
+- [ ] lazy load rows
+- [ ] faster release reload
+
+**NIEM Spreadsheet support**
 
 - [ ] Upload spreadsheet
 - [ ] Run QA
 - [ ] Display results
 - [ ] Download XSD
-- [ ] Save as release
-
-**NIEM Model**
-
-- [ ] Load structures attributes
-- [ ] Faster release reload time (from 15 - 17 seconds now)
-- [ ] Redo edits to simplify and remove previous identifiers
-  - [ ] Convert edit to (oldIdentifiers, modifiedFields)
+- [ ] Save / reload local release
