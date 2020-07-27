@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div v-if="subProperties.length > 0">
     <b-card>
       <details>
         <summary>
@@ -17,12 +17,12 @@
           </span>
 
           <span v-else>
-            <span>Properties (table format) of type <strong>{{ typeQName }}</strong></span>
+            <span>Properties (table format) in type <strong>{{ typeQName }}</strong></span>
           </span>
         </summary>
 
         <br/>
-        <b-table small v-if="subProperties.length > 0" :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
+        <b-table small :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
       </details>
     </b-card>
   </div>

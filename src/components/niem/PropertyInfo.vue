@@ -8,23 +8,27 @@
     <!-- Property details -->
     <field-value-table :object="details" label="More details" :open="false"/>
 
-    <!-- Type -->
-    <type-row :type="type" label="Type" :parentXPath="xpath" :spacer="true"/>
+    <div v-if="loaded == true">
 
-    <!-- Substitution group -->
-    <property-row :property="group" label="Substitutable for element" :parentXPath="xpath" :spacer="true"/>
+      <!-- Type -->
+      <object-row :type="type" label="Type" :parentXPath="xpath" :spacer="true"/>
 
-    <!-- Substitutions -->
-    <property-list :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'"/>
+      <!-- Substitution group -->
+      <object-row :property="group" label="Substitutable for element" :parentXPath="xpath" :spacer="true"/>
 
-    <!-- Facets -->
-    <facet-table :facets="facets"/>
+      <!-- Substitutions -->
+      <object-list :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'"/>
 
-    <!-- Inherited and contained properties -->
-    <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
+      <!-- Facets -->
+      <facet-table :facets="facets"/>
 
-    <!-- Full sub-property for each type that contains this property -->
-    <sub-property-list :property="property"/>
+      <!-- Inherited and contained properties -->
+      <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
+
+      <!-- Full sub-property for each type that contains this property -->
+      <sub-property-list :property="property"/>
+
+    </div>
 
   </div>
 </template>
@@ -54,9 +58,8 @@ export default {
   components: {
     CopySpan,
     FieldValueTable,
-    PropertyRow: () => import("./PropertyRow.vue"),
-    PropertyList: () => import("./PropertyList.vue"),
-    TypeRow: () => import("./TypeRow.vue"),
+    ObjectRow: () => import("./ObjectRow.vue"),
+    ObjectList: () => import("./ObjectList.vue"),
     FacetTable: () =>import("./FacetTable.vue"),
     ContainedPropertiesList: () => import("./ContainedPropertiesList.vue"),
     SubPropertyList: () => import("./SubPropertyList.vue")
@@ -64,6 +67,7 @@ export default {
 
   data() {
     return {
+      loaded: false,
       type: undefined,
       group: undefined,
       namespace: {},
@@ -96,6 +100,7 @@ export default {
     this.namespace = await this.property.namespace();
     this.facets = await this.property.contents.facets();
     this.substitutions = (await this.property.substitutions()).sort(Property.sortByQName);
+    this.loaded = true;
   }
 
 }

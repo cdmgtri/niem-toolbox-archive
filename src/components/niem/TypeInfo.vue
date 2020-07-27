@@ -8,23 +8,30 @@
     <!-- Type details -->
     <field-value-table :object="details" label="More details" :open="false"/>
 
-    <!-- Parents -->
-    <type-list :types="parents" label="Parent types" :parentXPath="xpath"/>
+    <div v-if="loaded">
 
-    <!-- Facets -->
-    <facet-table :facets="facets"/>
+      <!-- Parents -->
+      <object-list :types="parents" label="Parent types" :parentXPath="xpath"/>
 
-    <!-- Inherited and contained properties -->
-    <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
+      <!-- Facets -->
+      <facet-table :facets="facets"/>
 
-    <!-- Full sub-property for each type that contains this property -->
-    <sub-property-table :typeQName="type.qname"/>
+      <!-- Inherited and contained properties -->
+      <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
+
+      <!-- Full sub-property for each type that contains this property -->
+      <sub-property-table :typeQName="type.qname"/>
+
+      <object-list :properties="properties" label="Properties of this type"/>
+
+    </div>
 
   </div>
 </template>
 
 <script>
 
+import { Component } from "niem-model";
 import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
 
@@ -46,7 +53,7 @@ export default {
   components: {
     CopySpan,
     FieldValueTable,
-    TypeList: () => import("./TypeList.vue"),
+    ObjectList: () => import("./ObjectList.vue"),
     FacetTable: () => import("./FacetTable.vue"),
     ContainedPropertiesList: () => import("./ContainedPropertiesList.vue"),
     SubPropertyTable: () => import("./SubPropertyTable.vue")
@@ -54,9 +61,11 @@ export default {
 
   data() {
     return {
+      loaded: false,
       parents: [],
       namespace: {},
       facets: [],
+      properties: [],
     }
   },
 
@@ -77,6 +86,8 @@ export default {
     this.parents = await this.type.parents();
     this.facets = await this.type.contents.facets();
     this.namespace = await this.type.namespace();
+    this.properties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
+    this.loaded = true;
   }
 
 }

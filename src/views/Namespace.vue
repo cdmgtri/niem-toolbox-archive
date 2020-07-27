@@ -33,7 +33,7 @@
             <template v-slot:title>
               <span>Properties <b-badge pill variant="info"> {{ properties.length }}</b-badge></span>
             </template>
-            <property-row v-for="property in properties" :key="property.qname" :property="property"/>
+            <object-row v-for="property in properties" :key="property.qname" :property="property"/>
           </b-tab>
 
           <!-- Types -->
@@ -41,7 +41,7 @@
             <template v-slot:title>
               <span>Types <b-badge pill variant="info"> {{ types.length }}</b-badge></span>
             </template>
-            <type-row v-for="type in types" :key="type.qname" :type="type"/>
+         component v-for="type in types" :key="type.qname" :type="type"/>
           </b-tab>
 
           <!-- Local terms -->
@@ -58,14 +58,14 @@
               <span>Used By <b-badge pill variant="info"> {{ dependents.count }}</b-badge></span>
             </template>
 
-            <property-list :substitutions="dependents.substitutions" :label="Substitutions"/>
+            <object-list :substitutions="dependents.substitutions" :label="Substitutions"/>
 
             <details v-if="dependents.dataProperties.length > 0">
               <summary>
                 <span>Data Properties </span>
                 <b-badge variant="info" pill>{{ dependents.dataProperties.length }}</b-badge>
               </summary>
-              <property-row v-for="property in dependents.dataProperties" :key="property.qname" :property="property"/>
+              <object-row v-for="property in dependents.dataProperties" :key="property.qname" :property="property"/>
             </details>
 
             <details v-if="dependents.childTypes.length > 0">
@@ -73,7 +73,7 @@
                 <span>Child Types </span>
                 <b-badge variant="info" pill>{{ dependents.childTypes.length }}</b-badge>
               </summary>
-              <type-row v-for="type in dependents.childTypes" :key="type.qname" :type="type"/>
+              <object-row v-for="type in dependents.childTypes" :key="type.qname" :type="type"/>
             </details>
 
             <details v-if="dependents.subProperties.length > 0">
@@ -98,8 +98,6 @@
 
 import { Namespace } from "niem-model";
 import Utils from "../utils";
-import PropertyRow from "../components/niem/PropertyRow.vue";
-import TypeRow from "../components/niem/TypeRow.vue";
 import SubPropertyTable from "../components/niem/SubPropertyTable.vue";
 import StackedObjectTable from "../components/StackedObjectTable.vue";
 
@@ -107,11 +105,10 @@ export default {
 
   name: "Namespace",
   components: {
-    PropertyRow,
-    TypeRow,
+    ObjectRow: () => import("../components/niem/ObjectRow.vue"),
+    ObjectList: () => import("../components/niem/ObjectList.vue"),
     SubPropertyTable,
-    StackedObjectTable,
-    PropertyList: () => import("../components/niem/PropertyList.vue")
+    StackedObjectTable
   },
 
   data() {

@@ -104,7 +104,7 @@
           <br/><br/>
 
           <!-- Results -->
-          <property-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
+          <object-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
         </div>
 
       </b-col>
@@ -116,14 +116,14 @@
 <script>
 
 import Utils from "../utils";
-import PropertyRow from "../components/niem/PropertyRow.vue";
+import ObjectRow from "../components/niem/ObjectRow.vue";
 import { Property } from "niem-model";
 
 export default {
 
-  name: "Property",
+  name: "Search",
   components: {
-    PropertyRow
+    ObjectRow
   },
 
   data() {

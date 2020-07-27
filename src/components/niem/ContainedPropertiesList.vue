@@ -17,12 +17,12 @@
             <span>Properties inherited from <strong>{{ parentQName }} </strong></span>
             <b-badge variant="info" pill>{{ inheritedProperties[parentQName].length }}</b-badge>
           </summary>
-          <property-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
+          <object-row v-for="property of inheritedProperties[parentQName]" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
         </details>
       </div>
 
       <!-- Contained properties -->
-      <property-row v-for="property of containedProperties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
+      <object-row v-for="property of containedProperties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
     </details>
 
     <br/>
@@ -48,7 +48,7 @@ export default {
   },
 
   components: {
-    PropertyRow: () => import("./PropertyRow.vue")
+    ObjectRow: () => import("./ObjectRow.vue")
   },
 
   data() {
