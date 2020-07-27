@@ -17,7 +17,7 @@
           </span>
 
           <span v-else>
-            <span>Properties (table format) in type <strong>{{ typeQName }}</strong></span>
+            <span>Properties (alternate table format) in type <strong>{{ typeQName }}</strong></span>
           </span>
         </summary>
 
@@ -25,6 +25,7 @@
         <b-table small :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
       </details>
     </b-card>
+    <br/>
   </div>
 </template>
 
