@@ -102,7 +102,7 @@ export default {
     this.group = await this.property.group();
     this.namespace = await this.property.namespace();
     this.facets = await this.property.contents.facets();
-    this.substitutions = (await this.property.substitutions()).sort(Property.sortByQName);
+    this.substitutions = (await this.property.substitutions()).sort(Property.sortByCoreQName);
     this.loaded = true;
   }
 

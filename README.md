@@ -34,7 +34,7 @@ npm run deploy
 - [x] Namespace
 - [x] Add local term copy table
 - [x] Add facet copy table button (markdown table, tabbed table)
-- [ ] Add SM copy buttons (markdown table, markdown list, tabbed table)
+- [x] Add SM copy buttons (markdown table, markdown list, tabbed table)
 - [ ] Add contained property copy buttons
 - [ ] Update Release page with namespace list
 - [ ] Additional namespace fields

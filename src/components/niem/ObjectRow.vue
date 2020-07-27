@@ -164,11 +164,6 @@ export default {
 
 <style scoped>
 
-div.card-body {
-  padding: 10px 15px;
-  padding-right: 0;
-}
-
 div.component-summary {
   padding-top: 10px;
   padding-left: 18px;

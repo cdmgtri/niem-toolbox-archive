@@ -122,6 +122,11 @@ a:focus {
   color: #17A2B8;
 }
 
+div.card-body {
+  padding: 10px 15px;
+  padding-right: 0;
+}
+
 h4.section {
   display: inline-block;
   padding-bottom: 2px;

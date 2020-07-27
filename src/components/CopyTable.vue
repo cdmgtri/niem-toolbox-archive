@@ -3,10 +3,13 @@
   <div v-if="items.length > 0">
     <details :open="open">
       <summary>
-        <h4 class="section">
-          <span>{{ label }} </span>
-          <b-badge variant="info" pill>{{ items.length }}</b-badge>
-        </h4>
+        <slot>
+          <!-- Default summary if slot not replaced -->
+          <h4 class="section">
+            <span>{{ label }} </span>
+            <b-badge variant="info" pill>{{ items.length }}</b-badge>
+          </h4>
+        </slot>
       </summary>
 
       <p>Copy table as:
@@ -14,13 +17,13 @@
         <b-button variant="link" @click="copyExcel()" v-b-tooltip.click.v-success="'Excel cells copied'">Excel cells</b-button>
       </p>
 
-      <b-table small :items="items" :fields="fields">
+      <b-table small :items="items" :fields="fields" :tbody-tr-class="rowClassFunction">
         <template v-slot:cell()="data">
           <copy-span :label="data.field.label" :text="data.value"/>
         </template>
       </b-table>
     </details>
-    <br/>
+    <br v-if="spacer==true"/>
   </div>
 </template>
 
@@ -40,15 +43,24 @@ export default {
     },
     fields: {
       type: Array,
-      default: () => []
+      default: () => [],
+      required: false,
     },
     label: {
       type: String,
-      required: true
+      default: ""
     },
     open: {
       type: Boolean,
       default: true
+    },
+    spacer: {
+      type: Boolean,
+      default: true
+    },
+    rowClassFunction: {
+      type: Function,
+      default: () => ""
     }
   },
 
@@ -95,6 +107,7 @@ export default {
 
 p {
   font-weight: 100;
+  padding-top: 10px;
 }
 
 </style>

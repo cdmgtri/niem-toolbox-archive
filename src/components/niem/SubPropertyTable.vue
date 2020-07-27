@@ -1,41 +1,35 @@
 
 <template>
-  <div v-if="subProperties.length > 0">
-    <b-card>
-      <details>
-        <summary>
-          <span v-if="subProperty">
-            <!-- Type link -->
-            <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
+  <b-card>
+    <copy-table :items="items" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
+      <span v-if="subProperty">
+        <!-- Type link -->
+        <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
 
-            <!-- Property link -->
-            <span> - </span>
-            <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
+        <!-- Property link -->
+        <span> - </span>
+        <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
 
-            <!-- (min occurs, max occurs) -->
-            <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
-          </span>
+        <!-- (min occurs, max occurs) -->
+        <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
+      </span>
 
-          <span v-else>
-            <span>Properties (alternate table format) in type <strong>{{ typeQName }}</strong></span>
-          </span>
-        </summary>
-
-        <br/>
-        <b-table small :items="subProperties" :fields="fields" :head-variant="null" :tbody-tr-class="rowClass"/>
-      </details>
-    </b-card>
-    <br/>
-  </div>
+      <span v-else>
+        <span>Properties (alternate table format) in type <strong>{{ typeQName }}</strong></span>
+      </span>
+    </copy-table>
+  </b-card>
 </template>
 
 <script>
 
 import Utils from "../../utils";
+import CopyTable from "../CopyTable.vue";
 
 export default {
 
   name: "SubPropertyTable",
+
   props: {
     typeQName: {
       type: String,
@@ -46,6 +40,10 @@ export default {
       type: String,
       required: false
     }
+  },
+
+  components: {
+    CopyTable
   },
 
   data() {
@@ -75,19 +73,32 @@ export default {
       subProperties: this.$store.getters.subProperties(undefined, this.typeQName),
 
       typeRoute: Utils.getTypeRoute(type),
-      propertyRoute,
-
-      fields: [
-        { key: "typeQName", label: "Type"},
-        { key: "propertyQName", label: "Property"},
-        "min",
-        "max"
-      ]
+      propertyRoute
 
     }
   },
 
+  computed: {
+
+    items() {
+      return this.subProperties.map( subProperty => {
+        return {
+          "Type": subProperty.typeQName,
+          "Property": subProperty.propertyQName,
+          "Min": subProperty.min,
+          "Max": subProperty.max
+        }
+      })
+    }
+
+  },
+
   methods: {
+
+    rowClassFunction(item, type) {
+      if (item.Property == this.propertyQName) return "table-info";
+      return "";
+    },
 
     copy(text) {
       this.$copyText(text)
@@ -138,15 +149,14 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 
-div.card-body {
-  padding: 10px 15px;
+.td-sm-min {
+  width: 70px !important;
 }
 
-div.component-summary {
-  padding-top: 10px;
-  padding-left: 18px;
+.td-sm-max {
+  width: 150px !important;
 }
 
 </style>
