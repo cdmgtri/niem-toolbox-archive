@@ -57,6 +57,7 @@ export default {
     CopySpan,
     FieldValueTable,
     ObjectList: () => import("./ObjectList.vue"),
+    ObjectRow: () => import("./ObjectRow.vue"),
     FacetTable: () => import("./FacetTable.vue"),
     ContainedPropertiesList: () => import("./ContainedPropertiesList.vue"),
     SubPropertyTable: () => import("./SubPropertyTable.vue")

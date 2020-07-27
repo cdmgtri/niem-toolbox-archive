@@ -32,7 +32,8 @@ npm run deploy
 - [x] Property
 - [x] Type
 - [x] Namespace
-- [ ] Add facet copy table button (markdown table, tabbed table)
+- [x] Add local term copy table
+- [x] Add facet copy table button (markdown table, tabbed table)
 - [ ] Add SM copy buttons (markdown table, markdown list, tabbed table)
 - [ ] Add contained property copy buttons
 - [ ] Update Release page with namespace list
@@ -68,6 +69,8 @@ npm run deploy
 - [x] Move subset and map options from parameters to store
 - [x] Add a loading spinner
 - [x] Fix h4 spacing
+- [x] Create CopyTable template for table with easy-copy cells and entire table Markdown and Excel copy buttons
+- [ ] Moved fixed table column widths to App.vue style section
 - [ ] **lazy load sections**
 - [ ] **lazy load rows**
 - [ ] Fix xpath word wrap

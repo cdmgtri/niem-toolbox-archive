@@ -1,21 +1,12 @@
 
 <template>
-  <div v-if="localTerms.length > 0">
-    <details>
-      <summary>
-        <h4 class="section">
-          <span>Local Terms </span>
-          <b-badge variant="info" pill> {{ localTerms.length }}</b-badge>
-        </h4>
-      </summary>
-
-      <!-- Local terms table -->
-      <b-table :items="items"/>
-    </details>
-  </div>
+  <copy-table :items="items" :fields="fields" label="Local Terms" :open="false"/>
 </template>
 
 <script>
+
+import CopyTable from "../CopyTable.vue";
+
 export default {
 
   name: "LocalTermTable",
@@ -24,6 +15,20 @@ export default {
     localTerms: {
       type: Array,
       default: () => []
+    }
+  },
+
+  components: {
+    CopyTable
+  },
+
+  data() {
+    return {
+      fields: [
+        { key: "term", label: "Term" },
+        { key: "style", label: "Style", tdClass: "td-localTerm-style" },
+        { key: "value", label: "Literal / Definition"}
+      ]
     }
   },
 
@@ -43,7 +48,7 @@ export default {
         return {
           term: localTerm.term,
           style,
-          "Literal or Definition": value
+          value
         }
       });
     },
@@ -52,3 +57,12 @@ export default {
 
 }
 </script>
+
+<style>
+
+
+td-localTerm-style {
+  width: 100px !important;
+}
+
+</style>

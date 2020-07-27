@@ -16,7 +16,7 @@
 
             <!-- type -->
             <small>
-              <span v-if="property.typeQName"><b-link :to="typeRoute"> ({{property.typeQName}})</b-link></span>
+              <span v-if="property.typeQName"> (type <b-link :to="typeRoute">{{property.typeQName}}</b-link>)</span>
               <span v-else> (abstract)</span>
             </small>
 
