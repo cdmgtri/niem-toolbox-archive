@@ -3,7 +3,7 @@
   <div v-if="property">
 
     <!-- Definition -->
-    <p class="pad-right"><copy-span :label="'Definition'" :text="property.definition"/></p>
+    <p class="definition"><copy-span :label="'Definition'" :text="property.definition"/></p>
 
     <!-- Property details -->
     <field-value-table :object="details" label="More details" :open="false"/>
@@ -60,7 +60,7 @@ export default {
     FieldValueTable,
     ObjectRow: () => import("./ObjectRow.vue"),
     ObjectList: () => import("./ObjectList.vue"),
-    FacetTable: () =>import("./FacetTable.vue"),
+    FacetTable: () => import("./FacetTable.vue"),
     ContainedPropertiesList: () => import("./ContainedPropertiesList.vue"),
     SubPropertyList: () => import("./SubPropertyList.vue")
   },

@@ -32,6 +32,9 @@ class Utils {
     return properties.filter( property => property[field].toLowerCase().match(regex))
   }
 
+  /**
+   * @param {"Property"|"Type"|"Namespace"} style
+   */
   static getBreadcrumb({userKey, modelKey, releaseKey, prefix, name}, style) {
     let breadcrumb = [];
     let path = "";
@@ -55,7 +58,7 @@ class Utils {
     }
 
     if (prefix && !name) {
-      breadcrumb.push({text: "namespaces", to: path});
+      breadcrumb.push({text: "namespaces", to: `${path}/namespaces`});
 
       path += `/namespaces/${prefix}`;
       breadcrumb.push({text: prefix, to: path});
@@ -63,11 +66,14 @@ class Utils {
     }
 
     if (name) {
-      breadcrumb.push({text: style, to: `${path}/${style}`});
 
-      breadcrumb.push({text: prefix, to: `${path}/namespaces/${prefix}/${style}`});
+      let group = (style == "Property") ? "properties" : "types";
 
-      breadcrumb.push({text:name, to: `${path}/${style}/${prefix}/${name}`});
+      breadcrumb.push({text: group, to: `${path}/${group}`});
+
+      breadcrumb.push({text: prefix, to: `${path}/namespaces/${prefix}`});
+
+      breadcrumb.push({text:name, to: `${path}/${group}/${prefix}/${name}`});
       activeIndex = 5;
     }
 

@@ -8,8 +8,14 @@
       <summary>{{ label }}</summary>
 
       <b-table small :items="items" :fields="fields" thead-class="d-none">
-        <template v-slot:cell()="data">
+        <template v-slot:cell(value)="data">
           <copy-span :label="data.item.field" :text="data.value"/>
+
+          <span v-if="links.includes(data.item.field)">
+            <a :href="data.value" target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>
+          </span>
         </template>
       </b-table>
 
@@ -33,7 +39,11 @@ export default {
     label: String,
     open: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    links: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -41,19 +51,15 @@ export default {
     return {
       items: [],
       fields: [
-        {
-          key: "field",
-          tdClass: "td-field"
-        },
-        {
-          key: "value"
-        }
+        { key: "field", tdClass: "td-field" },
+        { key: "value" }
       ],
 
     }
   },
 
   mounted() {
+    // Convert the given object to an array of field-value rows
     Object.keys( this.object ).forEach( key => {
       let row = {
         field: key,
@@ -65,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 table {
   word-wrap: break-word;
@@ -73,6 +79,10 @@ table {
 
 .td-field {
   width: 150px !important;
+}
+
+i {
+  padding-left: 10px;
 }
 
 </style>

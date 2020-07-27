@@ -3,8 +3,10 @@
   <div>
     <details v-if="objects.length > 0" :open="open">
       <summary>
-        <span>{{ label }} </span>
-        <b-badge variant="info" pill>{{ objects.length }}</b-badge>
+        <h4 class="section">
+          <span>{{ label }} </span>
+          <b-badge variant="info" pill>{{ objects.length }}</b-badge>
+        </h4>
       </summary>
 
       <!-- List property rows -->

@@ -3,8 +3,10 @@
   <div v-if="loaded">
     <b-breadcrumb :items="breadcrumb"/>
 
-    <h1>{{ label }} {{ qname }}</h1>
+    <h1 v-if="label=='Namespace'">Namespace {{ namespace.fileName }} ({{ namespace.prefix }})</h1>
+    <h1 v-else>{{ label }} {{ qname }}</h1>
 
+    <namespace-info v-if="namespace" :namespace="namespace"/>
     <property-info v-if="property" :property="property" :xpath="xpath"/>
     <type-info v-if="type" :type="type" :xpath="xpath"/>
 
@@ -21,6 +23,7 @@ export default {
 
   name: "Object",
   components: {
+    NamespaceInfo: () => import("../components/niem/NamespaceInfo.vue"),
     PropertyInfo: () => import("../components/niem/PropertyInfo.vue"),
     TypeInfo: () => import("../components/niem/TypeInfo.vue"),
   },
@@ -46,10 +49,12 @@ export default {
       loaded: false,
       property: undefined,
       type: undefined,
+      namespace: undefined,
+      prefix,
       label,
       qname: prefix + ":" + name,
       xpath: "",
-      breadcrumb: Utils.getBreadcrumb(this.$route.params, "properties")
+      breadcrumb: Utils.getBreadcrumb(this.$route.params, label)
     }
   },
 
@@ -82,6 +87,11 @@ export default {
       else if (this.label == "Type") {
         this.type = this.$store.getters.type(this.qname);
         this.xpath = Utils.updateXPath("", this.type);
+      }
+      else if (this.label == "Namespace") {
+        console.log("IN NS LOAD", this.prefix);
+        this.namespace = this.$store.getters.namespace(this.prefix);
+        console.log("IN NS LOAD", this.namespace.prefix);
       }
 
       this.loaded = true;

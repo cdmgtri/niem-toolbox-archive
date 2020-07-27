@@ -75,8 +75,7 @@ export default {
       return {
         "Name": this.type.name,
         "Qualified name": this.type.qname,
-        "Style": this.type.style,
-        "Current XPath": this.xpath
+        "Style": this.type.style
       }
     }
 
