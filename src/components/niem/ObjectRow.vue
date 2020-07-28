@@ -8,43 +8,13 @@
           <!-- Row label -->
           <span v-if="label">{{ label }} </span>
 
-          <!-- Label for a property row -->
-          <span v-if="property">
+          <property-row-header v-if="property" :property="property"/>
+          <type-row-header v-if="type" :type="type"/>
+          <namespace-row-header v-if="namespace" :namespace="namespace"/>
 
-            <!-- property summary component -->
-            <strong><b-link :to="propertyRoute">{{ property.qname }}</b-link></strong>
-
-            <!-- type -->
-            <small>
-              <span v-if="property.typeQName"> (type <b-link :to="typeRoute">{{property.typeQName}}</b-link>)</span>
-              <span v-else> (abstract)</span>
-            </small>
-
-            <!-- copy button -->
-            <copy-button v-if="options.map == true" label="Path + CR spreadsheet fields" :text="cellsPathCR"/>
-            <!-- <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/> -->
-          </span>
-
-          <!-- Label for a type row -->
-          <span v-else-if="type">
-
-            <!-- type summary component -->
-            <strong><b-link :to="typeRoute">{{ type.qname }}</b-link></strong>
-
-            <!-- base type -->
-            <span v-if="type.baseQName && type.prefix != 'structures'">
-              <small>
-                (extends <b-link :to="baseRoute">{{type.baseQName}}</b-link>)
-              </small>
-            </span>
-
-          </span>
-
-          <!-- Label for a namespace row -->
-          <span v-else-if="namespace">
-            <strong><b-link :to="namespaceRoute">{{ namespace.fileName }}</b-link></strong>
-            <span v-if="namespace.fileName != namespace.prefix"> ({{ namespace.prefix }})</span>
-          </span>
+          <!-- copy button -->
+          <copy-button v-if="property && options.map == true" label="Path + CR spreadsheet fields" :text="cellsPathCR"/>
+          <!-- <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/> -->
 
         </summary>
 
@@ -69,6 +39,9 @@
 import { mapGetters } from "vuex";
 import Utils from "../../utils";
 import CopyButton from "../CopyButton.vue";
+import PropertyRowHeader from "./PropertyRowHeader.vue";
+import TypeRowHeader from "./TypeRowHeader.vue";
+import NamespaceRowHeader from "./NamespaceRowHeader.vue";
 
 export default {
 
@@ -101,6 +74,9 @@ export default {
 
   components: {
     CopyButton,
+    PropertyRowHeader,
+    TypeRowHeader,
+    NamespaceRowHeader,
     PropertyInfo: () => import("./PropertyInfo.vue"),
     TypeInfo: () => import("./TypeInfo.vue"),
     NamespaceInfo: () => import("./NamespaceInfo.vue")
@@ -108,30 +84,9 @@ export default {
 
   data() {
 
-    let { userKey, modelKey, releaseKey } = this.property || this.type || ["", "", ""];
-    let { propertyRoute, typeRoute, baseRoute, namespaceRoute } = ["", "", "", ""];
-
-    if (this.property) {
-      propertyRoute = Utils.getPropertyRoute(this.property);
-      typeRoute = Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.property.typePrefix, name: this.property.typeName});
-    }
-
-    if (this.type) {
-      typeRoute = Utils.getTypeRoute(this.type);
-      baseRoute = Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName});
-    }
-
-    if (this.namespace) {
-      namespaceRoute = Utils.getNamespaceRoute(this.namespace);
-    }
-
     return {
       load: false,
       xpath: Utils.updateXPath(this.parentXPath, this.property),
-      propertyRoute,
-      typeRoute,
-      baseRoute,
-      namespaceRoute
     }
   },
 

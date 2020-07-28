@@ -296,7 +296,7 @@ div.property-summary {
 }
 
 button {
-  padding: 6px;
+  padding: 6px !important;
 }
 
 button.options.active {

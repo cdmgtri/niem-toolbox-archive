@@ -2,18 +2,7 @@
 <template>
   <div v-if="loaded">
     <b-breadcrumb :items="breadcrumb"/>
-
-    <h1 v-if="label=='Namespace'">Namespace {{ namespace.fileName }}
-      <span v-if="namespace.fileName != namespace.prefix">
-       ({{ namespace.prefix }})
-      </span>
-    </h1>
-    <h1 v-else>{{ label }} {{ qname }}</h1>
-
-    <namespace-info v-if="namespace" :namespace="namespace"/>
-    <property-info v-if="property" :property="property" :xpath="xpath"/>
-    <type-info v-if="type" :type="type" :xpath="xpath"/>
-
+    <slot v-bind:namespace="namespace" v-bind:property="property" v-bind:type="type"/>
   </div>
 </template>
 
@@ -25,16 +14,11 @@ import Utils from "../utils";
 
 export default {
 
-  name: "Object",
-  components: {
-    NamespaceInfo: () => import("../components/niem/NamespaceInfo.vue"),
-    PropertyInfo: () => import("../components/niem/PropertyInfo.vue"),
-    TypeInfo: () => import("../components/niem/TypeInfo.vue"),
-  },
+  name: "NIEMObject",
 
   data() {
 
-    let { userKey, modelKey, releaseKey, prefix, name } = this.$route.params;
+    let { userKey, modelKey, releaseKey, prefix, qname } = this.$route.params;
 
     /** @type {"Property"|"Type"|"Namespace"} */
     let label = "";
@@ -56,7 +40,7 @@ export default {
       namespace: undefined,
       prefix,
       label,
-      qname: prefix + ":" + name,
+      qname,
       xpath: "",
       breadcrumb: Utils.getBreadcrumb(this.$route.params, label)
     }

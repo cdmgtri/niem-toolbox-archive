@@ -1,6 +1,6 @@
 
 <template>
-  <b-card>
+  <b-card v-if="items.length > 0">
     <copy-table :items="items" :fields="fields" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
       <span v-if="subProperty">
         <!-- Type link -->

@@ -8,12 +8,12 @@ class Utils {
 
   static getPropertyRoute({userKey, modelKey, releaseKey, prefix, name}) {
     if (!prefix || !name) return "";
-    return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
+    return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}:${name}`;
   }
 
   static getTypeRoute({userKey, modelKey, releaseKey, prefix, name}) {
     if (!prefix || !name) return "";
-    return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
+    return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}:${name}`;
   }
 
   static getNamespaceRoute({userKey, modelKey, releaseKey, prefix}) {
@@ -35,7 +35,7 @@ class Utils {
   /**
    * @param {"Property"|"Type"|"Namespace"} style
    */
-  static getBreadcrumb({userKey, modelKey, releaseKey, prefix, name}, style) {
+  static getBreadcrumb({userKey, modelKey, releaseKey, prefix, qname}, style) {
     let breadcrumb = [];
     let path = "";
     let activeIndex = -1;
@@ -57,7 +57,7 @@ class Utils {
       activeIndex = 2;
     }
 
-    if (prefix && !name) {
+    if (prefix) {
       breadcrumb.push({text: "namespaces", to: `${path}/namespaces`});
 
       path += `/namespaces/${prefix}`;
@@ -65,16 +65,13 @@ class Utils {
       activeIndex = 4;
     }
 
-    if (name) {
+    if (qname) {
 
       let group = (style == "Property") ? "properties" : "types";
 
       breadcrumb.push({text: group, to: `${path}/${group}`});
-
-      breadcrumb.push({text: prefix, to: `${path}/namespaces/${prefix}`});
-
-      breadcrumb.push({text:name, to: `${path}/${group}/${prefix}/${name}`});
-      activeIndex = 5;
+      breadcrumb.push({text: qname, to: `${path}/${group}/${qname}`});
+      activeIndex = 4;
     }
 
     // Do not create a link for the currently active page

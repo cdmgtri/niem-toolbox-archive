@@ -10,7 +10,9 @@ import Version from  "./views/Version.vue";
 import Model from "./views/Model.vue";
 import Release from "./views/Release.vue";
 import Namespace from "./views/Namespace.vue";
-import Object from "./views/Object.vue";
+import Property from "./views/Property.vue";
+import Type from "./views/Type.vue";
+import NIEMObject from "./views/NIEMObject.vue";
 
 Vue.use(Router)
 
@@ -35,17 +37,17 @@ export default new Router({
 
     // { path: "/:userKey/:modelKey/:releaseKey/namespaces", name: "namespaces", component: Namespaces },
 
-    { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix", component: Object },
+    { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix", component: Namespace },
 
     { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix/:contents", component: Namespace },
 
     // { path: "/:userKey/:modelKey/:releaseKey/properties/", name: "properties", component: Properties },
 
-    { path: "/:userKey/:modelKey/:releaseKey/properties/:prefix/:name", component: Object },
+    { path: "/:userKey/:modelKey/:releaseKey/properties/:qname", name: "property", component: Property },
 
     // { path: "/:userKey/:modelKey/:releaseKey/types/", name: "types", component: Types },
 
-    { path: "/:userKey/:modelKey/:releaseKey/types/:prefix/:name", component: Object },
+    { path: "/:userKey/:modelKey/:releaseKey/types/:qname", name: "type", component: Type },
 
     // { path: "/:userKey/:modelKey/:releaseKey/terms/", name: "terms", component: Terms },
 

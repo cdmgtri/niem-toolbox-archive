@@ -53,7 +53,6 @@ npm run deploy
 
 **Component and Row Pages**
 
-- [ ] Use Property, Type, and Namespace components with Object template slots
 - [ ] Update Release page with namespace list
 - [ ] Additional namespace fields
   - [ ] dependencies
