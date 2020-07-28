@@ -2,8 +2,6 @@
 <template>
   <div>
 
-    <keep-alive>
-
     <b-row>
 
       <!-- Search panel-->
@@ -24,6 +22,7 @@
 
         <br/>
 
+        <!-- Advanced search options -->
         <details open>
           <summary>Advanced</summary>
           <br/>
@@ -50,6 +49,19 @@
 
         </details>
 
+        <!-- Recent searches -->
+        <details v-if="recentSearchStrings.length > 0">
+          <summary>Recent searches</summary>
+          <br/>
+          <b-list-group id="list-group-recentSearches">
+            <b-list-group-item v-for="searchString of recentSearchStrings" :key="searchString">
+              <span @click="searchRecent(searchString)">{{ searchString }}</span>
+              <b-button size="sm" variant="secondary" class="pull-right" @click="deleteSearchString(searchString)">x</b-button>
+            </b-list-group-item>
+          </b-list-group>
+        </details>
+
+        <!-- Filter results -->
         <div v-if="showResults">
 
           <hr/>
@@ -74,6 +86,7 @@
           <!-- Results header -->
           <h3>Results <b-badge pill variant="info">{{ resultsCount }}</b-badge></h3>
 
+          <!-- Sort and options row -->
           <span v-if="filteredProperties.length > 0" class="pull-right">
 
             <!-- Sort options -->
@@ -84,21 +97,18 @@
             |
 
             <!-- Support options -->
-            <b-button variant="link" @click="enableMap" class="options" :class="{active: map}">Map</b-button>
-            <b-button variant="link" @click="enableSubset" class="options" :class="{active: subset}">Subset</b-button>
+            <b-button variant="link" @click="invertOption('map')" class="options" :class="{active: map}">Map</b-button>
+            <b-button variant="link" @click="invertOption('subset')" class="options" :class="{active: subset}">Subset</b-button>
 
           </span>
           <br/><br/>
 
           <!-- Results -->
-          <property-row v-for="property in filteredProperties" :key="property.qname"
-            :property="property" :path="[]" :map="map" :subset="subset"/>
+          <object-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
         </div>
 
       </b-col>
     </b-row>
-
-    </keep-alive>
 
   </div>
 </template>
@@ -106,14 +116,14 @@
 <script>
 
 import Utils from "../utils";
-import PropertyRow from "../components/row/PropertyRow.vue";
+import ObjectRow from "../components/niem/ObjectRow.vue";
 import { Property } from "niem-model";
 
 export default {
 
-  name: "Property",
+  name: "Search",
   components: {
-    PropertyRow
+    ObjectRow
   },
 
   data() {
@@ -131,18 +141,26 @@ export default {
       showResults: false,
       sortOrder: "core",
 
-      map: false,
-      subset: false,
-
       properties: [],
       filteredProperties: [],
       resultPrefixes: [],
-      selectedPrefixes: []
+      selectedPrefixes: [],
+
+      /** @type {String[]} */
+      recentSearchStrings: []
 
     }
   },
 
   computed: {
+
+    map() {
+      return this.$store.getters.options.map;
+    },
+
+    subset() {
+      return this.$store.getters.options.subset;
+    },
 
     resultsCount() {
       if (this.properties.length > 0) {
@@ -189,6 +207,10 @@ export default {
         return;
       }
 
+      // Cache search terms in recent search terms array
+      if (!this.recentSearchStrings.includes(this.input)) this.recentSearchStrings.unshift(this.input);
+      if (this.recentSearchStrings.length > 10) this.recentSearchStrings.pop();
+
       this.showResults = true;
 
       this.properties = Utils.searchProperties(this.$store.getters.properties(), "qname", this.input);
@@ -202,6 +224,16 @@ export default {
       this.setFilterPrefixes();
       this.setFilterPrefixesAll();
 
+    },
+
+    searchRecent(searchString) {
+      this.input = searchString;
+      this.search();
+    },
+
+    deleteSearchString(searchString) {
+      let index = this.recentSearchStrings.indexOf(searchString);
+      this.recentSearchStrings.splice(index, 1);
     },
 
     setFilterPrefixes() {
@@ -244,12 +276,8 @@ export default {
       this.filteredProperties = this.filteredProperties.sort(Property.sortByName);
     },
 
-    enableMap() {
-      this.map = ! this.map;
-    },
-
-    enableSubset() {
-      this.subset = ! this.subset;
+    invertOption(option) {
+      this.$store.commit("invertOption", option);
     }
 
   }
@@ -268,7 +296,7 @@ div.property-summary {
 }
 
 button {
-  padding: 6px;
+  padding: 6px !important;
 }
 
 button.options.active {
@@ -282,6 +310,17 @@ button.options.active::before {
 
 button.options.active::after {
   content: "]";
+}
+
+#list-group-recentSearches span:hover {
+  color: cadetblue;
+  cursor: pointer;
+}
+
+#list-group-recentSearches .list-group-item {
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 </style>

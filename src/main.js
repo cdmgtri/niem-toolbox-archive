@@ -28,8 +28,5 @@ Vue.use(VueClipboard);
 new Vue({
   router,
   store,
-  beforeCreate() {
-    store.dispatch("load");
-  },
   render: h => h(App),
 }).$mount('#app');

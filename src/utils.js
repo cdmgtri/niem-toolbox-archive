@@ -7,14 +7,17 @@ let ComponentInstance = new Component();
 class Utils {
 
   static getPropertyRoute({userKey, modelKey, releaseKey, prefix, name}) {
-    return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
+    if (!prefix || !name) return "";
+    return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}:${name}`;
   }
 
   static getTypeRoute({userKey, modelKey, releaseKey, prefix, name}) {
-    return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
+    if (!prefix || !name) return "";
+    return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}:${name}`;
   }
 
   static getNamespaceRoute({userKey, modelKey, releaseKey, prefix}) {
+    if (!prefix) return "";
     return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
   }
 
@@ -29,7 +32,10 @@ class Utils {
     return properties.filter( property => property[field].toLowerCase().match(regex))
   }
 
-  static getBreadcrumb({userKey, modelKey, releaseKey, prefix, name}, style) {
+  /**
+   * @param {"Property"|"Type"|"Namespace"} style
+   */
+  static getBreadcrumb({userKey, modelKey, releaseKey, prefix, qname}, style) {
     let breadcrumb = [];
     let path = "";
     let activeIndex = -1;
@@ -51,21 +57,21 @@ class Utils {
       activeIndex = 2;
     }
 
-    if (prefix && !name) {
-      breadcrumb.push({text: "namespaces", to: path});
+    if (prefix) {
+      breadcrumb.push({text: "namespaces", to: `${path}/namespaces`});
 
       path += `/namespaces/${prefix}`;
       breadcrumb.push({text: prefix, to: path});
       activeIndex = 4;
     }
 
-    if (name) {
-      breadcrumb.push({text: style, to: `${path}/${style}`});
+    if (qname) {
 
-      breadcrumb.push({text: prefix, to: `${path}/namespaces/${prefix}/${style}`});
+      let group = (style == "Property") ? "properties" : "types";
 
-      breadcrumb.push({text:name, to: `${path}/${style}/${prefix}/${name}`});
-      activeIndex = 5;
+      breadcrumb.push({text: group, to: `${path}/${group}`});
+      breadcrumb.push({text: qname, to: `${path}/${group}/${qname}`});
+      activeIndex = 4;
     }
 
     // Do not create a link for the currently active page
@@ -76,21 +82,14 @@ class Utils {
   }
 
   /**
-   * @param {Component} component
-   * @param {{label: string, link: string}[]} path
+   * Adds the property qname to the current xpath if the property is not abstract.
+   * @param {String} currentXPath
+   * @param {PropertyInstance} property
    */
-  static updatePath(component, path) {
-
-    let link = (component.constructor.name == "Type") ? Utils.getTypeRoute(component) : Utils.getPropertyRoute(component);
-
-    return [
-      ...path,
-      {
-        label: component.qname,
-        link
-      }
-    ];
-
+  static updateXPath(currentXPath="", property) {
+    if (!property || property.isAbstract == true) return currentXPath;
+    if (currentXPath == "") return property.qname;
+    return currentXPath + "/" + property.qname;
   }
 
 
