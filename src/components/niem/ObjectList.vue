@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <details v-if="objects.length > 0" :open="open">
+    <details v-if="objects.length > 0" :open="open" v-on:toggle="load=true">
       <summary>
         <h4 class="section">
           <span>{{ label }} </span>
@@ -9,11 +9,15 @@
         </h4>
       </summary>
 
-      <!-- List property rows -->
-      <object-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
+      <div v-if="load == true">
 
-      <!-- List type rows -->
-      <object-row v-for="type of types" :key="type.qname" :type="type" :parentXPath="parentXPath"/>
+        <!-- List property rows -->
+        <object-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
+
+        <!-- List type rows -->
+        <object-row v-for="type of types" :key="type.qname" :type="type" :parentXPath="parentXPath"/>
+
+      </div>
 
     </details>
     <br v-if="objects.length"/>
@@ -52,6 +56,12 @@ export default {
 
   components: {
     ObjectRow
+  },
+
+  data() {
+    return {
+      load: this.open
+    }
   },
 
   computed: {

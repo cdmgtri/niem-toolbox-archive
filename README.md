@@ -90,11 +90,6 @@ npm run deploy
 - [ ] Upload local release
 - [ ] Swap out backend
 
-**Performance**
-
-- [ ] lazy load sections
-- [ ] lazy load rows
-
 **NIEM Spreadsheet support**
 
 - [ ] Upload spreadsheet
