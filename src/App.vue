@@ -122,6 +122,11 @@ a:focus {
   color: #17A2B8;
 }
 
+.btn-link {
+  padding: 1px !important;
+  margin-top: -3px !important;
+}
+
 div.card-body {
   padding: 10px 15px;
   padding-right: 0;
@@ -134,6 +139,11 @@ h4.section {
 
 p.definition {
   padding-right: 10px;
+}
+
+p.copyInstructions {
+  font-weight: 100;
+  padding-top: 10px;
 }
 
 </style>

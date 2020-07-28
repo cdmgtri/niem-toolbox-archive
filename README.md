@@ -37,13 +37,13 @@ npm i cdmgtri:niem-assistant
 
 ## Usage
 
-**Run app locally:**
+Run app locally
 
 ```bash
 npm run serve
 ```
 
-**Deploy app to GitHub Pages:**
+Deploy app to GitHub Pages
 
 ```bash
 npm run deploy
@@ -53,11 +53,20 @@ npm run deploy
 
 **Component and Row Pages**
 
-- [ ] Add contained property copy buttons
+- [ ] Use Property, Type, and Namespace components with Object template slots
 - [ ] Update Release page with namespace list
 - [ ] Additional namespace fields
   - [ ] dependencies
   - [ ] dependents
+
+**Browse**
+
+- [ ] Release page (namespace list)
+  - [ ] Namespace metadata
+  - [ ] Property, type, and local term counts
+  - [ ] Namespace term cloud
+  - [ ] Dependencies
+- [ ] Model term cloud
 
 **Search**
 
@@ -72,15 +81,6 @@ npm run deploy
 - [ ] Recent searches => pinned items?
 - [ ] Cache and reload recent searches
 - [ ] Add search terms as url query parameters
-
-**Browse**
-
-- [ ] Release page (namespace list)
-  - [ ] Namespace metadata
-  - [ ] Property, type, and local term counts
-  - [ ] Namespace term cloud
-  - [ ] Dependencies
-- [ ] Model term cloud
 
 **App**
 
