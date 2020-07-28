@@ -70,10 +70,6 @@ npm run deploy
 **Search**
 
 - [ ] Search terms in any order
-- [ ] Use tabs to allow for multiple searches and/or data pages at the same time
-  - [ ] New tab as new search instance
-  - [ ] Open in tab for component link clicks - *if route includes search, open tab*
-- [ ] Extra panel option for large displays
 - [ ] Advanced search
   - [ ] Context search for extensions and roles (e.g., Arrest Date, Victim first name)
   - [ ] Term filter
@@ -89,6 +85,7 @@ npm run deploy
 - [ ] Release stats
 - [ ] Add pop-up close buttons to close current details for long lists without a lot of scrolling (e.g., Person)
 - [ ] Pass current xpath into property pages?
+- [ ] Extra panel option for large displays
 - [ ] Support all releases
 - [ ] Upload local release
 - [ ] Swap out backend
@@ -97,12 +94,14 @@ npm run deploy
 
 - [ ] lazy load sections
 - [ ] lazy load rows
-- [ ] faster release reload
 
 **NIEM Spreadsheet support**
 
 - [ ] Upload spreadsheet
 - [ ] Run QA
 - [ ] Display results
+- [ ] View new content
+- [ ] Link to affected components
+- [ ] Subset support
 - [ ] Download XSD
 - [ ] Save / reload local release

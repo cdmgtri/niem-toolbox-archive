@@ -6,7 +6,7 @@ import NIEMModel from "niem-model";
 
 import model from "../src/assets/data/niem-5.0-release.json";
 
-let { NIEM, Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty, Component } = NIEMModel;
+let { NIEM, Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } = NIEMModel;
 
 Vue.use(Vuex);
 
@@ -18,7 +18,6 @@ let PropertyInstance = new Property();
 let TypeInstance = new Type();
 let FacetInstance = new Facet();
 let SubPropertyInstance = new SubProperty();
-let ComponentInstance = new Component();
 
 export default new Vuex.Store({
 
@@ -78,11 +77,11 @@ export default new Vuex.Store({
     routes: (state) => {
       return {
         property({userKey, modelKey, releaseKey, prefix, name}) {
-          return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}/${name}`;
+          return `/${userKey}/${modelKey}/${releaseKey}/properties/${prefix}:${name}`;
         },
 
         type({userKey, modelKey, releaseKey, prefix, name}) {
-          return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}/${name}`;
+          return `/${userKey}/${modelKey}/${releaseKey}/types/${prefix}:${name}`;
         },
 
         namespace({userKey, modelKey, releaseKey, prefix}) {
@@ -245,22 +244,31 @@ export default new Vuex.Store({
     },
 
     async load(context) {
+
+      // Set timeout first to allow Vue to load the UI before locking on data-intensive operations
       setTimeout( async function () {
-        await context.dispatch("loadRelease", {userKey: "niem", modelKey: "model", releaseKey: "5.0"});
+
+        let start = Date.now();
+        console.log("LOADING...");
+
+        // Load NIEM data (currently just the 5.0 draft release)
+        await context.state.niem.load(model);
+        console.log(`model loaded in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
+
+        // Extract data from the currently-selected NIEM release
+        await context.dispatch("loadCurrentRelease", {userKey: "niem", modelKey: "model", releaseKey: "5.0"});
+
+        // Mark the release as loaded
+        context.state.storeLoaded = true;
+        console.log(`LOADED RELEASE in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
+
       }, 100);
     },
 
     /**
      * @param {{userKey: string, modelKey: string, releaseKey: string}} options
      */
-    async loadRelease(context, options) {
-
-      console.log("LOADING...");
-
-      let start = Date.now();
-
-      await context.state.niem.load(model);
-      console.log(`model loaded in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
+    async loadCurrentRelease(context, options) {
 
       let release = await context.state.niem.releases.get(options.userKey, options.modelKey, options.releaseKey);
       context.dispatch("setRelease", release);
@@ -291,11 +299,6 @@ export default new Vuex.Store({
 
       let subProperties = await release.subProperties.find();
       context.dispatch("setSubProperties", subProperties);
-
-      // Mark the release as loaded
-      context.state.storeLoaded = true;
-
-      console.log(`LOADED RELEASE in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
 
     }
 
