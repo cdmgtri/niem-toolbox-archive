@@ -6,6 +6,7 @@ import VueWorker from "vue-worker";
 import router from './router';
 import store from './store'
 
+import VueWordCloud from "vuewordcloud";
 import VueClipboard from "vue-clipboard2";
 
 // TODO: Review how best to include these files
@@ -24,6 +25,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueWorker);
 Vue.use(VueClipboard);
+Vue.component(VueWordCloud.name, VueWordCloud);
 
 new Vue({
   router,

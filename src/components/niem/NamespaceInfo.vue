@@ -15,6 +15,9 @@
 
     <div v-if="loaded == true">
 
+      <!-- Word cloud of common property terms -->
+      <word-cloud :properties="properties" label="Common property terms in namespace" :open="true" :prefix="namespace.prefix"/>
+
       <!-- Properties -->
       <object-list :properties="properties" label="Properties" :open="false"/>
 
@@ -39,6 +42,7 @@
 
 import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
+import WordCloud from "../WordCloud.vue";
 
 export default {
 
@@ -54,6 +58,7 @@ export default {
   components: {
     CopySpan,
     FieldValueTable,
+    WordCloud,
     LocalTermTable: () => import("./LocalTermTable.vue"),
     ObjectList: () => import("./ObjectList.vue")
   },

@@ -162,6 +162,10 @@ export default {
       return this.$store.getters.options.subset;
     },
 
+    storeLoaded() {
+      return this.$store.getters.storeLoaded;
+    },
+
     resultsCount() {
       if (this.properties.length > 0) {
         if (this.properties.length == this.filteredProperties.length) {
@@ -175,6 +179,12 @@ export default {
 },
 
   watch: {
+
+    storeLoaded(newValue, oldValue) {
+      if (newValue == true) {
+        this.load();
+      }
+    },
 
     selectedPrefixes(prefixes) {
       this.filteredProperties = this.properties.filter( property => prefixes.includes(property.prefix) );
@@ -278,8 +288,36 @@ export default {
 
     invertOption(option) {
       this.$store.commit("invertOption", option);
+    },
+
+    load() {
+
+      let input = this.$route.query.input || "";
+      let prefixes = (this.$route.query.prefixes || "").split(",");
+
+      if (input) {
+        this.input = input;
+        this.search();
+
+        if (prefixes.length > 0) {
+          this.selectedPrefixes = [];
+        }
+
+        for (let prefix of prefixes) {
+          if (this.resultPrefixes.includes(prefix)) {
+            this.selectedPrefixes.push(prefix);
+          }
+        }
+      }
+
     }
 
+  },
+
+  mounted() {
+    if (this.storeLoaded == true) {
+      this.load();
+    }
   }
 
 }

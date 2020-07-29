@@ -13,6 +13,7 @@ This is a Vue Single-Page Application (SPA) built for improved model management 
 - Sections are grouped under drop-downs to quickly show/hide info without a lot of scrolling
 - Table cells can be clicked to quickly copy the value
 - Tables can be easily copied to Markdown or Excel
+- Namespace word clouds for common property terms
 
 ### Search
 
@@ -63,7 +64,6 @@ npm run deploy
 - [ ] Release page (namespace list)
   - [ ] Namespace metadata
   - [ ] Property, type, and local term counts
-  - [ ] Namespace term cloud
   - [ ] Dependencies
 - [ ] Model term cloud
 
