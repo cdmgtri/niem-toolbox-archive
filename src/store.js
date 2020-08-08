@@ -2,6 +2,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import * as Worker from "./workers/utils.worker";
+
 import NIEMModel from "niem-model";
 
 import model from "../src/assets/data/niem-5.0-release.json";
@@ -245,24 +247,20 @@ export default new Vuex.Store({
 
     async load(context) {
 
-      // Set timeout first to allow Vue to load the UI before locking on data-intensive operations
-      setTimeout( async function () {
+      let start = Date.now();
+      console.log("LOADING...");
 
-        let start = Date.now();
-        console.log("LOADING...");
+      // Load NIEM data (currently just the 5.0 draft release)
+      await Worker.load(context.state.niem, model);
+      console.log(`model loaded in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
 
-        // Load NIEM data (currently just the 5.0 draft release)
-        await context.state.niem.load(model);
-        console.log(`model loaded in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
+      // Extract data from the currently-selected NIEM release
+      await context.dispatch("loadCurrentRelease", {userKey: "niem", modelKey: "model", releaseKey: "5.0"});
 
-        // Extract data from the currently-selected NIEM release
-        await context.dispatch("loadCurrentRelease", {userKey: "niem", modelKey: "model", releaseKey: "5.0"});
+      // Mark the release as loaded
+      context.state.storeLoaded = true;
+      console.log(`LOADED APP in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
 
-        // Mark the release as loaded
-        context.state.storeLoaded = true;
-        console.log(`LOADED RELEASE in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
-
-      }, 100);
     },
 
     /**
@@ -282,22 +280,22 @@ export default new Vuex.Store({
       let releases = await context.state.niem.releases.find();
       context.dispatch("setReleases", releases);
 
-      let namespaces = await release.namespaces.find();
+      let namespaces = await Worker.namespaces(release);
       context.dispatch("setNamespaces", namespaces);
 
-      let properties = await release.properties.find();
+      let properties = await Worker.properties(release);
       context.dispatch("setProperties", properties);
 
-      let types = await release.types.find();
+      let types = await Worker.types(release);
       context.dispatch("setTypes", types);
 
-      let localTerms = await release.localTerms.find();
+      let localTerms = await Worker.localTerms(release);
       context.dispatch("setLocalTerms", localTerms);
 
-      let facets = await release.facets.find();
+      let facets = await Worker.facets(release);
       context.dispatch("setFacets", facets);
 
-      let subProperties = await release.subProperties.find();
+      let subProperties = await Worker.subProperties(release);
       context.dispatch("setSubProperties", subProperties);
 
     }

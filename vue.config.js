@@ -15,5 +15,18 @@ module.exports = {
 
   pwa: {
     name: 'NIEM Toolbox'
+  },
+
+  chainWebpack: config => {
+    config.module
+    .rule("comlink")
+    .test(/\.worker\.js$/i)
+    .use("comlink-loader")
+    .lader("comlink-loader")
+    .tap( options => {
+      return { singleton: true }
+    })
+    .end()
   }
+
 }
