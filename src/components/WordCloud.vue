@@ -21,6 +21,9 @@
 </template>
 
 <script>
+
+import * as Terms from "../workers/terms.worker";
+
 export default {
 
   name: "WordCloud",
@@ -34,8 +37,9 @@ export default {
       type: String,
       required: true
     },
-    prefix: {
-      type: String
+    prefixes: {
+      type: Array,
+      default: () => []
     },
     open: {
       type: Boolean,
@@ -49,6 +53,7 @@ export default {
 
   data() {
     return {
+      /** @type {[String, Number][]} */
       words: [],
       loaded: false
     }
@@ -57,67 +62,16 @@ export default {
   methods: {
 
     search(term) {
-      this.$router.push({path: "/search", query: {input: term, prefixes: this.prefix}});
+      this.$router.push({path: "/search", query: {input: term, prefixes: this.prefixes.join(",")}});
     },
 
-    loadWords() {
-
+    async loadWords() {
       if (this.loaded == true) return;
-
-      // Count each time a term is used in a property name
-      let termInventory = {};
-
-      for (let property of this.properties) {
-        let terms = property.terms;
-        for (let term of terms) {
-          let currentCount = termInventory[term];
-          termInventory[term] = currentCount ? currentCount + 1 : 1;
-        }
-      }
-
-      // Remove common NIEM representation terms
-      delete termInventory["Augmentation"];
-      delete termInventory["Point"];
-      delete termInventory["Association"];
-      delete termInventory["Text"];
-      delete termInventory["Code"];
-      delete termInventory["Date"];
-      delete termInventory["DateTime"];
-      delete termInventory["Identification"];
-      delete termInventory["ID"];
-      delete termInventory["Date"];
-      delete termInventory["Category"];
-      delete termInventory["Description"];
-      delete termInventory["Name"];
-      delete termInventory["Amount"];
-      delete termInventory["Numeric"];
-      delete termInventory["Indicator"];
-      delete termInventory["Abstract"];
-      delete termInventory["Value"];
-      delete termInventory["Quantity"];
-
-
-      // Determine which counts are common enough to include in the results
-      let counts = [];
-
-      for (let term in termInventory) {
-        counts.push(termInventory[term]);
-      }
-
-      // Sort number array descending
-      counts = counts.sort( (a, b) => b - a );
-
-      let maxCount = counts.length > this.max ? counts[this.max] : 2;
-
-
-      // Translate the counts object into an array of arrays: [["term1", 2], ["term2", 5], ...]
-      for (let key of Object.keys(termInventory)) {
-        let count = termInventory[key];
-        if (count >= maxCount) {
-          this.words.push([key, termInventory[key]]);
-        }
-      }
-
+      this.words = await Terms.getCloudWords(this.properties, {
+        maxTerms: 75,
+        dropRepTerms: true,
+        prefixes: this.prefixes
+      });
       this.loaded = true;
     }
 
@@ -135,6 +89,6 @@ export default {
 <style scoped>
 
 div.div-wordCloud {
-  border: 1px solid black;
+  border: 1px solid gainsboro;
 }
 </style>

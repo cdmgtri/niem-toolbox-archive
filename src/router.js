@@ -5,14 +5,11 @@ import Router from 'vue-router';
 import Home from  "./views/Home.vue";
 import Models from "./views/Models.vue";
 import Search from "./views/Search.vue";
-import About from  "./views/About.vue";
-import Version from  "./views/Version.vue";
 import Model from "./views/Model.vue";
 import Release from "./views/Release.vue";
 import Namespace from "./views/Namespace.vue";
 import Property from "./views/Property.vue";
 import Type from "./views/Type.vue";
-import NIEMObject from "./views/NIEMObject.vue";
 
 Vue.use(Router)
 
@@ -27,10 +24,6 @@ export default new Router({
 
     { path: "/search", name: "search", component: Search },
 
-    { path: "/about", name: "about", component: About },
-
-    { path: "/version", name: "version", component: Version },
-
     { path: "/:userKey/:modelKey", name: "model", component: Model },
 
     { path: "/:userKey/:modelKey/:releaseKey", name: "release", component: Release },
@@ -39,7 +32,7 @@ export default new Router({
 
     { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix", component: Namespace },
 
-    { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix/:contents", component: Namespace },
+    // { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix/:contents", component: Namespace },
 
     // { path: "/:userKey/:modelKey/:releaseKey/properties/", name: "properties", component: Properties },
 

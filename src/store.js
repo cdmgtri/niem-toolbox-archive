@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import * as Worker from "./workers/utils.worker";
+import * as Worker from "./workers/index.worker";
 
 import NIEMModel from "niem-model";
 

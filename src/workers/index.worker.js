@@ -1,13 +1,5 @@
 
-import { NIEM, Model, Release, Namespace, LocalTerm, Property, Type, SubProperty, Facet } from "niem-model";
-
-let NIEMInstance = new NIEM();
-let ReleaseInstance = new Release();
-let NamespaceInstance = new Namespace();
-let PropertyInstance = new Property();
-let TypeInstance = new Type();
-let FacetInstance = new Facet();
-let SubPropertyInstance = new SubProperty();
+import { NIEMInstance, ModelInstance, ReleaseInstance, NamespaceInstance, LocalTermInstance, PropertyInstance, TypeInstance, SubPropertyInstance, FacetInstance } from "../assets/js/classes";
 
 /**
  * @param {NIEMInstance} niem

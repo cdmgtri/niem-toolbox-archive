@@ -159,6 +159,7 @@ npm run pm2
 - [ ] Pass in prefix array
 - [ ] Add prefix filter if more than one prefix given
 - [ ] Add colors
+- [ ] Increase padding between terms
 
 **Search**
 
@@ -167,6 +168,7 @@ npm run pm2
 - [ ] Pin searches
 - [ ] Type searches
 - [ ] Results term filter
+- [ ] Sync filtered prefixes with url query parameters
 - [ ] Context search for extensions and roles (e.g., Arrest Date, Victim first name)
 
 **Subsets**

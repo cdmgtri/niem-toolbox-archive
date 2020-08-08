@@ -16,7 +16,7 @@
     <div v-if="loaded == true">
 
       <!-- Word cloud of common property terms -->
-      <word-cloud :properties="properties" label="Common property terms in namespace" :open="true" :prefix="namespace.prefix"/>
+      <word-cloud :properties="properties" label="Common property terms in namespace" :open="true" :prefixes="[namespace.prefix]"/>
 
       <!-- Properties -->
       <object-list :properties="properties" label="Properties" :open="false"/>
@@ -44,13 +44,15 @@ import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
 import WordCloud from "../WordCloud.vue";
 
+// import { Re } from "niem-model";
+
 export default {
 
   name: "NamespaceInfo",
 
   props: {
     namespace: {
-      loaded: false,
+      required: false,
       type: Object
     }
   },
@@ -64,6 +66,7 @@ export default {
   },
 
   data() {
+    this.namespace
     return {
       loaded: false,
       properties: [],
