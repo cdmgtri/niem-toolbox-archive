@@ -1,15 +1,7 @@
 
 <template>
   <div>
-    <p>The NIEM Assistant is part of a multi-year effort designed to provide better modeling and tool support for NIEM practitioners.  Features will be added incrementally.  The key goal is to support common processes for NIEM model and message development.</p>
-
-    <div class="alert alert-info alert-dismissible fade show">
-      <h5>Latest Release: January 26, 2020</h5>
-      <p>Initial landing page mockup.  See <router-link to="/version">Version History</router-link> for more.</p>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+    <p>NIEM Toolbox is a growing collection of capabilities to support NIEM modeling and development work.</p>
 
     <div class="card-group">
 

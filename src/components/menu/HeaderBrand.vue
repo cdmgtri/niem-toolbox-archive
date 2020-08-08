@@ -8,7 +8,7 @@
 
     <!-- Tool name -->
     <div id="site-name">
-      <router-link to="/" class="active">Assistant</router-link>
+      <router-link to="/" class="active">Toolbox</router-link>
     </div>
   </div>
 </template>

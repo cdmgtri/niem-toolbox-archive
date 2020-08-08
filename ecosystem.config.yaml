@@ -1,0 +1,4 @@
+apps:
+  - script: ./node_modules/@vue/cli-service/bin/vue-cli-service.js
+    name: niem-toolbox
+    args: serve

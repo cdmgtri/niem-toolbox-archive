@@ -1,5 +1,5 @@
 
-import { Component, Property } from "niem-model";
+import { Component, Property, Type } from "niem-model";
 
 let PropertyInstance = new Property();
 let ComponentInstance = new Component();
@@ -27,9 +27,9 @@ class Utils {
    * @param {string} input
    */
   static searchProperties(properties, field, input) {
-    if (!input) return properties;
+    if (input == null) return properties;
     let regex = input.trim().toLowerCase().replace(/\*/g, ".*").replace(/ /g, ".*");
-    return properties.filter( property => property[field].toLowerCase().match(regex))
+    return properties.filter( property => property[field] && property[field].toLowerCase().match(regex))
   }
 
   /**

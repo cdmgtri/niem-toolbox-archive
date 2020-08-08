@@ -14,6 +14,6 @@ module.exports = {
   },
 
   pwa: {
-    name: 'NIEM Assistant'
+    name: 'NIEM Toolbox'
   }
 }

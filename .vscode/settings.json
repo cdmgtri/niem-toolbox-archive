@@ -2,10 +2,15 @@
   "eslint.enable": true,
   "cSpell.words": [
     "autofocus",
+    "cadetblue",
+    "comlink",
+    "devtool",
     "keydown",
     "keyup",
+    "monit",
     "onclick",
     "onkeyup",
-    "topright"
+    "topright",
+    "vuewordcloud"
   ]
 }

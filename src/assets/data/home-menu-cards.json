@@ -1,92 +1,20 @@
 
 [
   {
-    "title": "Explore NIEM and community content",
-    "text": "NIEM defines reusable data components across Core and multiple domains.  Community components can be leveraged as well.",
+    "title": "Explore content",
+    "text": "NIEM defines reusable data components across Core and multiple domains.",
     "img": {
       "src": "niem.png",
       "alt": "NIEM namespace diagram"
     },
     "links": [
       {
-        "text": "View common NIEM components",
-        "route": "explore/demo",
-        "disabled": true
-      },
-      {
-        "text": "Build new components",
-        "route": "explore/build",
-        "disabled": true
+        "text": "Browse components",
+        "route": "/browse"
       },
       {
         "text": "Search components",
-        "route": "explore/search",
-        "disabled": false
-      },
-      {
-        "text": "View stats and dependencies",
-        "route": "explore/stats",
-        "disabled": true
-      }
-    ]
-  },
-  {
-    "title": "Work with messages",
-    "text": "NIEM messages leverage a common data model and architecture to promote consistency and reuse for better information sharing.",
-    "img": {
-      "src": "iepdlifecycle01.png",
-      "alt": "IEPD life cycle stages"
-    },
-    "links": [
-      {
-        "text": "View a demo message description",
-        "route": "message/demo",
-        "disabled": true
-      },
-      {
-        "text": "Build message artifacts",
-        "route": "message/build",
-        "disabled": true
-      },
-      {
-        "text": "Validate message artifacts",
-        "route": "message/validate",
-        "disabled": true
-      },
-      {
-        "text": "Get implementation support",
-        "route": "message/implementer",
-        "disabled": true
-      }
-    ]
-  },
-  {
-    "title": "Work with models",
-    "text": "Communities of interest can extend NIEM releases with their own content, which can be reused consistently across related messages.",
-    "img": {
-      "src": "eiem.png",
-      "alt": "Architecture with a NIEM release, an EIEM, and IEPDs"
-    },
-    "links": [
-      {
-        "text": "View a demo model",
-        "route": "model/demo",
-        "disabled": true
-      },
-      {
-        "text": "Build a model",
-        "route": "model/build",
-        "disabled": true
-      },
-      {
-        "text": "Validate a model",
-        "route": "model/validate",
-        "disabled": true
-      },
-      {
-        "text": "Learn more about EIEMs",
-        "route": "model/learn",
-        "disabled": true
+        "route": "/search"
       }
     ]
   }

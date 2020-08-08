@@ -21,6 +21,7 @@ import "./assets/styles/navbar.css";
 import './registerServiceWorker'
 
 Vue.config.productionTip = false;
+Vue.config.performance = true;
 
 Vue.use(BootstrapVue);
 Vue.use(VueWorker);
