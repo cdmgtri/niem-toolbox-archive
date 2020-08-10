@@ -8,26 +8,22 @@
     <!-- Type details -->
     <field-value-table :object="details" label="More details" :open="false"/>
 
-    <div v-if="loaded">
+    <!-- Namespace -->
+    <object-row v-if="namespace" :namespace="namespace" label="Namespace" :spacer="true"/>
 
-      <!-- Namespace -->
-      <object-row :namespace="namespace" label="Namespace" :spacer="true"/>
+    <!-- Parents -->
+    <object-list v-if="parents" :types="parents" label="Parent types" :parentXPath="xpath"/>
 
-      <!-- Parents -->
-      <object-list :types="parents" label="Parent types" :parentXPath="xpath"/>
+    <!-- Facets -->
+    <facet-table v-if="facets" :facets="facets"/>
 
-      <!-- Facets -->
-      <facet-table :facets="facets"/>
+    <!-- Inherited and contained properties -->
+    <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
 
-      <!-- Inherited and contained properties -->
-      <contained-properties-list v-if="type" :type="type" :parentXPath="xpath"/>
+    <!-- Full sub-property for each type that contains this property -->
+    <sub-property-table :type="type" :spacer="true"/>
 
-      <!-- Full sub-property for each type that contains this property -->
-      <sub-property-table :typeQName="type.qname"/>
-
-      <object-list :properties="properties" label="Properties of this type"/>
-
-    </div>
+    <object-list v-if="properties" :properties="properties" label="Properties of this type"/>
 
   </div>
 </template>
@@ -38,13 +34,17 @@ import { Component } from "niem-model";
 import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
 
+import { Type } from "niem-model";
+import { NamespaceInstance, PropertyInstance, TypeInstance, FacetInstance } from "../../utils/index";
+
 export default {
 
   name: "TypeInfo",
 
   props: {
+    /** @type {TypeInstance} */
     type: {
-      type: Object,
+      type: Type,
     },
 
     xpath: {
@@ -65,16 +65,25 @@ export default {
 
   data() {
     return {
-      loaded: false,
+      /** @type {NamespaceInstance} */
       namespace: undefined,
-      parents: [],
-      facets: [],
-      properties: [],
+
+      /** @type {TypeInstance[]} */
+      parents: undefined,
+
+      /** @type {FacetInstance[]} */
+      facets: undefined,
+
+      /** @type {PropertyInstance[]} */
+      properties: undefined,
     }
   },
 
   computed: {
 
+    /**
+     * @returns {Object}
+     */
     details() {
       return {
         "Name": this.type.name,
@@ -85,12 +94,19 @@ export default {
 
   },
 
-  async mounted() {
-    this.namespace = await this.type.namespace();
-    this.parents = await this.type.parents();
-    this.facets = await this.type.contents.facets();
-    this.properties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
-    this.loaded = true;
+  methods: {
+
+    async load() {
+      this.namespace = await this.type.namespace();
+      this.parents = await this.type.parents();
+      this.facets = await this.type.contents.facets();
+      this.properties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
+    }
+
+  },
+
+  mounted() {
+    this.load();
   }
 
 }

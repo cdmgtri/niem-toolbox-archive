@@ -10,7 +10,7 @@
       <span>NIEM Release</span>
     </b-alert>
 
-    <div v-if="namespaces">
+    <div v-if="namespaces.length > 0">
       <b-table :items="namespaces" :fields="fields">
 
         <!-- Namespace prefix as hyperlink column -->
@@ -20,7 +20,7 @@
 
         <!-- More info column -->
         <template v-slot:cell(more)="row">
-          <button class="btn btn-outline-secondary btn-sm" @click="row.toggleDetails">
+          <button class="btn btn-outline-secondary btn-sm" @click="toggleRow(row, row.item)">
             <i v-if="!row.detailsShowing" class="fa fa-chevron-circle-down"/>
             <i v-else class="fa fa-chevron-circle-up"/>
           </button>
@@ -28,8 +28,8 @@
 
         <!-- Additional IEPD metadata for row -->
         <template v-slot:row-details="row">
-          <b-card>
-            <stacked-object-table :object="summary(row.item)" :htmlFields="['uri', 'website', 'updateURI']"/>
+          <b-card v-if="namespaceSummaries[row.item.prefix]">
+            <stacked-object-table :object="namespaceSummaries[row.item.prefix]" :htmlFields="['uri', 'website', 'updateURI']"/>
           </b-card>
         </template>
 
@@ -40,7 +40,7 @@
 
 <script>
 
-import Utils from "../utils";
+import { breadcrumbs, data } from "../utils/index";
 import StackedObjectTable from "../components/StackedObjectTable.vue";
 
 export default {
@@ -59,42 +59,64 @@ export default {
       modelKey,
       releaseKey,
 
-      breadcrumb: Utils.getBreadcrumb({userKey, modelKey, releaseKey}),
+      namespaces: [],
+
+      breadcrumb: breadcrumbs(this.$route),
 
       fields: [
         { key: "prefix", sortable: true },
         { key: "style", sortable: true },
         { key: "definition" },
         { key: "more" },
-      ]
+      ],
+
+      namespaceSummaries: {}
 
     }
   },
-  computed: {
-    namespaces() {
-      return this.$store.state.namespaces;
-    }
-  },
+
   methods: {
-    summary(namespace) {
-      let properties = this.$store.getters.properties(namespace.prefix);
-      let types = this.$store.getters.types(namespace.prefix);
-      let localTerms = this.$store.getters.localTerms(namespace.prefix);
 
-      return {
+    async toggleRow(row, namespace) {
+      // Open or close the row
+      row.toggleDetails();
+      await this.loadNamespaceSummary(namespace);
+    },
+
+    async loadNamespaceSummary(namespace) {
+
+      if (this.namespaceSummaries[namespace.prefix] != undefined) return;
+
+      let criteria = {...this.$route.params, prefix: namespace.prefix};
+
+      let properties = await data.properties.find(criteria);
+      let types = await data.types.find(criteria);
+      let localTerms = await data.localTerms.find(criteria);
+
+      let summary = {
         prefix: namespace.prefix,
         "file name": namespace.fileName,
         definition: namespace.definition,
         uri: namespace.uri,
-        "property count": properties.length,
-        "type count": types.length,
-        "local term count": localTerms.length,
+        "# properties": properties.length,
+        "# types": types.length,
+        "# local terms": localTerms.length,
         ...namespace.origin
       }
+
+      this.$set(this.namespaceSummaries, namespace.prefix, summary);
+
     },
+
     namespaceLink(prefix) {
-      return `/${this.userKey}/${this.modelKey}/${this.releaseKey}/namespaces/${prefix}/`;
+      return data.namespaces.route({...this.$route.params, prefix});
     }
+
+  },
+
+  async mounted() {
+    this.namespaces = await data.namespaces.find(this.$route.params);
   }
+
 }
 </script>

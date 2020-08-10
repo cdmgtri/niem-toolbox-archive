@@ -16,7 +16,7 @@
 
 <script>
 
-import Utils from "../../utils";
+import { data } from "../../utils/index";
 
 export default {
   name: "PropertyRowHeader",
@@ -33,8 +33,8 @@ export default {
     let { userKey, modelKey, releaseKey } = this.property;
 
     return {
-      propertyRoute: Utils.getPropertyRoute(this.property),
-      typeRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.property.typePrefix, name: this.property.typeName})
+      propertyRoute: data.properties.route(this.property),
+      typeRoute: data.types.route({userKey, modelKey, releaseKey, qname: this.property.typeQName})
     }
 
   }

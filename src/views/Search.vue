@@ -14,7 +14,7 @@
         <b-input-group size="sm">
           <b-form-input
             v-model="input" @change="search" @keydown.esc="reset"
-            size="sm" placeholder="Search..." debounce="800" trim :autofocus="true" ref="input"/>
+            placeholder="Search..." debounce="800" trim :autofocus="true" ref="input"/>
           <b-input-group-append>
             <b-button @click="reset">x</b-button>
           </b-input-group-append>
@@ -27,11 +27,14 @@
           <summary>Advanced</summary>
           <br/>
 
+          <b-form-checkbox v-model="searchDefinitions">Include definitions in search?</b-form-checkbox>
+          <br/>
+
           <!-- Data type search box -->
           <b-input-group size="sm">
             <b-form-input
               v-model="dataTypeInput" @change="search" @keydown.esc="dataTypeInput=''"
-              size="sm" placeholder="Filter data types..." debounce="800" trim ref="dataTypeInput"/>
+              size="sm" placeholder="Filter data types..." debounce="500" trim ref="dataTypeInput"/>
             <b-input-group-append>
               <b-button @click="dataTypeInput=''">x</b-button>
             </b-input-group-append>
@@ -115,8 +118,8 @@
 
 <script>
 
-import Utils from "../utils";
 import ObjectRow from "../components/niem/ObjectRow.vue";
+import { data, PropertyInstance } from "../utils/index";
 import { Property } from "niem-model";
 
 export default {
@@ -137,10 +140,12 @@ export default {
       input: "",
       dataTypeInput: "",
       containerTypeInput: "",
+      searchDefinitions: false,
 
       showResults: false,
       sortOrder: "core",
 
+      /** @type {PropertyInstance[]} */
       properties: [],
       filteredProperties: [],
       resultPrefixes: [],
@@ -154,19 +159,25 @@ export default {
 
   computed: {
 
+    /**
+     * @returns {Boolean}
+     */
     map() {
       return this.$store.getters.options.map;
     },
 
+    /**
+     * @returns {Boolean}
+     */
     subset() {
       return this.$store.getters.options.subset;
     },
 
-    storeLoaded() {
-      return this.$store.getters.storeLoaded;
-    },
-
+    /**
+     * @returns {String}
+     */
     resultsCount() {
+
       if (this.properties.length > 0) {
         if (this.properties.length == this.filteredProperties.length) {
           return this.properties.length;
@@ -180,15 +191,21 @@ export default {
 
   watch: {
 
-    storeLoaded(newValue, oldValue) {
-      if (newValue == true) {
-        this.load();
-      }
-    },
-
     selectedPrefixes(prefixes) {
       this.filteredProperties = this.properties.filter( property => prefixes.includes(property.prefix) );
       this.sort();
+    },
+
+    input(newValue, oldValue) {
+      newValue ? this.search() : this.reset();
+    },
+
+    dataTypeInput(newValue, oldValue) {
+      this.search();
+    },
+
+    searchDefinitions(newValue, oldValue) {
+      this.search();
     }
 
   },
@@ -210,7 +227,7 @@ export default {
       this.sortOrder = "core";
     },
 
-    search(event) {
+    async search() {
 
       if (this.input == "" && this.dataTypeInput == "" && this.containerTypeInput == "") {
         this.reset();
@@ -223,8 +240,15 @@ export default {
 
       this.showResults = true;
 
-      this.properties = Utils.searchProperties(this.$store.getters.properties(), "qname", this.input);
-      this.properties = Utils.searchProperties(this.properties, "typeQName", this.dataTypeInput);
+      // Search properties by search terms in input field
+      this.properties = await data.properties.search(null, "qname", this.input, this.searchDefinitions);
+
+      if (this.dataTypeInput) {
+        // Filter results by data type input field
+        this.properties = await data.properties.search(this.properties, "typeQName", this.dataTypeInput);
+      }
+
+      // Make a copy of the results so filters can be removed later without having to rerun the full search
       this.filteredProperties = this.properties.filter( property => true );
 
       // Sort results
@@ -273,7 +297,7 @@ export default {
 
     sortCore() {
       this.sortOrder = "core";
-      this.filteredProperties = this.filteredProperties.sort(Utils.sortComponentsCoreFirst);
+      this.filteredProperties = this.filteredProperties.sort(Property.sortByCoreQName);
     },
 
     sortQName() {
@@ -288,35 +312,27 @@ export default {
 
     invertOption(option) {
       this.$store.commit("invertOption", option);
-    },
-
-    load() {
-
-      let input = this.$route.query.input || "";
-      let prefixes = (this.$route.query.prefixes || "").split(",");
-
-      if (input) {
-        this.input = input;
-        this.search();
-
-        if (prefixes.length > 0) {
-          this.selectedPrefixes = [];
-        }
-
-        for (let prefix of prefixes) {
-          if (this.resultPrefixes.includes(prefix)) {
-            this.selectedPrefixes.push(prefix);
-          }
-        }
-      }
-
     }
 
   },
 
-  mounted() {
-    if (this.storeLoaded == true) {
-      this.load();
+  async mounted() {
+    let input = this.$route.query.input || "";
+    let prefixes = (this.$route.query.prefixes || "").split(",");
+
+    if (input) {
+      this.input = input;
+      await this.search();
+
+      if (prefixes.length > 0) {
+        this.selectedPrefixes = [];
+      }
+
+      for (let prefix of prefixes) {
+        if (this.resultPrefixes.includes(prefix)) {
+          this.selectedPrefixes.push(prefix);
+        }
+      }
     }
   }
 
@@ -333,7 +349,7 @@ div.property-summary {
   display: inline;
 }
 
-button {
+button.btn-link {
   padding: 6px !important;
 }
 

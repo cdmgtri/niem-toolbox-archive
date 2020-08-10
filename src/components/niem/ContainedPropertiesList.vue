@@ -46,8 +46,6 @@
 
 <script>
 
-import Utils from "../../utils";
-
 export default {
 
   name: "ContainedPropertiesList",

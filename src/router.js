@@ -28,7 +28,7 @@ export default new Router({
 
     { path: "/:userKey/:modelKey/:releaseKey", name: "release", component: Release },
 
-    // { path: "/:userKey/:modelKey/:releaseKey/namespaces", name: "namespaces", component: Namespaces },
+    { path: "/:userKey/:modelKey/:releaseKey/namespaces", name: "namespaces", component: Release },
 
     { path: "/:userKey/:modelKey/:releaseKey/namespaces/:prefix", component: Namespace },
 

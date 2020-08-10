@@ -9,24 +9,26 @@ module.exports = {
     }
   },
 
-  configureWebpack: {
-    devtool: 'source-map'
+  configureWebpack: (config) => {
+    config.devtool = "source-map";
+    config.module.rules = [
+      {
+        test: /\.worker\.js$/i,
+        use: [
+          {
+            loader: "comlink-loader",
+            options: {
+              singleton: true
+            }
+          }
+        ]
+      },
+      ...config.module.rules
+    ]
   },
 
   pwa: {
     name: 'NIEM Toolbox'
-  },
-
-  chainWebpack: config => {
-    config.module
-    .rule("comlink")
-    .test(/\.worker\.js$/i)
-    .use("comlink-loader")
-    .lader("comlink-loader")
-    .tap( options => {
-      return { singleton: true }
-    })
-    .end()
   }
 
 }

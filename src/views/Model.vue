@@ -2,7 +2,7 @@
 <template>
   <div>
     <b-breadcrumb :items="breadcrumb"/>
-    <div v-if="releases">
+    <div>
 
       <h1>{{ userKey}} {{ modelKey }}</h1>
 
@@ -11,13 +11,14 @@
           <b-link :to="releaseLink(release.releaseKey)">Release {{ release.releaseKey }}</b-link>
         </b-list-group-item>
       </b-list-group>
+
     </div>
   </div>
 </template>
 
 <script>
 
-import Utils from "../utils";
+import { breadcrumbs, data } from "../utils/index";
 
 export default {
 
@@ -29,18 +30,21 @@ export default {
     return {
       userKey,
       modelKey,
-      breadcrumb: Utils.getBreadcrumb({userKey, modelKey}),
+      breadcrumb: breadcrumbs(this.$route),
+      releases: undefined
     }
   },
-  computed: {
-    releases() {
-      return this.$store.state.releases;
-    }
-  },
+
   methods: {
     releaseLink(releaseKey) {
       return `/${this.userKey}/${this.modelKey}/${releaseKey}/`;
     }
+  },
+
+  async mounted() {
+    this.releases = await data.releases.find(this.$route.params);
   }
+
 }
+
 </script>

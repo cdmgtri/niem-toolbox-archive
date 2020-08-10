@@ -20,6 +20,7 @@ This is a Vue Single-Page Application (SPA) built for improved model management 
 - Keyword property searches
 - Include a namespace prefix (e.g., "nc:") in the search box to restrict results by namespace
 - Search or filter by property type keywords
+- Include definitions in search
 - Filter results by namespace prefix
 - Saves recent searches
 
@@ -28,6 +29,7 @@ This is a Vue Single-Page Application (SPA) built for improved model management 
 - Enable in the Search Results panel for mapping support
 - Navigating through the search panel maintains track of the followed XPath for better mapping details
 - Copy button on each property to copy the `XPath`, `Prefix`, `Property Name`, `Definition`, `Qualified Type`, and `Substitution Group` fields for Excel
+
 
 ## Getting started
 
@@ -57,7 +59,6 @@ npm run pm2
 
 ## Roadmap
 
-- [ ] Offload expensive non-UI functions to web workers
 - [ ] Support multiple releases
 - [ ] Add release migration information
 - [ ] Add release QA
@@ -67,17 +68,6 @@ npm run pm2
 
 ## TO DO
 
-**App**
-
-- [ ] Update app name
-- [ ] Update home page
-
-**Web workers**
-
-- [ ] Implement comlink-loader
-- [ ] Move load function to web worker
-- [ ] Move non-UI functions to web workers
-
 **Multi-release support**
 
 - [ ] Script to copy over release JSON data
@@ -85,6 +75,8 @@ npm run pm2
 - [ ] User-selected default release
 - [ ] User-selected releases to load
 - [ ] Visual to indicate user has navigated to non-default release
+
+**Clean up**
 
 **NIEM Components**
 
@@ -135,6 +127,7 @@ npm run pm2
 
 **App**
 
+- [ ] Show timeline view (see [Bootsnipp template](https://bootsnipp.com/snippets/xrKXW)) of release history
 - [ ] Pin and cache items
 - [ ] Fix xpath word wrap
 - [ ] Add pop-up close buttons to close current details for long lists without a lot of scrolling (e.g., Person)
@@ -151,19 +144,14 @@ npm run pm2
 
 **Namespace**
 
-- [ ] Add dependencies
 - [ ] Add dependents
 
 **WordCloud component**
 
-- [ ] Pass in prefix array
 - [ ] Add prefix filter if more than one prefix given
-- [ ] Add colors
-- [ ] Increase padding between terms
 
 **Search**
 
-- [ ] Search terms in any order
 - [ ] Cache and reload recent searches
 - [ ] Pin searches
 - [ ] Type searches

@@ -1,44 +1,53 @@
 
 <template>
-  <b-card v-if="items.length > 0">
-    <copy-table :items="items" :fields="fields" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
-      <span v-if="subProperty">
-        <!-- Type link -->
-        <b-link :to="typeRoute"><strong>{{ typeQName }}</strong></b-link>
+  <div>
+    <b-card v-if="items.length > 0">
+      <copy-table :items="items" :fields="fields" :open="false" :spacer="false" :rowClassFunction="rowClassFunction">
+        <span v-if="subProperty">
+          <!-- Type link -->
+          <b-link :to="typeRoute"><strong>{{ type.qname }}</strong></b-link>
 
-        <!-- Property link -->
-        <span> - </span>
-        <b-link :to="propertyRoute">{{ propertyQName }}</b-link>
+          <!-- Property link -->
+          <span> - </span>
+          <b-link :to="propertyRoute">{{ property.qname }}</b-link>
 
-        <!-- (min occurs, max occurs) -->
-        <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
-      </span>
+          <!-- (min occurs, max occurs) -->
+          <small> ({{ subProperty.min }}, {{ subProperty.max}})</small>
+        </span>
 
-      <span v-else>
-        <span>Properties (alternate table format) in type <strong>{{ typeQName }}</strong></span>
-      </span>
-    </copy-table>
-  </b-card>
+        <span v-else>
+          <span>Properties (alternate table format) in type <strong>{{ type.qname }}</strong></span>
+        </span>
+      </copy-table>
+    </b-card>
+    <br v-if="spacer==true"/>
+  </div>
 </template>
 
 <script>
 
-import Utils from "../../utils";
+import { data } from "../../utils/index";
 import CopyTable from "../CopyTable.vue";
+import { Property, Type } from "niem-model";
 
 export default {
 
   name: "SubPropertyTable",
 
   props: {
-    typeQName: {
-      type: String,
+    type: {
+      type: Type,
       required: true
     },
 
-    propertyQName: {
-      type: String,
+    property: {
+      type: Property,
       required: false
+    },
+
+    spacer: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -48,31 +57,24 @@ export default {
 
   data() {
 
-    let property = undefined;
     let propertyRoute = undefined;
     let subProperty = undefined;
 
-    if (this.propertyQName) {
-      property = this.$store.getters.property(this.propertyQName);
-      propertyRoute = Utils.getPropertyRoute(property);
-      subProperty = this.$store.getters.subProperty(this.typeQName, this.propertyQName);
+    if (this.property) {
+      propertyRoute = data.properties.route(this.property);
     }
 
-    let type = this.$store.getters.type(this.typeQName);
-
-    let { userKey, modelKey, releaseKey } = type;
+    let { userKey, modelKey, releaseKey } = this.type;
 
     return {
       userKey,
       modelKey,
       releaseKey,
 
-      property,
-      type,
-      subProperty,
-      subProperties: this.$store.getters.subProperties(undefined, this.typeQName),
+      subProperty: undefined,
+      items: [],
 
-      typeRoute: Utils.getTypeRoute(type),
+      typeRoute: data.types.route(this.type),
       propertyRoute,
 
       fields: [
@@ -85,25 +87,10 @@ export default {
     }
   },
 
-  computed: {
-
-    items() {
-      return this.subProperties.map( subProperty => {
-        return {
-          "Type": subProperty.typeQName,
-          "Property": subProperty.propertyQName,
-          "Min": subProperty.min,
-          "Max": subProperty.max
-        }
-      })
-    }
-
-  },
-
   methods: {
 
     rowClassFunction(item, type) {
-      if (item.Property == this.propertyQName) return "table-info";
+      if (this.property && item.Property == this.property.qname) return "table-info";
       return "";
     },
 
@@ -121,35 +108,57 @@ export default {
     },
 
     getPropertyRoute(qname) {
-      let [prefix, name] = qname.split(":");
-      return Utils.getPropertyRoute({
+      return data.properties.route({
         userKey: this.userKey,
         modelKey: this.modelKey,
         releaseKey: this.releaseKey,
-        prefix,
-        name
+        qname
       });
     },
 
     getTypeRoute(qname) {
-      let [prefix, name] = qname.split(":");
-      return Utils.getTypeRoute({
+      return data.types.route({
         userKey: this.userKey,
         modelKey: this.modelKey,
         releaseKey: this.releaseKey,
-        prefix,
-        name
+        qname
       });
     },
 
     rowClass(subProperty, type) {
-      if (subProperty.propertyQName == this.propertyQName) return "table-secondary";
+      if (subProperty.propertyQName == this.property.qname) return "table-secondary";
     }
 
   },
 
   async mounted() {
-    // this.type = await this.$store.getters.type(this.typeQName);
+
+    if (this.property) {
+      this.subProperty = await data.subProperties.get({
+        userKey: this.property.userKey,
+        modelKey: this.property.modelKey,
+        releaseKey: this.property.releaseKey,
+        typeQName: this.type.qname,
+        propertyQName: this.property.qname
+      });
+    }
+
+    let subProperties = await data.subProperties.find({
+      userKey: this.type.userKey,
+      modelKey: this.type.modelKey,
+      releaseKey: this.type.releaseKey,
+      typeQName: this.type.qname
+    });
+
+    this.items = subProperties.map( subProperty => {
+      return {
+        "Type": subProperty.typeQName,
+        "Property": subProperty.propertyQName,
+        "Min": subProperty.min,
+        "Max": subProperty.max
+      }
+    });
+
   }
 
 }

@@ -8,7 +8,7 @@
 
 <script>
 
-import Utils from "../../utils";
+import { data } from "../../utils/index";
 
 export default {
   name: "NamespaceRowHeader",
@@ -23,7 +23,7 @@ export default {
   data() {
 
     return {
-      namespaceRoute: Utils.getNamespaceRoute(this.namespace),
+      namespaceRoute: data.namespaces.route(this.namespace),
     }
 
   }

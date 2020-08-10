@@ -37,7 +37,7 @@
 <script>
 
 import { mapGetters } from "vuex";
-import Utils from "../../utils";
+import { updateXPath } from "../../utils/index";
 import CopyButton from "../CopyButton.vue";
 import PropertyRowHeader from "./PropertyRowHeader.vue";
 import TypeRowHeader from "./TypeRowHeader.vue";
@@ -86,7 +86,7 @@ export default {
 
     return {
       load: false,
-      xpath: Utils.updateXPath(this.parentXPath, this.property),
+      xpath: updateXPath(this.parentXPath, this.property),
     }
   },
 

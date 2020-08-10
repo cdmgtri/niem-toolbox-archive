@@ -1,94 +1,42 @@
 
 <template>
-  <div v-if="loaded">
+  <div>
     <b-breadcrumb :items="breadcrumb"/>
-    <slot v-bind:namespace="namespace" v-bind:property="property" v-bind:type="type"/>
+    <slot v-if="loaded" v-bind:namespace="namespace" v-bind:property="property" v-bind:type="type"/>
   </div>
 </template>
 
 <script>
 
-import { mapGetters } from "vuex";
-
-import Utils from "../utils";
+import { breadcrumbs, data } from "../utils/index";
 
 export default {
 
   name: "NIEMObject",
 
   data() {
-
-    let { userKey, modelKey, releaseKey, prefix, qname } = this.$route.params;
-
-    /** @type {"Property"|"Type"|"Namespace"} */
-    let label = "";
-
-    if (this.$route.path.includes("properties")) {
-      label = "Property";
-    }
-    else if (this.$route.path.includes("types")) {
-      label = "Type";
-    }
-    else if (this.$route.path.includes("namespaces")) {
-      label = "Namespace";
-    }
-
     return {
       loaded: false,
       property: undefined,
       type: undefined,
       namespace: undefined,
-      prefix,
-      label,
-      qname,
-      xpath: "",
-      breadcrumb: Utils.getBreadcrumb(this.$route.params, label)
+      breadcrumb: breadcrumbs(this.$route)
     }
   },
 
-  computed: {
+  async mounted() {
 
-    ...mapGetters(["storeLoaded"]),
-
-  },
-
-  watch: {
-
-    /**
-     * Load information about this property once the store has finished loading the release
-     */
-    storeLoaded(newValue, oldValue) {
-      if (oldValue == false && newValue == true) {
-        this.load();
-      }
+    if (this.$route.path.includes("properties")) {
+      this.property = await data.properties.get(this.$route.params);
+    }
+    else if (this.$route.path.includes("types")) {
+      this.type = await data.types.get(this.$route.params);
+    }
+    else if (this.$route.path.includes("namespaces")) {
+      this.namespace = await data.namespaces.get(this.$route.params);
     }
 
-  },
-
-  methods: {
-
-    async load() {
-      if (this.label == "Property") {
-        this.property = this.$store.getters.property(this.qname);
-        this.xpath = Utils.updateXPath("", this.property);
-      }
-      else if (this.label == "Type") {
-        this.type = this.$store.getters.type(this.qname);
-        this.xpath = Utils.updateXPath("", this.type);
-      }
-      else if (this.label == "Namespace") {
-        this.namespace = this.$store.getters.namespace(this.prefix);
-      }
-
-      this.loaded = true;
-    }
-
-  },
-
-  async created() {
-    if (this.storeLoaded == true) {
-      await this.load();
-    }
+    this.loaded = true;
   }
 
 }

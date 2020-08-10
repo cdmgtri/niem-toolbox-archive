@@ -13,27 +13,52 @@
     <!-- Namespace source -->
     <field-value-table v-if="source" :object="source" label="Source" :links="[]"/>
 
-    <div v-if="loaded == true">
+    <!-- Word cloud of common property terms -->
+    <word-cloud v-if="properties" :properties="properties" label="Common property terms in namespace" :open="true" :prefixes="[namespace.prefix]"/>
 
-      <!-- Word cloud of common property terms -->
-      <word-cloud :properties="properties" label="Common property terms in namespace" :open="true" :prefixes="[namespace.prefix]"/>
+    <!-- Properties -->
+    <object-list v-if="properties" :properties="properties" label="Properties" :open="false"/>
 
-      <!-- Properties -->
-      <object-list :properties="properties" label="Properties" :open="false"/>
+    <!-- Types -->
+    <object-list v-if="types" :types="types" label="Types" :open="false"/>
 
-      <!-- Types -->
-      <object-list :types="types" label="Types" :open="false"/>
+    <!-- Local Terms -->
+    <local-term-table v-if="localTerms" :localTerms="localTerms" :open="false"/>
 
-      <!-- Local Terms -->
-      <local-term-table :localTerms="localTerms" :open="false"/>
+    <details v-if="dependents.count > 0">
+      <summary>
+        <h4 class="section">
+          <span>Dependents on this namespace </span>
+          <b-badge variant="info" pill>{{ dependents.count }}</b-badge>
+        </h4>
+      </summary>
 
-      <!-- TODO: Dependents (used by other namespaces) -->
+      <b-card>
 
+        <!-- Dependent substitutions -->
+        <object-list v-if="dependents.substitutions" :properties="dependents.substitutions" label="Dependent substitution properties" :open="false"/>
 
-      <!-- TODO: Dependencies (uses of other namespaces) -->
+        <!-- Dependent data properties -->
+        <object-list v-if="dependents.dataProperties" :properties="dependents.dataProperties" label="Dependent data properties" :open="false"/>
 
+        <!-- Dependent child types -->
+        <object-list v-if="dependents.childTypes" :types="dependents.childTypes" label="Dependent child types" :open="false"/>
 
-    </div>
+        <!-- TODO: Refactor into a subProperty table -->
+        <details v-if="dependents.subProperties">
+          <summary>
+            <h4 class="section">
+              <span>Dependent container types </span>
+              <b-badge variant="info" pill>{{ dependents.subProperties.length }}</b-badge>
+            </h4>
+          </summary>
+          <b-table :items="dependents.subProperties" :fields="['typeQName', 'propertyQName', 'min', 'max']"/>
+        </details>
+
+      </b-card>
+    </details>
+
+    <!-- TODO: Dependencies (uses of other namespaces) -->
 
   </div>
 </template>
@@ -44,16 +69,18 @@ import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
 import WordCloud from "../WordCloud.vue";
 
-// import { Re } from "niem-model";
+import { Namespace } from "niem-model";
+import { data, NamespaceInstance, PropertyInstance, TypeInstance, LocalTermInstance } from "../../utils/index";
 
 export default {
 
   name: "NamespaceInfo",
 
   props: {
+    /** @type {NamespaceInstance} */
     namespace: {
       required: false,
-      type: Object
+      type: Namespace
     }
   },
 
@@ -66,17 +93,32 @@ export default {
   },
 
   data() {
-    this.namespace
     return {
-      loaded: false,
-      properties: [],
-      types: [],
-      localTerms: [],
+
+      /** @type {PropertyInstance[]} */
+      properties: undefined,
+
+      /** @type {TypeInstance[]} */
+      types: undefined,
+
+      /** @type {LocalTermInstance[]} */
+      localTerms: undefined,
+
+      dependents: {
+        count: undefined,
+        substitutions: undefined,
+        dataProperties: undefined,
+        childTypes: undefined,
+        subProperties: undefined
+      }
     }
   },
 
   computed: {
 
+    /**
+     * @returns {Object<string, string>}
+     */
     details() {
       return {
         "Prefix": this.namespace.prefix,
@@ -86,6 +128,9 @@ export default {
       }
     },
 
+    /**
+     * @returns {Object<string, string>}
+     */
     source() {
       if (!this.namespace.origin) return undefined;
 
@@ -104,10 +149,10 @@ export default {
   },
 
   async mounted() {
-    this.properties = this.$store.getters.properties(this.namespace.prefix);
-    this.types = this.$store.getters.types(this.namespace.prefix);
-    this.localTerms = this.$store.getters.localTerms(this.namespace.prefix);
-    this.loaded = true;
+    this.properties = Object.freeze(await data.properties.find(this.$route.params));
+    this.types = Object.freeze(await data.types.find(this.$route.params));
+    this.localTerms = Object.freeze(await data.localTerms.find(this.$route.params));
+    this.dependents = Object.freeze(await this.namespace.dependencies());
   }
 
 }

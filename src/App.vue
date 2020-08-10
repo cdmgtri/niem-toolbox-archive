@@ -20,7 +20,7 @@
     </b-button>
 
     <keep-alive>
-      <router-view :key="$route.fullPath"/>
+      <router-view :key="$route.fullPath" v-if="storeLoaded==true"/>
     </keep-alive>
 
     <Footer/>
@@ -128,8 +128,7 @@ a:focus {
 }
 
 div.card-body {
-  padding: 10px 15px;
-  padding-right: 0;
+  padding: 6px 0 6px 15px;
 }
 
 h4.section {

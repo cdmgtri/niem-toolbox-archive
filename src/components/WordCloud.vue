@@ -1,27 +1,35 @@
 
 <template>
   <div>
-    <details v-on:toggle="loadWords()" :open="open">
-      <summary>{{ label }}</summary>
+    <div>
+      <details v-on:toggle="loadWords" :open="open">
+        <summary>{{ label }}</summary>
+        <br/>
 
+        <div v-if="progress">
+          <p>Loading {{ progress.completedWords }} of {{ progress.totalWords }} most common property terms into tag cloud.</p>
+        </div>
+
+        <div class="div-wordCloud">
+          <vue-word-cloud :style="style" :words="words" :spacing="0.65" :color="color" :progress.sync="progress">
+            <template slot-scope="{text}">
+              <div style="cursor: pointer;" @click="search(text)">
+                {{ text }}
+              </div>
+            </template>
+          </vue-word-cloud>
+        </div>
+
+      </details>
       <br/>
-      <div class="div-wordCloud">
-        <vue-word-cloud v-if="loaded" style="height: 400px; width: 1000px;" :words="words">
-          <template slot-scope="{text}">
-            <div style="cursor: pointer;" @click="search(text)">
-              {{ text }}
-            </div>
-          </template>
-        </vue-word-cloud>
-      </div>
-
-    </details>
-    <br/>
+    </div>
   </div>
 </template>
 
 <script>
 
+import { Property } from "niem-model";
+import { data, PropertyInstance } from "../utils/index";
 import * as Terms from "../workers/terms.worker";
 
 export default {
@@ -29,9 +37,11 @@ export default {
   name: "WordCloud",
 
   props: {
+    /** @type {PropertyInstance[]} */
     properties: {
       type: Array,
-      default: () => []
+      default: () => [],
+      validator: (properties) => properties.every( property => property.constructor.name == "Property" )
     },
     label: {
       type: String,
@@ -55,7 +65,21 @@ export default {
     return {
       /** @type {[String, Number][]} */
       words: [],
-      loaded: false
+      loaded: false,
+
+      style: "height: 10px; width: 10px",
+      progress: undefined,
+
+      weightTopRange: undefined,
+      weightBottomRange: undefined
+    }
+  },
+
+  watch: {
+    progress(newProgress, oldProgress) {
+      if (oldProgress) {
+        this.style = "height: 400px; width: 1000px;";
+      }
     }
   },
 
@@ -67,21 +91,25 @@ export default {
 
     async loadWords() {
       if (this.loaded == true) return;
-      this.words = await Terms.getCloudWords(this.properties, {
-        maxTerms: 75,
-        dropRepTerms: true,
-        prefixes: this.prefixes
-      });
+
+      let terms = data.properties.terms(this.properties, this.prefixes);
+      let termCounts = await Terms.getTermCounts(terms, { maxTerms: this.max, dropRepTerms: true })
+      this.words = await Terms.getCloudWords(termCounts);
+
+      let weightRange = await Terms.getWeightRanges(termCounts);
+      this.weightTopRange = weightRange.topThird;
+      this.weightBottomRange = weightRange.bottomThird;
       this.loaded = true;
+    },
+
+    color([, weight]) {
+      if (weight > this.weightTopRange) return "#005170";
+      if (weight > this.weightBottomRange) return "#2d7479";
+      return "BLACK";
     }
 
   },
 
-  mounted() {
-    if (this.open == true) {
-      this.loadWords();
-    }
-  }
 }
 
 </script>

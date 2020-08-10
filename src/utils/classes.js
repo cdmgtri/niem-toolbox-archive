@@ -1,5 +1,5 @@
 
-import { NIEM, Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } from "niem-model";
+import { NIEM, Model, Release, Namespace, LocalTerm, Component, Property, Type, Facet, SubProperty } from "niem-model";
 
 export let NIEMInstance = new NIEM();
 
@@ -10,6 +10,8 @@ export let ReleaseInstance = new Release();
 export let NamespaceInstance = new Namespace();
 
 export let LocalTermInstance = new LocalTerm();
+
+export let ComponentInstance = new Component();
 
 export let PropertyInstance = new Property();
 

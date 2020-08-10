@@ -17,7 +17,7 @@
 
 <script>
 
-import Utils from "../../utils";
+import { data } from "../../utils/index";
 
 export default {
   name: "TypeRowHeader",
@@ -34,8 +34,8 @@ export default {
     let { userKey, modelKey, releaseKey } = this.type;
 
     return {
-      typeRoute: Utils.getTypeRoute(this.type),
-      baseRoute: Utils.getTypeRoute({userKey, modelKey, releaseKey, prefix: this.type.basePrefix, name: this.type.baseName})
+      typeRoute: data.types.route(this.type),
+      baseRoute: data.types.route({userKey, modelKey, releaseKey, qname: this.type.baseQName})
     }
 
   }
