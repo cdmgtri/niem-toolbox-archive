@@ -11,6 +11,8 @@ import Namespace from "./views/Namespace.vue";
 import Property from "./views/Property.vue";
 import Type from "./views/Type.vue";
 
+import Settings from "./views/Settings.vue";
+
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +25,8 @@ export default new Router({
     { path: "/browse", name: "browse", component: Models },
 
     { path: "/search", name: "search", component: Search },
+
+    { path: "/settings", name: "settings", component: Settings },
 
     { path: "/:userKey/:modelKey", name: "model", component: Model },
 

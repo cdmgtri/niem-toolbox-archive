@@ -13,8 +13,8 @@
         <!-- Main search box -->
         <b-input-group size="sm">
           <b-form-input
-            v-model="input" @change="search" @keydown.esc="reset"
-            placeholder="Search..." debounce="800" trim :autofocus="true" ref="input"/>
+            v-model.trim="input" @keydown.esc="reset"
+            placeholder="Search..." debounce="600" :autofocus="true" ref="input"/>
           <b-input-group-append>
             <b-button @click="reset">x</b-button>
           </b-input-group-append>
@@ -33,10 +33,21 @@
           <!-- Data type search box -->
           <b-input-group size="sm">
             <b-form-input
-              v-model="dataTypeInput" @change="search" @keydown.esc="dataTypeInput=''"
-              size="sm" placeholder="Filter data types..." debounce="500" trim ref="dataTypeInput"/>
+              v-model.trim="dataTypeInput" @keydown.esc="dataTypeInput=''"
+              size="sm" placeholder="Filter data types..." debounce="500" ref="dataTypeInput"/>
             <b-input-group-append>
               <b-button @click="dataTypeInput=''">x</b-button>
+            </b-input-group-append>
+          </b-input-group>
+          <br/>
+
+          <!-- Exclude terms list -->
+          <b-input-group size="sm">
+            <b-form-input
+              v-model.trim="excludeTermsInput" @keydown.esc="excludeTermsInput=''"
+              size="sm" placeholder="Exclude terms..." debounce="500" ref="excludeTermsInput"/>
+            <b-input-group-append>
+              <b-button @click="excludeTermsInput=''">x</b-button>
             </b-input-group-append>
           </b-input-group>
           <br/>
@@ -71,9 +82,9 @@
 
           <h3>Filter results</h3>
           <br/>
-          <b-button variant="link" @click="setFilterPrefixesAll()" class="pl-0">Select all</b-button>
+          <b-button class="filter" variant="link" @click="selectFilterPrefixesAll()">Select all</b-button>
           <span> | </span>
-          <b-button variant="link" @click="setFilterPrefixesNone()">Select none</b-button>
+          <b-button class="filter" variant="link" @click="selectFilterPrefixesNone()">Select none</b-button>
           <br/>
           <b-form-checkbox-group stacked v-model="selectedPrefixes" :options="resultPrefixes"/>
 
@@ -86,25 +97,45 @@
       <b-col>
 
         <div v-if="showResults">
-          <!-- Results header -->
-          <h3>Results <b-badge pill variant="info">{{ resultsCount }}</b-badge></h3>
 
-          <!-- Sort and options row -->
-          <span v-if="filteredProperties.length > 0" class="pull-right">
+          <b-form inline>
 
-            <!-- Sort options -->
-            <b-button variant="link" @click="sortCore" class="options" :class="{active: sortOrder=='core'}">Core first</b-button>
-            <b-button variant="link" @click="sortQName" class="options" :class="{active: sortOrder=='qname'}">Namespace</b-button>
-            <b-button variant="link" @click="sortName" class="options" :class="{active: sortOrder=='name'}">Name</b-button>
+            <!-- Results header -->
+            <h3>Results <b-badge pill variant="info">{{ resultsCount }}</b-badge></h3>
 
-            |
+            <!-- Sort and options row -->
+            <span v-if="filteredProperties.length > 0" class="pull-right ml-auto">
 
-            <!-- Support options -->
-            <b-button variant="link" @click="invertOption('map')" class="options" :class="{active: map}">Map</b-button>
-            <b-button variant="link" @click="invertOption('subset')" class="options" :class="{active: subset}">Subset</b-button>
+              <!-- Sort options -->
+              <b-input-group inline class="results-menu sort" prepend="Sort" size="sm">
+                <b-form-select id="sortOptions" size="sm" v-model="sortOrder" class="sort">
+                  <b-form-select-option value="core" default>Core first</b-form-select-option>
+                  <b-form-select-option value="qname">Namespace</b-form-select-option>
+                  <b-form-select-option value="name">Name</b-form-select-option>
+                </b-form-select>
+              </b-input-group>
 
-          </span>
-          <br/><br/>
+              <!-- Options dropdown -->
+              <b-dropdown right variant="link" class="results-menu" text="Options" v-b-tooltip.manual.v-success="'Copied!'">
+
+                <b-form-checkbox class="ml-4" v-model="$store.state.options.map">Map</b-form-checkbox>
+                <b-form-checkbox class="ml-4" v-model="$store.state.options.subset" disabled>Subset</b-form-checkbox>
+
+                <b-dropdown-divider/>
+
+                <b-dropdown-group header="Copy results for...">
+                  <b-dropdown-item size="sm" @click="copyResults('excel')">Excel</b-dropdown-item>
+                  <b-dropdown-item size="sm" @click="copyResults('markdown')">Markdown list</b-dropdown-item>
+                </b-dropdown-group>
+
+              </b-dropdown>
+
+              <b-tooltip title="Copied!" target="results-menu" variant="success"/>
+
+            </span>
+
+          </b-form>
+          <br/>
 
           <!-- Results -->
           <object-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
@@ -121,6 +152,7 @@
 import ObjectRow from "../components/niem/ObjectRow.vue";
 import { data, PropertyInstance } from "../utils/index";
 import { Property } from "niem-model";
+import { Route } from "vue-router";
 
 export default {
 
@@ -140,10 +172,13 @@ export default {
       input: "",
       dataTypeInput: "",
       containerTypeInput: "",
+      excludeTermsInput: "",
       searchDefinitions: false,
 
       showResults: false,
       sortOrder: "core",
+      showTooltip: false,
+      disableTooltip: true,
 
       /** @type {PropertyInstance[]} */
       properties: [],
@@ -158,20 +193,6 @@ export default {
   },
 
   computed: {
-
-    /**
-     * @returns {Boolean}
-     */
-    map() {
-      return this.$store.getters.options.map;
-    },
-
-    /**
-     * @returns {Boolean}
-     */
-    subset() {
-      return this.$store.getters.options.subset;
-    },
 
     /**
      * @returns {String}
@@ -191,6 +212,10 @@ export default {
 
   watch: {
 
+    sortOrder() {
+      this.sort();
+    },
+
     selectedPrefixes(prefixes) {
       this.filteredProperties = this.properties.filter( property => prefixes.includes(property.prefix) );
       this.sort();
@@ -201,7 +226,11 @@ export default {
     },
 
     dataTypeInput(newValue, oldValue) {
-      this.search();
+      this.filter();
+    },
+
+    excludeTermsInput(newValue, oldValue) {
+      this.filter();
     },
 
     searchDefinitions(newValue, oldValue) {
@@ -214,6 +243,8 @@ export default {
 
     reset() {
       this.input = "";
+      this.dataTypeInput = "";
+      this.excludeTermsInput = "";
 
       this.properties = [];
       this.filteredProperties = [];
@@ -238,25 +269,48 @@ export default {
       if (!this.recentSearchStrings.includes(this.input)) this.recentSearchStrings.unshift(this.input);
       if (this.recentSearchStrings.length > 10) this.recentSearchStrings.pop();
 
-      this.showResults = true;
-
       // Search properties by search terms in input field
-      this.properties = await data.properties.search(null, "qname", this.input, this.searchDefinitions);
+      this.properties = await data.properties.search(null, this.input, {
+        field: "qname",
+        match: true,
+        searchDefinitions: this.searchDefinitions
+      });
+
+      await this.filter();
+
+    },
+
+    async filter() {
+
+      this.showResults = true;
 
       if (this.dataTypeInput) {
         // Filter results by data type input field
-        this.properties = await data.properties.search(this.properties, "typeQName", this.dataTypeInput);
+        this.properties = await data.properties.search(this.properties, this.dataTypeInput, {
+          field: "typeQName",
+          match: true,
+          searchDefinitions: false
+        });
+      }
+
+      if (this.excludeTermsInput) {
+        // Filter results by property terms to exclude
+        this.properties = await data.properties.search(this.properties, this.excludeTermsInput, {
+          field: "qname",
+          match: false,
+          searchDefinitions: false
+        });
       }
 
       // Make a copy of the results so filters can be removed later without having to rerun the full search
       this.filteredProperties = this.properties.filter( property => true );
 
       // Sort results
-      this.sortCore();
+      this.sort();
 
       // Set up results filtering
       this.setFilterPrefixes();
-      this.setFilterPrefixesAll();
+      this.selectFilterPrefixesAll();
 
     },
 
@@ -276,11 +330,11 @@ export default {
       this.resultPrefixes = Array.from(uniquePrefixes).sort();
     },
 
-    setFilterPrefixesAll() {
+    selectFilterPrefixesAll() {
       this.selectedPrefixes = this.resultPrefixes;
     },
 
-    setFilterPrefixesNone() {
+    selectFilterPrefixesNone() {
       this.selectedPrefixes = [];
     },
 
@@ -310,29 +364,47 @@ export default {
       this.filteredProperties = this.filteredProperties.sort(Property.sortByName);
     },
 
-    invertOption(option) {
-      this.$store.commit("invertOption", option);
+    async copyResults(format) {
+      let text = "";
+
+      if (format == "excel") {
+        text = "Property\tType\tDefinition\n";
+        text += this.filteredProperties.map( property => property.qname + "\t" + (property.typeQName || "(abstract)") + "\t" + property.definition ).join("\n");
+      }
+
+      if (format == "markdown") {
+        text = this.filteredProperties.map ( property => "- " + property.qname).join("\n");
+      }
+
+      await this.$copyText(text);
+
+      this.$root.$emit('bv::show::tooltip');
+
+      // Reset the cursor and hide the tooltip
+      setTimeout( () => this.$root.$emit('bv::hide::tooltip'), 600);
+
     }
 
   },
 
   async mounted() {
     let input = this.$route.query.input || "";
-    let prefixes = (this.$route.query.prefixes || "").split(",");
+    let prefixes = this.$route.query.prefixes ? this.$route.query.prefixes.split(",") : [];
 
     if (input) {
-      this.input = input;
+      this.input = input.replace(",", " ");
       await this.search();
 
       if (prefixes.length > 0) {
         this.selectedPrefixes = [];
-      }
 
-      for (let prefix of prefixes) {
-        if (this.resultPrefixes.includes(prefix)) {
-          this.selectedPrefixes.push(prefix);
+        for (let prefix of prefixes) {
+          if (this.resultPrefixes.includes(prefix)) {
+            this.selectedPrefixes.push(prefix);
+          }
         }
       }
+
     }
   }
 
@@ -353,17 +425,8 @@ button.btn-link {
   padding: 6px !important;
 }
 
-button.options.active {
-  font-weight: 500;
-  /* text-decoration: underline; */
-}
-
-button.options.active::before {
-  content: "[";
-}
-
-button.options.active::after {
-  content: "]";
+button.btn-link.filter:first-of-type {
+  padding-left: 0 !important;
 }
 
 #list-group-recentSearches span:hover {
@@ -375,6 +438,41 @@ button.options.active::after {
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+div.input-group.sort {
+  display: inline-flex;
+}
+
+.results-menu {
+  padding-left: 15px;
+}
+
+form.form-inline {
+  max-height: 25px;
+}
+
+.results-menu label {
+  justify-content: left !important;
+}
+
+.span-left {
+  justify-content: left !important;
+}
+
+@media (min-width: 576px) {
+  .form-inline .custom-control-label {
+    float: left;
+    margin-right: 5px;
+    color: red;
+  }
+}
+
+div.custom-checkbox label {
+  float: left;
+  margin-right: 5px;
+  color: red !important;
+  font-size: 32px;
 }
 
 </style>

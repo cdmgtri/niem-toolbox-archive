@@ -11,7 +11,7 @@
           <span>Loading </span>
           <b-spinner small/>
         </h4>
-        <p>The latest NIEM release data is loading.  This typically takes 5 - 10 seconds to complete.</p>
+        <p>The latest NIEM release data is loading.  This typically takes a few seconds to complete.</p>
       </b-alert>
     </div>
 

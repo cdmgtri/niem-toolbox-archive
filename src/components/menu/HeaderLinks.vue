@@ -7,9 +7,14 @@
       <b-nav-item :to="'/browse'" exact>Browse</b-nav-item>
       <b-nav-item :to="'/search'" exact>Search</b-nav-item>
 
+      <b-nav-item :to="'/settings'" exact>
+        <i class="fa fa-gear"></i>
+      </b-nav-item>
+
       <b-nav-form>
-        <b-input-group class="text-success" :prepend="`Release`" size="sm">
-          <b-form-select v-model="releaseKey" :options="releaseKeys" size="sm"/>
+        <b-input-group class="text-success" prepend="Selected release" size="sm">
+          <!-- <b-form-select v-model="releaseKey" :options="releaseKeys" size="sm"/> -->
+          <b-form-select v-model="defaultReleaseKey" :options="loadedReleases" size="sm" value-field="releaseKey" text-field="label"/>
         </b-input-group>
       </b-nav-form>
 
@@ -38,6 +43,17 @@
       "toggleID"
     ],
     computed: {
+      loadedReleases() {
+        return this.$store.getters.loadedReleases;
+      },
+      defaultReleaseKey: {
+        get() {
+          return this.$store.state.defaultReleaseKey;
+        },
+        set(newReleaseKey) {
+          this.$store.state.defaultReleaseKey = newReleaseKey;
+        }
+      },
       loaded() {
         return this.$store.state.loaded;
       },

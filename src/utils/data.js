@@ -170,27 +170,40 @@ class Data {
 
       /**
        * @param {PropertyInstance[]} properties
-       * @param {string} field
-       * @param {string} input
-       * @param {Boolean} searchDefinitions True to also search definition (default=false)
+       * @param {string} input - Search term(s)
+       * @param {Object} options
+       * @param {string} [options.field] - Property field to search input against (default=qname)
+       * @param {string} [options.match] - True to match input (default=true), false to exclude input
+       * @param {Boolean} [options.searchDefinitions] - True to also search definition (default=false)
        */
-      search: async (properties, field, input="", searchDefinitions=false) => {
+      search: async (properties, input="", options={field: "qname", searchDefinitions: false, match: true}) => {
 
-        if (!properties) {
+        if (!properties || properties.length == 0) {
           // Search all relevant properties if a subset of properties is not provided
           properties = await self.properties.find(store.getters.defaultSearchCriteria);
         }
 
         if (input == "") return properties;
 
+        let {field, searchDefinitions, match} = options;
+
         // Split input into search term array on spaces and wildcards (*)
-        let searchTerms = input.trim().toLowerCase().replace(/\*/g, " ").split(" ");
+        let searchTerms = input.toLowerCase().replace(/\*/g, " ").split(" ");
 
         let results = properties.filter( property => {
           if (!property[field]) return false;
           let propertyFieldValue = "" + property[field].toLowerCase();
           if (searchDefinitions == true) propertyFieldValue += " " + property.definition.toLowerCase();
-          return searchTerms.every( term => propertyFieldValue.includes(term) );
+
+          if (match) {
+            // Property is returned only if every given term appears
+            return searchTerms.every( term => propertyFieldValue.includes(term) );
+          }
+          else {
+            // Property is rejected if any given term appears
+            return ! searchTerms.find( term => propertyFieldValue.includes(term) );
+          }
+
         });
 
         console.log("search", results.length, field, input);

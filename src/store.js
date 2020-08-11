@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import model from "../src/assets/data/niem-5.0-release.json";
+import model from "../src/assets/releases/niem-5.0-release.json";
 
 import { NIEM } from "niem-model";
 
@@ -21,9 +21,22 @@ export default new Vuex.Store({
       subset: false
     },
 
-    defaultUserKey: undefined,
-    defaultModelKey: undefined,
-    defaultReleaseKey: undefined,
+    availableReleases: [
+      { userKey: "niem", modelKey: "model", releaseKey: "5.0", label: "5.0-draft", selected: true },
+      { userKey: "niem", modelKey: "model", releaseKey: "4.2", label: "4.2", selected: true },
+      { userKey: "niem", modelKey: "model", releaseKey: "4.1", label: "4.1", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "4.0", label: "4.0", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "3.2", label: "3.2", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "3.1", label: "3.1", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "3.0", label: "3.0", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "2.1", label: "2.1", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "2.0", label: "2.0", selected: false },
+      { userKey: "niem", modelKey: "model", releaseKey: "1.0", label: "1.0", selected: false },
+    ],
+
+    defaultUserKey: "niem",
+    defaultModelKey: "model",
+    defaultReleaseKey: "5.0",
     defaultNIEMReleaseKey: undefined
 
   },
@@ -49,18 +62,22 @@ export default new Vuex.Store({
       if (state.defaultReleaseKey) criteria.releaseKey = state.defaultReleaseKey;
       if (state.defaultNIEMReleaseKey) criteria.niemReleaseKey = state.defaultNIEMReleaseKey;
       return criteria;
+    },
+
+    loadedReleases: (state) => {
+      return state.availableReleases.filter( release => release.selected == true );
     }
 
   },
 
   mutations: {
 
-    invertOption(state, option) {
-      state.options[option] = !state.options[option];
-    },
-
     setLoaded(state, progress) {
       state.storeLoaded = progress;
+    },
+
+    defaultReleaseKey(state, releaseKey) {
+      state.defaultReleaseKey = releaseKey;
     }
 
   },
