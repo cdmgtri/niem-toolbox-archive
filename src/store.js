@@ -2,8 +2,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import model from "../src/assets/releases/niem-5.0-release.json";
-
 import { NIEM } from "niem-model";
 
 Vue.use(Vuex);
@@ -13,6 +11,7 @@ export default new Vuex.Store({
   state: {
 
     storeLoaded: false,
+    loadingProgress: "",
 
     niem: new NIEM(),
 
@@ -23,7 +22,7 @@ export default new Vuex.Store({
 
     availableReleases: [
       { userKey: "niem", modelKey: "model", releaseKey: "5.0", label: "5.0-draft", selected: true },
-      { userKey: "niem", modelKey: "model", releaseKey: "4.2", label: "4.2", selected: true },
+      { userKey: "niem", modelKey: "model", releaseKey: "4.2", label: "4.2", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "4.1", label: "4.1", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "4.0", label: "4.0", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "3.2", label: "3.2", selected: false },
@@ -55,6 +54,18 @@ export default new Vuex.Store({
       return state.niem;
     },
 
+    defaultReleaseIndicator: (state, getters) => (releaseRoute) => {
+      return releaseRoute.includes(getters.defaultReleaseRoute);
+    },
+
+    defaultReleaseID: (state) => {
+      return state.defaultUserKey + "-" + state.defaultModelKey + "-" + state.defaultReleaseKey;
+    },
+
+    defaultReleaseRoute: (state) => {
+      return "/" + state.defaultUserKey + "/" + state.defaultModelKey + "/" + state.defaultReleaseKey;
+    },
+
     defaultSearchCriteria: (state) => {
       let criteria = {};
       if (state.defaultUserKey) criteria.userKey = state.defaultUserKey;
@@ -71,6 +82,17 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+    resetNIEM(state) {
+      state.niem.sources[0].releases.data = [];
+      state.niem.sources[0].namespaces.data = [];
+      state.niem.sources[0].localTerms.data = [];
+      state.niem.sources[0].properties.data = [];
+      state.niem.sources[0].types.data = [];
+      state.niem.sources[0].facets.data = [];
+      state.niem.sources[0].subProperties.data = [];
+      // state.niem = new NIEM();
+    },
 
     setLoaded(state, progress) {
       state.storeLoaded = progress;
@@ -89,18 +111,23 @@ export default new Vuex.Store({
       let start = Date.now();
       console.log("LOADING...");
 
-      // Load NIEM data (currently just the 5.0 draft release)
-      await context.state.niem.load(model);
-      console.log(`model loaded in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
+      context.state.storeLoaded = false;
 
-      context.state.defaultUserKey = "niem";
-      context.state.defaultModelKey = "model";
-      context.state.defaultReleaseKey = "5.0";
+      // Resets the existing NIEM data store
+      context.commit("resetNIEM");
 
-      console.log("set default search criteria", context.getters.defaultSearchCriteria);
+      let loadedReleases = context.getters.loadedReleases;
+
+      for (let rel of loadedReleases) {
+        context.state.loadingProgress = "Loading release " + rel.releaseKey + "...";
+        await new Promise(resolve => setTimeout(resolve, 100));
+        let json = require("./assets/releases/niem-release-" + rel.releaseKey + ".json");
+        await context.state.niem.load(json);
+      }
 
       // Mark the release as loaded
       context.state.storeLoaded = true;
+      context.state.loadingProgress = "";
       console.log(`LOADED APP in ${(Date.now() - start) / 1000} secs`, new Date().toLocaleTimeString());
 
     }

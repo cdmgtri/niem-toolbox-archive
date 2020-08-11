@@ -8,10 +8,10 @@
     <div v-if="storeLoaded==false">
       <b-alert show variant="info">
         <h4 class="alert-heading">
-          <span>Loading </span>
           <b-spinner small/>
+          <span> {{ loadingProgress}} </span>
         </h4>
-        <p>The latest NIEM release data is loading.  This typically takes a few seconds to complete.</p>
+        <p>This tool currently loads all selected releases into memory.</p>
       </b-alert>
     </div>
 
@@ -49,7 +49,11 @@
     computed: {
 
       storeLoaded() {
-        return this.$store.getters.storeLoaded;
+        return this.$store.state.storeLoaded;
+      },
+
+      loadingProgress() {
+        return this.$store.state.loadingProgress;
       }
 
     },

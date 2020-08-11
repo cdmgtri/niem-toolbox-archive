@@ -13,7 +13,7 @@
       <p>Select which releases should be made available.  These will be loaded into memory.</p>
 
       <b-form-group>
-        <b-form-checkbox v-for="release in availableReleases" :key="release.releaseKey" v-model="release.selected" class="checkbox">
+        <b-form-checkbox v-for="release in availableReleases" :key="release.releaseKey" v-model="release.selected" class="checkbox" @change="reloadReleases">
           {{ release.userKey }}-{{ release.modelKey }}-{{ release.label }}
         </b-form-checkbox>
       </b-form-group>
@@ -44,6 +44,12 @@ export default {
       set: function (newReleaseKey) {
         this.$store.state.defaultReleaseKey = newReleaseKey;
       }
+    }
+  },
+
+  methods: {
+    async reloadReleases() {
+      this.$store.dispatch("load");
     }
   }
 

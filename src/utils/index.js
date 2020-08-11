@@ -58,7 +58,7 @@ export function breadcrumbs(route) {
 
   if (qname) {
 
-    let group = (route.path.includes("Property")) ? "properties" : "types";
+    let group = (route.path.includes("properties")) ? "properties" : "types";
 
     breadcrumb.push({text: group, to: `${path}/${group}`});
     breadcrumb.push({text: qname, to: `${path}/${group}/${qname}`});

@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <b-breadcrumb :items="breadcrumb"/>
+    <b-breadcrumb :items="breadcrumb" :class="{'release-other': !defaultReleaseIndicator}"/>
     <slot v-if="loaded" v-bind:namespace="namespace" v-bind:property="property" v-bind:type="type"/>
   </div>
 </template>
@@ -24,6 +24,14 @@ export default {
     }
   },
 
+  computed: {
+
+    defaultReleaseIndicator() {
+      return this.$store.getters.defaultReleaseIndicator(this.$route.path);
+    }
+
+  },
+
   async mounted() {
 
     if (this.$route.path.includes("properties")) {
@@ -41,3 +49,17 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+.breadcrumb.release-other {
+  background-color: SEASHELL;
+}
+
+.breadcrumb.release-other::after {
+  content: "\00a0 \00a0 (release is not currently selected)";
+  color: darkgray;
+  font-size: smaller;
+}
+
+</style>

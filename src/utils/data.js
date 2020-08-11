@@ -178,14 +178,17 @@ class Data {
        */
       search: async (properties, input="", options={field: "qname", searchDefinitions: false, match: true}) => {
 
+        let { defaultSearchCriteria } = store.getters;
+        let { releaseKey } = defaultSearchCriteria;
+
         if (!properties || properties.length == 0) {
           // Search all relevant properties if a subset of properties is not provided
-          properties = await self.properties.find(store.getters.defaultSearchCriteria);
+          properties = await self.properties.find(defaultSearchCriteria);
         }
 
         if (input == "") return properties;
 
-        let {field, searchDefinitions, match} = options;
+        let { field, searchDefinitions, match } = options;
 
         // Split input into search term array on spaces and wildcards (*)
         let searchTerms = input.toLowerCase().replace(/\*/g, " ").split(" ");
@@ -206,7 +209,7 @@ class Data {
 
         });
 
-        console.log("search", results.length, field, input);
+        console.log("search", releaseKey, results.length, field, input);
 
         return results;
 

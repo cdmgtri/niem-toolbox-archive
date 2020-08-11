@@ -206,6 +206,10 @@ export default {
         return `${this.filteredProperties.length} of ${this.properties.length}`;
       }
       return "";
+    },
+
+    defaultReleaseID() {
+      return this.$store.getters.defaultReleaseID;
     }
 
 },
@@ -234,6 +238,10 @@ export default {
     },
 
     searchDefinitions(newValue, oldValue) {
+      this.search();
+    },
+
+    defaultReleaseID() {
       this.search();
     }
 

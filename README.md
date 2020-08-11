@@ -1,35 +1,66 @@
 
-# NIEM Assistant
+# NIEM Toolbox
 
 This is a Vue Single-Page Application (SPA) built for improved model management support.
+
+- [Features](#features)
+  - [Content pages](#content-pages)
+  - [Search](#search)
+  - [Mapping support](#mapping-support)
+  - [Multi-release support](#multi-release-support)
+- [Getting started](#getting-started)
+- [Usage](#usage)
+- [Future development](#future-development)
+  - [Quick picks](#quick-picks)
+  - [Roadmap](#roadmap)
+  - [Backlog](#backlog)
 
 ## Features
 
 ### Content pages
 
-- Release, namespace, property, and type information pages
 - Easy navigation to help users walk the model
-- Pages use descriptive URLs
+- Release, namespace, property, and type information pages
+- Pages use descriptive URLs that can be linked to
 - Sections are grouped under drop-downs to quickly show/hide info and reduce scrolling
 - Info fields and table cells can be clicked to quickly copy the value
 - Tables can be easily copied to Markdown or Excel
-- Namespace word clouds for common property terms
+- Namespace word clouds display common property terms for high-level subject matter overview
 
 ### Search
 
 - Keyword property searches
-- Include a namespace prefix (e.g., "nc:") in the search box to restrict results by namespace
-- Search or filter by property type keywords
-- Include definitions in search
+  - Include a namespace prefix (e.g., "nc:") in the search box to restrict results by namespace
+  - Option to include definitions in search
+- Search or filter results by property type keywords
+- Filter results by excluded terms
 - Filter results by namespace prefix
 - Saves recent searches
 
-### Map
+### Mapping support
 
-- Enable in the Search Results panel for mapping support
-- Navigating through the search panel maintains track of the followed XPath for better mapping details
-- Copy button on each property to copy the `XPath`, `Prefix`, `Property Name`, `Definition`, `Qualified Type`, and `Substitution Group` fields for Excel
+A common task in modeling new NIEM domains or messages is to map local data requirements to a NIEM release.
 
+This typically process involves loading all of the local data requirements into a spreadsheet, and then for each of those local items:
+
+- Search NIEM to find the appropriate corresponding match, if it exists
+- Type or copy-paste information about the NIEM match into the spreadsheet
+  - The NIEM qualified property name is required to document the match
+  - The data type, definition, and xpath for the NIEM property are optional but can be very helpful to document
+
+Individually typing or copy-pasting each of the NIEM fields listed above for each of the mappings involves a lot of repetitive work.
+
+- Enable `map` in the Search Results panel's `Options` button for mapping support
+- Search NIEM to find matches for each local data requirements
+- Drill down through results to navigate through the desired xpath
+- Click the `Copy` button to copy the following fields all at once for a quick paste into Excel
+  - `XPath`, `Prefix`, `Property Name`, `Definition`, `Qualified Type`, and `Substitution Group`
+
+### Multi-release support
+
+- Select NIEM releases to load in the Settings page
+- Select default release for searches
+- Breadcrumb color changes when navigating over items outside of selected release
 
 ## Getting started
 
@@ -57,43 +88,60 @@ Keep app running locally in development watch mode with [PM2](https://pm2.keymet
 npm run pm2
 ```
 
-## Roadmap
+## Future development
 
-- [ ] Support multiple releases
-- [ ] Add release migration information
-- [ ] Add release QA
-- [ ] Add support for NIEM change requests
-- [ ] Upload and generate XSDs
-- [ ] Display release stats
+### Quick picks
 
-## TO DO
-
-**Multi-release support**
-
-- [ ] Script to copy over release JSON data
-- [ ] Refactor to drop use of current release arrays
-- [ ] User-selected default release
-- [ ] User-selected releases to load
-- [ ] Visual to indicate user has navigated to non-default release
-
-**Clean up**
-
-**NIEM Components**
-
+- [ ] Merged stacked-object and field-value table components
+- [ ] Support internal and external links in table component
+- [ ] Show substitution count for abstracts
 - [ ] Quick access to augmentations in contained properties list
-- [ ] View substitution count for abstracts
+- [ ] Reformat contained properties list vs table
+- [ ] Sort property 'available in types' list by core-qname
+- [ ] Show all derived types on Type page
 
-**Copy buttons**
+### Roadmap
 
-- [ ] Default copy button action
-- [ ] Additional drop-down copy button actions
+- [ ] History
+- [ ] Release timeline
+- [ ] Release stats
+- [ ] Release migrations
+- [ ] Release, namespace, and component QA
+- [ ] NIEM change requests
+- [ ] XSD support
 
-**Mapping support**
+**History**
+
+- [ ] Save and load user settings to cache
+- [ ] Update query strings on search
+- [ ] Save latest navigation routes to history (add new, move existing to latest)
+- [ ] Sort history by route or most recent
+- [ ] Pin items in history to saved list
+- [ ] Set and display pin status in menu bar
+
+**Release timeline**
+
+- [ ] Add additional fields to niem-model Release object
+  - [ ] date
+  - [ ] style: major, minor, other
+  - [ ] flag to show if release data has been loaded
+- [ ] Add option to load release metadata only
+- [ ] Updated Models page to reuse Model component with release information
+- [ ] Display release list in Model as [timeline](https://bootsnipp.com/snippets/xrKXW) of release history
+
+**Stats**
+
+- [ ] Release stats totals
+- [ ] Release stats by namespace
+- [ ] Model stat history
+- [ ] Download stats spreadsheet
+
+**Migration support**
 
 - [ ] Show component mapping history
 - [ ] Show release diffs
 
-**Release QA**
+**QA**
 
 - [ ] Run niem-model-qa
 - [ ] View test info
@@ -116,24 +164,20 @@ npm run pm2
 - [ ] Download XSD
 - [ ] Save / reload local release
 
-**Stats**
-
-- [ ] Release stats totals
-- [ ] Release stats by namespace
-- [ ] Model stat history
-- [ ] Download stats spreadsheet
-
-## Backlog
+### Backlog
 
 **App**
 
-- [ ] Show timeline view (see [Bootsnipp template](https://bootsnipp.com/snippets/xrKXW)) of release history
-- [ ] Pin and cache items
 - [ ] Fix xpath word wrap
 - [ ] Add pop-up close buttons to close current details for long lists without a lot of scrolling (e.g., Person)
 - [ ] Pass current xpath into property pages?
 - [ ] Extra panel option for large displays
 - [ ] Swap out backend
+
+**Copy buttons**
+
+- [ ] Default copy button action
+- [ ] Additional drop-down copy button actions
 
 **Release page**
 
@@ -142,21 +186,15 @@ npm run pm2
 - [ ] Add dependencies
 - [ ] Add release term cloud
 
-**Namespace**
+**Miscellaneous**
 
-- [ ] Add dependents
-
-**WordCloud component**
-
-- [ ] Add prefix filter if more than one prefix given
+- [ ] Add dependents to Namespace page
+- [ ] Add prefix filter to Word cloud component
 
 **Search**
 
-- [ ] Cache and reload recent searches
-- [ ] Pin searches
 - [ ] Type searches
 - [ ] Results term filter
-- [ ] Sync filtered prefixes with url query parameters
 - [ ] Context search for extensions and roles (e.g., Arrest Date, Victim first name)
 
 **Subsets**
