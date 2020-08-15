@@ -1,28 +1,20 @@
 
 <template>
-  <div v-if="property || type || namespace">
+  <div>
     <b-card>
       <details v-on:toggle="load=true">
+
         <summary>
-
-          <!-- Row label -->
           <span v-if="label">{{ label }} </span>
-
-          <property-row-header v-if="property" :property="property"/>
-          <type-row-header v-if="type" :type="type"/>
-          <namespace-row-header v-if="namespace" :namespace="namespace"/>
-
-          <!-- copy button -->
-          <copy-button v-if="property && options.map == true" label="Path + CR spreadsheet fields" :text="cellsPathCR"/>
-          <!-- <copy-button v-if="map" label="Property | Type | Def" :text="cellsPropertyTypeDefinition"/> -->
-
+          <slot name="header"/>
         </summary>
 
         <div v-if="load==true" class="component-summary">
 
-          <property-info v-if="property" :property="property" :xpath="xpath"/>
-          <type-info v-if="type" :type="type" :xpath="xpath"/>
-          <namespace-info v-if="namespace" :namespace="namespace"/>
+          <!-- Definition -->
+          <p v-if="definition"><copy-span :text="definition" label="definition"/></p>
+
+          <slot name="details"/>
 
         </div>
 
@@ -37,29 +29,20 @@
 <script>
 
 import { mapGetters } from "vuex";
-import { updateXPath } from "../../utils/index";
-import CopyButton from "../CopyButton.vue";
-import PropertyRowHeader from "./PropertyRowHeader.vue";
-import TypeRowHeader from "./TypeRowHeader.vue";
-import NamespaceRowHeader from "./NamespaceRowHeader.vue";
+import CopySpan from "../CopySpan.vue";
 
 export default {
 
   name: "ObjectRow",
 
+  components: {
+    CopySpan
+  },
+
   props: {
-    property: {
-      type: Object
-    },
-    type: {
-      type: Object
-    },
-    namespace: {
-      type: Object
-    },
-    parentXPath: {
+    definition: {
       type: String,
-      default: ""
+      required: true
     },
     label: {
       type: String,
@@ -72,46 +55,11 @@ export default {
     }
   },
 
-  components: {
-    CopyButton,
-    PropertyRowHeader,
-    TypeRowHeader,
-    NamespaceRowHeader,
-    PropertyInfo: () => import("./PropertyInfo.vue"),
-    TypeInfo: () => import("./TypeInfo.vue"),
-    NamespaceInfo: () => import("./NamespaceInfo.vue")
-  },
-
   data() {
-
     return {
       load: false,
-      xpath: updateXPath(this.parentXPath, this.property),
     }
   },
-
-  computed: {
-
-    ...mapGetters(["options"]),
-
-    cellsPropertyTypeDefinition() {
-      if (!this.property) return;
-      return `${this.property.qname}\t${this.property.typeQName}\t${this.property.definition}`;
-    },
-
-    cellsPathCR() {
-
-      if (!this.property) return "";
-
-      // Leave spreadsheet-default values blank
-      let group = this.property.groupQName || "";
-      let isElement = this.property.isElement == true ? "" : false;
-      let isAbstract = this.property.isAbstract == true ? true : "";
-
-      return `${this.xpath}\t${this.property.prefix}\t${this.property.name}\t${this.property.definition}\t${this.property.typeQName}\t${group}\t${isElement}\t${isAbstract}`;
-    }
-
-  }
 
 }
 

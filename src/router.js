@@ -40,7 +40,7 @@ export default new Router({
 
     // { path: "/:userKey/:modelKey/:releaseKey/properties/", name: "properties", component: Properties },
 
-    { path: "/:userKey/:modelKey/:releaseKey/properties/:qname", name: "property", component: Property },
+    { path: "/:userKey/:modelKey/:releaseKey/properties/:qname", name: "property", component: Property, props: true },
 
     // { path: "/:userKey/:modelKey/:releaseKey/types/", name: "types", component: Types },
 

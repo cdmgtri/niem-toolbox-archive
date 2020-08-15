@@ -6,7 +6,7 @@
         <summary>{{ label }}</summary>
         <br/>
 
-        <div v-if="progress">
+        <div v-if="progress && !done">
           <p>Loading {{ progress.completedWords }} of {{ progress.totalWords }} most common property terms into tag cloud.</p>
         </div>
 
@@ -66,8 +66,10 @@ export default {
       /** @type {[String, Number][]} */
       words: [],
       loaded: false,
+      done: false,
 
-      style: "height: 10px; width: 10px",
+      style: "height: 400px; width: 1000px;",
+      parentStyle: "height: 10px; width: 100px;",
       progress: undefined,
 
       weightTopRange: undefined,
@@ -76,11 +78,13 @@ export default {
   },
 
   watch: {
+
     progress(newProgress, oldProgress) {
-      if (oldProgress) {
-        this.style = "height: 400px; width: 1000px;";
+      if (newProgress && newProgress.completedWords == newProgress.totalWords) {
+        this.done = true;
       }
     }
+
   },
 
   methods: {
@@ -119,4 +123,5 @@ export default {
 div.div-wordCloud {
   border: 1px solid gainsboro;
 }
+
 </style>

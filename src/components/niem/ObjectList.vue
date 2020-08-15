@@ -12,10 +12,10 @@
       <div v-if="load == true">
 
         <!-- List property rows -->
-        <object-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
+        <property-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
 
         <!-- List type rows -->
-        <object-row v-for="type of types" :key="type.qname" :type="type" :parentXPath="parentXPath"/>
+        <type-row v-for="type of types" :key="type.qname" :type="type" :parentXPath="parentXPath"/>
 
       </div>
 
@@ -26,7 +26,8 @@
 
 <script>
 
-import ObjectRow from "./ObjectRow.vue";
+import PropertyRow from "./PropertyRow.vue";
+import TypeRow from "./TypeRow.vue";
 
 export default {
   name: "ObjectList",
@@ -55,7 +56,8 @@ export default {
   },
 
   components: {
-    ObjectRow
+    PropertyRow,
+    TypeRow
   },
 
   data() {

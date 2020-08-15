@@ -16,7 +16,9 @@
         </span>
 
         <span v-else>
-          <span>Properties (alternate table format) in type <strong>{{ type.qname }}</strong></span>
+          <span>Properties {{ qualifier }} type </span>
+          <strong><b-link :to="typeRoute">{{ type.qname }}</b-link></strong>
+          <b-badge variant="info" pill>{{ items.length }}</b-badge>
         </span>
       </copy-table>
     </b-card>
@@ -48,7 +50,13 @@ export default {
     spacer: {
       type: Boolean,
       default: false
+    },
+
+    qualifier: {
+      type: String,
+      default: "in"
     }
+
   },
 
   components: {

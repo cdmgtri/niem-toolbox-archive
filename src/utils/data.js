@@ -216,6 +216,7 @@ class Data {
       },
 
       route: ({userKey, modelKey, releaseKey, qname}) => {
+        if (!qname) return;
         return `/${userKey}/${modelKey}/${releaseKey}/properties/${qname}`;
       },
 
@@ -291,10 +292,12 @@ class Data {
       },
 
       route: ({userKey, modelKey, releaseKey, qname}) => {
+        if (!qname) return;
         return `/${userKey}/${modelKey}/${releaseKey}/types/${qname}`;
-      },
+      }
 
     }
+
   }
 
 

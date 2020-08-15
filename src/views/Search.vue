@@ -13,8 +13,8 @@
         <!-- Main search box -->
         <b-input-group size="sm">
           <b-form-input
-            v-model.trim="input" @keydown.esc="reset"
-            placeholder="Search..." debounce="600" :autofocus="true" ref="input"/>
+            v-model.trim="input" @keydown.esc="reset" @keydown.enter="search"
+            placeholder="Search..." debounce="800" :autofocus="true" ref="input"/>
           <b-input-group-append>
             <b-button @click="reset">x</b-button>
           </b-input-group-append>
@@ -138,7 +138,7 @@
           <br/>
 
           <!-- Results -->
-          <object-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
+          <property-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
         </div>
 
       </b-col>
@@ -149,7 +149,7 @@
 
 <script>
 
-import ObjectRow from "../components/niem/ObjectRow.vue";
+import PropertyRow from "../components/niem/PropertyRow.vue";
 import { data, PropertyInstance } from "../utils/index";
 import { Property } from "niem-model";
 import { Route } from "vue-router";
@@ -158,7 +158,7 @@ export default {
 
   name: "Search",
   components: {
-    ObjectRow
+    PropertyRow
   },
 
   data() {
@@ -226,7 +226,7 @@ export default {
     },
 
     input(newValue, oldValue) {
-      newValue ? this.search() : this.reset();
+      newValue && newValue.length > 3 ? this.search() : this.reset();
     },
 
     dataTypeInput(newValue, oldValue) {
@@ -466,21 +466,6 @@ form.form-inline {
 
 .span-left {
   justify-content: left !important;
-}
-
-@media (min-width: 576px) {
-  .form-inline .custom-control-label {
-    float: left;
-    margin-right: 5px;
-    color: red;
-  }
-}
-
-div.custom-checkbox label {
-  float: left;
-  margin-right: 5px;
-  color: red !important;
-  font-size: 32px;
 }
 
 </style>

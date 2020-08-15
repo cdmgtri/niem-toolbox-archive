@@ -144,9 +144,12 @@ p.definition {
   padding-right: 10px;
 }
 
-p.copyInstructions {
-  font-weight: 100;
-  padding-top: 10px;
+span.badge {
+  margin: 0 8px;
+}
+
+p.indent {
+  padding-left: 10px;
 }
 
 </style>

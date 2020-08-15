@@ -1,25 +1,27 @@
 
 <template>
+  <!-- Converts an object with string values to a table with key-value rows -->
   <div>
+    <b-card>
+      <details :open="open">
+        <summary>
+          <slot>{{ label }}</slot>
+        </summary>
 
-    <!-- Converts an object with string values to a table with key-value rows -->
+        <b-table small :items="items" :fields="fields" thead-class="d-none">
+          <template v-slot:cell(value)="data">
+            <copy-span :label="data.item.field" :text="data.value"/>
 
-    <details :open="open">
-      <summary>{{ label }}</summary>
+            <span v-if="links.includes(data.item.field)">
+              <a :href="data.value" target="_blank">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+              </a>
+            </span>
+          </template>
+        </b-table>
 
-      <b-table small :items="items" :fields="fields" thead-class="d-none">
-        <template v-slot:cell(value)="data">
-          <copy-span :label="data.item.field" :text="data.value"/>
-
-          <span v-if="links.includes(data.item.field)">
-            <a :href="data.value" target="_blank">
-              <i class="fa fa-external-link" aria-hidden="true"></i>
-            </a>
-          </span>
-        </template>
-      </b-table>
-
-    </details>
+      </details>
+    </b-card>
     <br/>
   </div>
 </template>
@@ -79,14 +81,6 @@ table {
 
 .td-field {
   width: 150px !important;
-}
-
-</style>
-
-<style scoped>
-
-i {
-  padding-left: 10px;
 }
 
 </style>

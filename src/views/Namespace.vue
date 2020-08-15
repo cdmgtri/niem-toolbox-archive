@@ -1,27 +1,52 @@
 
 <template>
-  <niem-object v-slot="{ namespace }">
+  <object-page v-if="loaded" :definition="namespace.definition" :details="details" :detailsLinks="['URI']" :badge="namespace.style">
 
-    <h1>Namespace {{ namespace.fileName }}
-      <span v-if="namespace.fileName != namespace.prefix"> ({{ namespace.prefix }})</span>
-    </h1>
+    <template #header>
+      <h1>Namespace {{ namespace.fileName }}
+        <span v-if="namespace.fileName != namespace.prefix"> ({{ namespace.prefix }})</span>
+      </h1>
+    </template>
 
-    <namespace-info :namespace="namespace"/>
+    <template #details>
+      <namespace-info :namespace="namespace"/>
+    </template>
 
-  </niem-object>
+  </object-page>
 </template>
 
 <script>
 
-import NiemObject from "./NIEMObject.vue";
+import { data } from "../utils/index";
+import ObjectPage from "../components/niem/ObjectPage.vue";
 import NamespaceInfo from "../components/niem/NamespaceInfo.vue";
 
 export default {
 
   name: "Namespace",
   components: {
-    NiemObject,
+    ObjectPage,
     NamespaceInfo,
+  },
+
+  data() {
+    return {
+      loaded: false,
+      namespace: undefined,
+      details: undefined
+    }
+  },
+
+  async mounted() {
+    this.namespace = await data.namespaces.get(this.$route.params);
+    this.details = {
+      "Definition": this.namespace.definition,
+      "Prefix": this.namespace.prefix,
+      "File Name": this.namespace.fileName,
+      "Style": this.namespace.style,
+      "URI": this.namespace.uri,
+    }
+    this.loaded = true;
   }
 
 }

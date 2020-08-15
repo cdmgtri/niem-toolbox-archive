@@ -12,7 +12,7 @@
         </slot>
       </summary>
 
-      <p class="copyInstructions">Copy table for
+      <p class="font-weight-light pt-2">Copy table for
         <b-button variant="link" @click="copyMarkdown()" v-b-tooltip.click.v-success="'Markdown copied'">Markdown</b-button> |
         <b-button variant="link" @click="copyExcel()" v-b-tooltip.click.v-success="'Excel cells copied'">Excel</b-button>
       </p>
@@ -71,9 +71,7 @@ export default {
   methods: {
 
     copied() {
-      setTimeout( () => {
-        this.$root.$emit("bv::hide::tooltip");
-      }, 600)
+      setTimeout( () => this.$root.$emit("bv::hide::tooltip"), 600);
     },
 
     copyMarkdown() {

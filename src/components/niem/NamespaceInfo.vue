@@ -2,14 +2,6 @@
 <template>
   <div v-if="namespace">
 
-    <!-- Definition -->
-    <p class="definition"><copy-span :label="'Definition'" :text="namespace.definition"/></p>
-
-    <p><a :href="namespace.uri" target="_blank">{{ namespace.uri }}</a></p>
-
-    <!-- Namespace details -->
-    <field-value-table :object="details" label="More details" :links="['URI']"/>
-
     <!-- Namespace source -->
     <field-value-table v-if="source" :object="source" label="Source" :links="[]"/>
 
@@ -65,7 +57,6 @@
 
 <script>
 
-import CopySpan from "../CopySpan.vue";
 import FieldValueTable from "../FieldValueTable.vue";
 import WordCloud from "../WordCloud.vue";
 
@@ -85,7 +76,6 @@ export default {
   },
 
   components: {
-    CopySpan,
     FieldValueTable,
     WordCloud,
     LocalTermTable: () => import("./LocalTermTable.vue"),

@@ -92,13 +92,23 @@ npm run pm2
 
 ### Quick picks
 
+- [x] Show substitution count for abstracts
+- [x] Reformat contained properties list vs table
+- [x] Fixed missing inherited properties under contained properties
+- [x] Fix copy functions
+- [x] Rename ContainedPropertiesList component as AvailableProperties
+- [x] Quick access to augmentations in contained properties list
+- [x] Compress component info (namespace, type, etc) in object row template
+- [x] Sort property 'available in types' list by core-qname
+- [ ] nc:Person Property page takes too long to load
 - [ ] Merged stacked-object and field-value table components
 - [ ] Support internal and external links in table component
-- [ ] Show substitution count for abstracts
-- [ ] Quick access to augmentations in contained properties list
-- [ ] Reformat contained properties list vs table
-- [ ] Sort property 'available in types' list by core-qname
+- [ ] Pass xpath through property pages
 - [ ] Show all derived types on Type page
+- [ ] Start here content intro for new users
+- [ ] Support type unions
+- [ ] Support type lists
+- [ ] Support metadata applicability
 
 ### Roadmap
 
@@ -109,11 +119,12 @@ npm run pm2
 - [ ] Release, namespace, and component QA
 - [ ] NIEM change requests
 - [ ] XSD support
+- [ ] Specifications integration
 
 **History**
 
-- [ ] Save and load user settings to cache
-- [ ] Update query strings on search
+- [ ] Save and load user settings and states to cache
+- [ ] Update [query strings](https://router.vuejs.org/guide/essentials/passing-props.html#function-mode) on search
 - [ ] Save latest navigation routes to history (add new, move existing to latest)
 - [ ] Sort history by route or most recent
 - [ ] Pin items in history to saved list
@@ -121,11 +132,7 @@ npm run pm2
 
 **Release timeline**
 
-- [ ] Add additional fields to niem-model Release object
-  - [ ] date
-  - [ ] style: major, minor, other
-  - [ ] flag to show if release data has been loaded
-- [ ] Add option to load release metadata only
+- [ ] flag to show if release data has been loaded
 - [ ] Updated Models page to reuse Model component with release information
 - [ ] Display release list in Model as [timeline](https://bootsnipp.com/snippets/xrKXW) of release history
 
@@ -163,6 +170,15 @@ npm run pm2
 
 - [ ] Download XSD
 - [ ] Save / reload local release
+
+**Specifications**
+
+- [ ] Spec template
+- [ ] Rule template
+- [ ] Definition template
+- [ ] Search
+- [ ] Link qa to applicable rule
+- [ ] Link NIEM component to applicable rules
 
 ### Backlog
 

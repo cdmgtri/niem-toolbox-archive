@@ -1,8 +1,6 @@
 
 module.exports = {
-  publicPath: '/',
   assetsDir: 'src/assets',
-
   devServer: {
     watchOptions: {
       poll: true
@@ -29,6 +27,8 @@ module.exports = {
 
   pwa: {
     name: 'NIEM Toolbox'
-  }
+  },
+
+  productionSourceMap: false
 
 }
