@@ -3,7 +3,7 @@
   <div v-if="property || type">
 
     <!-- Substitutions -->
-    <object-list v-if="substitutions.length > 0" :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'"/>
+    <object-list v-if="substitutions.length > 0" :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'" :listHeader="`Substitutions for ${property.qname}`"/>
 
     <!-- Facets -->
     <facet-table v-if="facets.length > 0" :facets="facets"/>

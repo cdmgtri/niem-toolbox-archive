@@ -11,6 +11,15 @@
 
       <div v-if="load == true">
 
+        <p class="font-weight-light pl-3">Copy names for
+          <!-- Copy Markdown list -->
+          <b-button variant="link" @click="copyMarkdown()" v-b-tooltip.click.v-success="'Markdown copied'">Markdown</b-button> |
+
+          <!-- Copy Excel -->
+          <b-button variant="link" @click="copyExcel()" v-b-tooltip.click.v-success="'Excel copied'">Excel</b-button>
+        </p>
+
+
         <!-- List property rows -->
         <property-row v-for="property of properties" :key="property.qname" :property="property" :parentXPath="parentXPath"/>
 
@@ -49,6 +58,10 @@ export default {
       type: String,
       default: ""
     },
+    listHeader: {
+      type: String,
+      default: ""
+    },
     open: {
       type: Boolean,
       default: true
@@ -70,6 +83,27 @@ export default {
 
     objects() {
       return this.properties.concat(this.types);
+    }
+
+  },
+
+  methods: {
+
+
+    copy(text) {
+      this.$copyText(text);
+      setTimeout( () => this.$root.$emit("bv::hide::tooltip"), 600);
+    },
+
+    copyMarkdown() {
+      let text = this.listHeader ? `### ${this.listHeader}\n\n` : "";
+      text += this.objects.map( object => `- ${object.qname}` ).join("\n") + "\n";
+      this.copy(text);
+    },
+
+    copyExcel() {
+      let text = this.objects.map( object => object.qname ).join("\n") + "\n";
+      this.copy(text);
     }
 
   }

@@ -9,13 +9,13 @@
     <template #details>
 
       <!-- Parents -->
-      <object-list v-if="parents" :types="parents" label="Parent types"/>
+      <object-list v-if="parents" :types="parents" label="Parent types" :listHeader="`Parent type list for type ${type.qname}`"/>
 
       <!-- Type contents (codes or available properties) -->
       <object-contents :type="type"/>
 
       <!-- Data properties -->
-      <object-list v-if="dataProperties" :properties="dataProperties" label="Properties of this type" :open="false"/>
+      <object-list v-if="dataProperties" :properties="dataProperties" label="Properties of this type" :listHeader="`Properties of type ${type.qname}`" :open="false"/>
 
     </template>
 

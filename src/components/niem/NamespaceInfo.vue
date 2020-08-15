@@ -9,10 +9,10 @@
     <word-cloud v-if="properties" :properties="properties" label="Common property terms in namespace" :open="true" :prefixes="[namespace.prefix]"/>
 
     <!-- Properties -->
-    <object-list v-if="properties" :properties="properties" label="Properties" :open="false"/>
+    <object-list v-if="properties" :properties="properties" label="Properties" :listHeader="`Properties in namespace ${namespace.prefix}`" :open="false"/>
 
     <!-- Types -->
-    <object-list v-if="types" :types="types" label="Types" :open="false"/>
+    <object-list v-if="types" :types="types" label="Types" :listHeader="`Types in namespace ${namespace.prefix}`" :open="false"/>
 
     <!-- Local Terms -->
     <local-term-table v-if="localTerms" :localTerms="localTerms" :open="false"/>
