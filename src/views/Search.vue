@@ -116,10 +116,12 @@
               </b-input-group>
 
               <!-- Options dropdown -->
-              <b-dropdown right variant="link" class="results-menu" text="Options" v-b-tooltip.manual.v-success="'Copied!'">
+              <b-dropdown variant="link" class="results-menu" id="results-menu" text="Options">
 
-                <b-form-checkbox class="ml-4" v-model="$store.state.options.map">Map</b-form-checkbox>
-                <b-form-checkbox class="ml-4" v-model="$store.state.options.subset" disabled>Subset</b-form-checkbox>
+                <b-dropdown-group header="Mode">
+                  <b-form-checkbox class="ml-4" style="display: inline-flex" v-model="$store.state.options.map">Map</b-form-checkbox>
+                  <b-form-checkbox class="ml-4" style="display: inline-flex" v-model="$store.state.options.subset" disabled>Subset</b-form-checkbox>
+                </b-dropdown-group>
 
                 <b-dropdown-divider/>
 
@@ -130,11 +132,12 @@
 
               </b-dropdown>
 
-              <b-tooltip title="Copied!" target="results-menu" variant="success"/>
 
             </span>
 
           </b-form>
+
+          <b-tooltip title="Copied!" target="results-menu__BV_toggle_" variant="success" :show="showTooltip" triggers="manual"/>
           <br/>
 
           <!-- Results -->
@@ -385,11 +388,9 @@ export default {
       }
 
       await this.$copyText(text);
+      this.showTooltip = true;
 
-      this.$root.$emit('bv::show::tooltip');
-
-      // Reset the cursor and hide the tooltip
-      setTimeout( () => this.$root.$emit('bv::hide::tooltip'), 600);
+      setTimeout( () => this.showTooltip = false, 600);
 
     }
 
@@ -458,14 +459,6 @@ div.input-group.sort {
 
 form.form-inline {
   max-height: 25px;
-}
-
-.results-menu label {
-  justify-content: left !important;
-}
-
-.span-left {
-  justify-content: left !important;
 }
 
 </style>
