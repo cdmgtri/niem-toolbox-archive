@@ -12,7 +12,7 @@
     <p v-if="definition"><copy-span :text="definition" label="Definition"/></p>
 
     <!-- Property details -->
-    <field-value-table v-if="details" :object="details" :links="detailsLinks" label="Basic fields" :open="false"/>
+    <stacked-field-table v-if="details" :object="details" :links="detailsLinks" label="Basic fields" :open="false"/>
 
     <!-- Namespace -->
     <namespace-details-row v-if="namespace" :namespace="namespace" :spacer="true"/>
@@ -27,8 +27,8 @@
 import { data } from "../../utils/index";
 import Breadcrumb from "../Breadcrumb.vue";
 import CopySpan from "../CopySpan.vue";
-import FieldValueTable from "../FieldValueTable.vue";
 import NamespaceDetailsRow from "./NamespaceDetailsRow.vue";
+import StackedFieldTable from "../StackedFieldTable.vue";
 
 export default {
 
@@ -37,8 +37,8 @@ export default {
   components: {
     Breadcrumb,
     CopySpan,
-    FieldValueTable,
-    NamespaceDetailsRow
+    NamespaceDetailsRow,
+    StackedFieldTable,
   },
 
   props: {

@@ -1,21 +1,21 @@
 
 <template>
   <!-- Type details -->
-  <field-value-table v-if="type" :object="details" :open="false">
+  <stacked-field-table v-if="type" :object="details" :open="false">
     <span>Type </span>
     <strong><b-link :to="typeRoute">{{ type.qname }}</b-link></strong>
     <small>
       <span v-if="type.baseQName"> (extends <b-link :to="baseRoute">{{ type.baseQName }})</b-link></span>
     </small>
     <b-badge variant="secondary" pill>{{ type.style }}</b-badge>
-  </field-value-table>
+  </stacked-field-table>
 </template>
 
 <script>
 
 import { Type } from "niem-model";
 import { data, TypeInstance } from "../../utils/index";
-import FieldValueTable from "../FieldValueTable.vue";
+import StackedFieldTable from "../StackedFieldTable.vue";
 
 export default {
 
@@ -28,7 +28,7 @@ export default {
   },
 
   components: {
-    FieldValueTable,
+    StackedFieldTable,
   },
 
   data() {

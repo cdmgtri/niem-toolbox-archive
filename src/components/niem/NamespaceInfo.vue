@@ -3,7 +3,7 @@
   <div v-if="namespace">
 
     <!-- Namespace source -->
-    <field-value-table v-if="source" :object="source" label="Source" :links="[]"/>
+    <stacked-field-table v-if="source" :object="source" label="Source" :links="[]"/>
 
     <!-- Word cloud of common property terms -->
     <word-cloud v-if="properties" :properties="properties" label="Common property terms in namespace" :open="true" :prefixes="[namespace.prefix]"/>
@@ -57,7 +57,7 @@
 
 <script>
 
-import FieldValueTable from "../FieldValueTable.vue";
+import StackedFieldTable from "../StackedFieldTable.vue";
 import WordCloud from "../WordCloud.vue";
 
 import { Namespace } from "niem-model";
@@ -76,7 +76,7 @@ export default {
   },
 
   components: {
-    FieldValueTable,
+    StackedFieldTable,
     WordCloud,
     LocalTermTable: () => import("./LocalTermTable.vue"),
     ObjectList: () => import("./ObjectList.vue")

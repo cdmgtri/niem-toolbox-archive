@@ -28,9 +28,7 @@
 
         <!-- Additional IEPD metadata for row -->
         <template v-slot:row-details="row">
-          <b-card v-if="namespaceSummaries[row.item.prefix]">
-            <stacked-object-table :object="namespaceSummaries[row.item.prefix]" :htmlFields="['uri', 'website', 'updateURI']"/>
-          </b-card>
+          <stacked-field-table v-if="namespaceSummaries[row.item.prefix]" :object="namespaceSummaries[row.item.prefix]" :links="['uri', 'website', 'updateURI']" label="Namespace overview" :open="true"/>
         </template>
 
       </b-table>
@@ -41,13 +39,13 @@
 <script>
 
 import { breadcrumbs, data } from "../utils/index";
-import StackedObjectTable from "../components/StackedObjectTable.vue";
+import StackedFieldTable from "../components/StackedFieldTable.vue";
 
 export default {
 
   name: "Model",
   components: {
-    StackedObjectTable
+    StackedFieldTable,
   },
 
   data() {

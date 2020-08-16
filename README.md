@@ -101,15 +101,8 @@ npm run pm2
 - [x] Compress component info (namespace, type, etc) in object row template
 - [x] Sort property 'available in types' list by core-qname
 - [x] nc:PersonType Type page doesn't load - fixed descendant types
-- [ ] nc:Person Property page takes too long to load
-- [ ] Merged stacked-object and field-value table components
-- [ ] Support internal and external links in table component
-- [ ] Pass xpath through property pages
-- [ ] Show all derived types on Type page
-- [ ] Start here content intro for new users
-- [ ] Support type unions
-- [ ] Support type lists
-- [ ] Support metadata applicability
+- [x] Show all derived types on Type page
+- [x] Merged stacked-object and field-value table components
 
 ### Roadmap
 
@@ -200,8 +193,13 @@ npm run pm2
 
 **Miscellaneous**
 
+- [ ] Pass xpath through property pages
+- [ ] Start here content intro for new users
 - [ ] Add dependents to Namespace page
 - [ ] Add prefix filter to Word cloud component
+- [ ] Represent type unions
+- [ ] Represent type lists
+- [ ] Represent metadata appliesTo
 
 **Search**
 

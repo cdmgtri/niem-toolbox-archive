@@ -1,17 +1,17 @@
 
 <template>
   <!-- Namespace details -->
-  <field-value-table v-if="namespace" :object="details" :links="['URI']" :open="false">
+  <stacked-field-table v-if="namespace" :object="details" :links="['URI']" :open="false">
     <span>Namespace </span>
     <strong><b-link :to="namespaceRoute">{{ namespace.fileName }}</b-link></strong>
     <span v-if="namespace.fileName != namespace.prefix"> ({{ namespace.prefix }})</span>
     <b-badge variant="secondary" pill>{{ namespace.style }}</b-badge>
-  </field-value-table>
+  </stacked-field-table>
 </template>
 
 <script>
 
-import FieldValueTable from "../FieldValueTable.vue";
+import StackedFieldTable from "../StackedFieldTable.vue";
 
 import { Namespace } from "niem-model";
 import { data, NamespaceInstance } from "../../utils/index";
@@ -34,7 +34,7 @@ export default {
   },
 
   components: {
-    FieldValueTable,
+    StackedFieldTable,
   },
 
   data() {

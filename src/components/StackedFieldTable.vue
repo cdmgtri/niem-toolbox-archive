@@ -32,7 +32,7 @@ import CopySpan from "./CopySpan.vue";
 
 export default {
 
-  name: "FieldValueTable",
+  name: "StackedFieldTable",
   components: {
     CopySpan
   },

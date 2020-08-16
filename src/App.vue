@@ -140,16 +140,8 @@ h4.section {
   padding-bottom: 2px;
 }
 
-p.definition {
-  padding-right: 10px;
-}
-
 span.badge {
   margin: 0 8px;
-}
-
-p.indent {
-  padding-left: 10px;
 }
 
 </style>
