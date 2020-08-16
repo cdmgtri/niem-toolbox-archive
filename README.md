@@ -100,6 +100,7 @@ npm run pm2
 - [x] Quick access to augmentations in contained properties list
 - [x] Compress component info (namespace, type, etc) in object row template
 - [x] Sort property 'available in types' list by core-qname
+- [x] nc:PersonType Type page doesn't load - fixed descendant types
 - [ ] nc:Person Property page takes too long to load
 - [ ] Merged stacked-object and field-value table components
 - [ ] Support internal and external links in table component
@@ -189,11 +190,6 @@ npm run pm2
 - [ ] Pass current xpath into property pages?
 - [ ] Extra panel option for large displays
 - [ ] Swap out backend
-
-**Copy buttons**
-
-- [ ] Default copy button action
-- [ ] Additional drop-down copy button actions
 
 **Release page**
 

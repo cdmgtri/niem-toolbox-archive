@@ -11,6 +11,12 @@
       <!-- Parents -->
       <object-list v-if="parents" :types="parents" label="Parent types" :listHeader="`Parent type list for type ${type.qname}`"/>
 
+      <!-- Child types -->
+      <object-list v-if="children" :types="children" label="Immediate child types" :listHeader="`Child types for type ${type.qname}`" :open="false"/>
+
+      <!-- Additional descendant child types -->
+      <object-list v-if="descendants" :types="descendants" label="Additional descendant types" :listHeader="`Additional descendant types for type ${type.qname}`" :open="false"/>
+
       <!-- Type contents (codes or available properties) -->
       <object-contents :type="type"/>
 
@@ -45,6 +51,8 @@ export default {
       type: undefined,
       namespace: undefined,
       parents: undefined,
+      children: undefined,
+      descendants: undefined,
       dataProperties: undefined,
       details: undefined
     }
@@ -55,6 +63,8 @@ export default {
     this.namespace = await this.type.namespace();
     this.parents = await this.type.parents();
     this.dataProperties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
+    this.children = await this.type.childTypes();
+    this.descendants = await this.type.descendantTypes(false)
 
     this.details = {
       "Prefix": this.type.prefix,
