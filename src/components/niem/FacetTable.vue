@@ -1,6 +1,6 @@
 
 <template>
-  <copy-table :items="items" :fields="fields" label="Codes / Facets"/>
+  <copy-table v-if="facets && facets.length > 0" :items="items" :fields="fields" label="Codes / Facets"/>
 </template>
 
 <script>

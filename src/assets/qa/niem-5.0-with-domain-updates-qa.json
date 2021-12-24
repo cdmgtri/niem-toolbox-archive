@@ -1,0 +1,4201 @@
+[
+  {
+    "id": "facet_definition_duplicate",
+    "description": "Facets should probably have unique definitions within their type.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "facet_definition_formatting",
+    "description": "Facet definitions should not contain tabs, new lines,  carriage returns, or irregular spaces.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 30,
+    "issues": [],
+    "timeStart": 1624939154058
+  },
+  {
+    "id": "facet_definition_nbsp",
+    "description": "Facet definitions should probably not contain non-breaking spaces",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [
+      "genc:CountrySubdivisionCodeSimpleType - enum XK-38",
+      "genc:CountrySubdivisionCodeSimpleType - enum XK-39",
+      "iso_3166:CountrySubdivisionCodeSimpleType - enum BD-45",
+      "iso_3166:CountrySubdivisionCodeSimpleType - enum IL-M",
+      "iso_3166:CountrySubdivisionCodeSimpleType - enum MX-CMX"
+    ],
+    "ran": true,
+    "timeElapsedMs": 34,
+    "issues": [],
+    "timeStart": 1624939154098
+  },
+  {
+    "id": "facet_definition_missing_code",
+    "description": "Codes (enumerations) must have definitions.",
+    "category": "Missing value",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "enumerations",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "9-14",
+    "exampleValid": "Code facet 'MON' must have a definition (e.g., 'Monday').",
+    "exampleInvalid": "Length facet '10' is not required to have a definition.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 6,
+    "issues": [],
+    "timeStart": 1624939154088
+  },
+  {
+    "id": "facet_definition_missing_pattern",
+    "description": "Pattern should probably have a definition to make it easier for other users to understand the intended values.",
+    "category": "Missing value",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "patterns",
+    "source": "model",
+    "severity": "info",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Pattern facet '\\d{3}-\\d{3}-\\d{4}' should have a definition (e.g., 'Telephone number format matching the pattern ###-###-####').",
+    "exampleInvalid": "Length facet '10' is not required to have a definition.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 4,
+    "issues": [
+      {
+        "prefix": "ag_codes",
+        "label": "ag_codes:CropYearSimpleType - pattern ^([1][9]\\d\\d|[2]\\d\\d\\d)$",
+        "problemValue": "",
+        "comments": ""
+      },
+      {
+        "prefix": "ag_codes",
+        "label": "ag_codes:TaxIdentificationIDSimpleType - pattern [0-9]{9}",
+        "problemValue": "",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:LipPatternSimpleType - pattern <>",
+        "problemValue": "",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:MILSTD2525-B-SIDC-SimpleType - pattern [A-Z0-9\\-]{15}",
+        "problemValue": "",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:MILSTD2525-C-SIDC-SimpleType - pattern [A-Z0-9\\-]{15}",
+        "problemValue": "",
+        "comments": ""
+      }
+    ],
+    "timeStart": 1624939154094
+  },
+  {
+    "id": "facet_kind_invalid",
+    "description": "Facets must have a valid style (e.g., enumeration, pattern, etc.).",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "kind",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 7,
+    "issues": [],
+    "timeStart": 1624939154138
+  },
+  {
+    "id": "facet_type_complex",
+    "description": "Facets cannot belong to a complex type.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Code 'MON' can belong to simple type 'WeekdayCodeSimpleType'.",
+    "exampleInvalid": "Code 'MON' cannot belong to complex object type 'nc:PersonType'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1304,
+    "issues": [],
+    "timeStart": 1624939154145
+  },
+  {
+    "id": "facet_type_repTerm_code",
+    "description": "Codes must belong to types whose names end with \"CodeSimpleType\"",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "name",
+    "scope": "enumerations",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-7",
+    "exampleValid": "Code 'MON' can belong to a type named 'WeekdayCodeSimpleType'.",
+    "exampleInvalid": "Code 'MON' cannot belong to a type named 'WeekdaySimpleType'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 98,
+    "issues": [],
+    "timeStart": 1624939155449
+  },
+  {
+    "id": "facet_type_unknown",
+    "description": "Facets must belong to an existing type.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1312,
+    "issues": [],
+    "timeStart": 1624939155547
+  },
+  {
+    "id": "facet_value_duplicate_code",
+    "description": "It is recommended that codes should be unique within their type.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "value",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type 'WeekdayCodeSimpleType' with codes 'MON', 'TUE', 'WED', ...",
+    "exampleInvalid": "Type 'WeekdayCodeSimpleType' with codes 'MON', 'MON', 'MON', ...",
+    "exceptionLabels": [
+      "dea:DrugCodeSimpleType",
+      "fips:USCounty3DigitCodeSimpleType",
+      "hazmat:HazmatCodeSimpleType",
+      "usps:StreetSuffixCodeSimpleType",
+      "can:StreetDirectionCodeSimpleType"
+    ],
+    "ran": true,
+    "timeElapsedMs": 208,
+    "issues": [
+      {
+        "prefix": "cbrncl",
+        "label": "cbrncl:FacilityUsageCodeSimpleType - enum Military Research Facility",
+        "problemValue": "Military Research Facility",
+        "comments": "Definition: Buildings used in the direct research, development, testing, and evaluation of military equipment."
+      },
+      {
+        "prefix": "cbrncl",
+        "label": "cbrncl:FacilityUsageCodeSimpleType - enum Military Research Facility",
+        "problemValue": "Military Research Facility",
+        "comments": "Definition: Military Research Facility"
+      },
+      {
+        "prefix": "em",
+        "label": "em:BarcodeCodeSimpleType - enum SCC-14",
+        "problemValue": "SCC-14",
+        "comments": "Definition: Character set C encodes only numbers and the FNC1 function (indicated in blue). Because the numbers are \"interleaved\" into pairs, two numbers are encoded into every bar-code character which makes it a very high-density bar-code."
+      },
+      {
+        "prefix": "em",
+        "label": "em:BarcodeCodeSimpleType - enum SCC-14",
+        "problemValue": "SCC-14",
+        "comments": "Definition: Interleaved 2 of 5 (ITF) is a numeric-only bar-code used for encoding pairs of numbers in a high density bar-code format"
+      },
+      {
+        "prefix": "em",
+        "label": "em:BarcodeCodeSimpleType - enum USPS",
+        "problemValue": "USPS",
+        "comments": "Definition: Character set A allows for uppercase characters, punctuation, numbers and several special functions such as a return or tab.Character set B allows for upper and lower case letters, punctuation, numbers and a few select functions"
+      },
+      {
+        "prefix": "em",
+        "label": "em:BarcodeCodeSimpleType - enum USPS",
+        "problemValue": "USPS",
+        "comments": "Definition: Interleaved 2 of 5 (ITF) is a numeric-only bar-code used for encoding pairs of numbers in a high density bar-code format"
+      },
+      {
+        "prefix": "em",
+        "label": "em:NotificationFunctionCategoryCodeSimpleType - enum Alert",
+        "problemValue": "Alert",
+        "comments": "Definition: Alert message(s)"
+      },
+      {
+        "prefix": "em",
+        "label": "em:NotificationFunctionCategoryCodeSimpleType - enum Alert",
+        "problemValue": "Alert",
+        "comments": "Definition: Initial information requiring attention by targeted recipients"
+      },
+      {
+        "prefix": "mmucc",
+        "label": "mmucc:DriverLicenseClassCodeSimpleType - enum NA",
+        "problemValue": "NA",
+        "comments": "Definition: None/Not Applicable"
+      },
+      {
+        "prefix": "mmucc",
+        "label": "mmucc:DriverLicenseClassCodeSimpleType - enum NA",
+        "problemValue": "NA",
+        "comments": "Definition: Not Applicable"
+      }
+    ],
+    "timeStart": 1624939156860
+  },
+  {
+    "id": "facet_value_formatting",
+    "description": "Facet values should not contain leading or trailing spaces, multiple consecutive spaces, or non-breaking spaces.",
+    "category": "Invalid value",
+    "component": "Facet",
+    "field": "value",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 37,
+    "issues": [],
+    "timeStart": 1624939157068
+  },
+  {
+    "id": "facet_value_missing",
+    "description": "Facets must have a value (e.g., a code value or a pattern value, etc).",
+    "category": "Missing value",
+    "component": "Facet",
+    "field": "value",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 7,
+    "issues": [
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeDeltaCategoryCodeSimpleType - enum ",
+        "problemValue": "",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrncl",
+        "label": "cbrncl:FacilityUsageCodeSimpleType - enum ",
+        "problemValue": "",
+        "comments": ""
+      }
+    ],
+    "timeStart": 1624939157105
+  },
+  {
+    "id": "localTerm_definition_formatting",
+    "category": "Invalid value",
+    "component": "LocalTerm",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939147308
+  },
+  {
+    "id": "localTerm_literal_formatting",
+    "category": "Invalid value",
+    "component": "LocalTerm",
+    "field": "literal",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939147308
+  },
+  {
+    "id": "localTerm_term_formatting",
+    "category": "Invalid value",
+    "component": "LocalTerm",
+    "field": "literal",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939147317
+  },
+  {
+    "id": "localTerm_term_duplicate",
+    "category": "Invalid value",
+    "component": "LocalTerm",
+    "field": "term",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 8,
+    "issues": [],
+    "timeStart": 1624939147309
+  },
+  {
+    "id": "localTerm_term_unused",
+    "category": "Invalid value",
+    "component": "LocalTerm",
+    "field": "term",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "namespace_definition_formatting",
+    "description": "Namespace definitions should have consistent formatting.",
+    "category": "Invalid value",
+    "component": "Namespace",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939147294
+  },
+  {
+    "id": "namespace_definition_spellcheck",
+    "description": "Namespace definitions should use words and terms that are either defined in the dictionary or as \"Local Terminology\".",
+    "category": "Invalid value",
+    "component": "Namespace",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 12,
+    "issues": [],
+    "timeStart": 1624939147295
+  },
+  {
+    "id": "property_definition_augmentation",
+    "description": "Augmentation definitions should follow a consistent pattern.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "definition",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Definitions 'Additional information about a person' and 'Additional information about nc:PersonType' are valid for em:PersonAugmentation.",
+    "exampleInvalid": "Definitions 'Additional information about a location' and 'Additional information about nc:OrganizationType' are not valid for em:PersonAugmentation.",
+    "exceptionLabels": [
+      "hs:ActivityPersonAssociationAugmentation"
+    ],
+    "ran": true,
+    "timeElapsedMs": 13,
+    "issues": [],
+    "timeStart": 1624939147319
+  },
+  {
+    "id": "property_definition_augmentationPoint",
+    "description": "Augmentation point definitions should follow a consistent pattern.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "definition",
+    "scope": "augmentation points",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Definitions 'An augmentation point for PersonType' and a'An augmentation point for nc:PersonType' are valid for nc:PersonAugmentationPoint",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 53,
+    "issues": [],
+    "timeStart": 1624939147332
+  },
+  {
+    "id": "property_definition_formatting",
+    "description": "Property definitions should have consistent formatting.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 11,
+    "issues": [],
+    "timeStart": 1624939147385
+  },
+  {
+    "id": "property_definition_representation",
+    "description": "Representation pattern definitions should follow a consistent pattern.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "definition",
+    "scope": "representations",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939147396
+  },
+  {
+    "id": "property_definition_spellcheck",
+    "description": "Property definitions should use words and terms that are either defined in the dictionary or as \"Local Terminology\".",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Definition 'A FIPS state codes\" is valid if the term 'FIPS' is defined as Local Terminology in that namespace.",
+    "exampleInvalid": "A FIPS state codes\" is not recommended if the term 'FIPS' is not defined as Local Terminology in that namespace.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 242,
+    "issues": [
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:PersonBloodTypeCode",
+        "problemValue": "RH",
+        "comments": "A blood group and RH factor of a person."
+      }
+    ],
+    "timeStart": 1624939147398
+  },
+  {
+    "id": "property_general_unused",
+    "description": "Check for properties that do not appear under a type and are not substitutions.  Most will be intentional, but a few may be bugs.",
+    "category": "Invalid value",
+    "component": "Property",
+    "scope": "all",
+    "source": "model",
+    "severity": "info",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [
+      "nc:CalendarDate",
+      "nc:Chemical",
+      "nc:CommercialFacility",
+      "nc:Computer",
+      "nc:ContactAbstract",
+      "nc:CoordinatingAgency",
+      "nc:CourtCase",
+      "nc:DrugMeasure",
+      "nc:ElectronicEquipment",
+      "nc:ElectronicInstrument",
+      "nc:Email",
+      "nc:HazardousMaterial",
+      "nc:HazmatAbstract",
+      "nc:InjuryTreatment",
+      "nc:Kit",
+      "nc:Machinery",
+      "nc:OdometerReadingMeasure",
+      "nc:PersonWorkLocation",
+      "nc:ResidentialFacility",
+      "nc:RiskReductionFacility",
+      "nc:RiskReductionProgram",
+      "nc:RoleOfAbstract",
+      "nc:ServiceDeliveryNGO",
+      "nc:TowingCompany",
+      "nc:UTMCoordinateValue",
+      "j:AdmittingAgency",
+      "j:AmendedSentence",
+      "j:Attorney",
+      "j:CorrectionalCounselor",
+      "j:Corrections",
+      "j:Counselor",
+      "j:CourtCharge",
+      "j:CorrectionsOfficerAppliedForce",
+      "j:CorrectionSubjectNotification",
+      "j:DetainerNotificationRequest",
+      "j:DetainerOrder",
+      "j:Detention",
+      "j:DetentionFacility",
+      "j:DevelopmentDisability",
+      "j:DisciplinaryIncident",
+      "j:DiversionProgram",
+      "j:DriverLicenseConviction",
+      "j:Felony",
+      "j:FinalPlea",
+      "j:Holding",
+      "j:Infraction",
+      "j:Judgment",
+      "j:MentalHealthNotification",
+      "j:MentalHealthTreatment",
+      "j:Metal",
+      "j:Misdemeanor",
+      "j:NetworkAddress",
+      "j:OfferedPlea",
+      "j:Parole",
+      "j:PreciousMetal",
+      "j:PreviousSentence",
+      "j:Probation",
+      "j:Project",
+      "j:ProsecutionCharge",
+      "j:RansomMoneyCode",
+      "j:RehabilitationProgram",
+      "j:Restitution",
+      "j:SearchWarrant",
+      "j:SubExhibit",
+      "j:SubstanceTest",
+      "j:Summons",
+      "j:Suspect",
+      "j:TaskForce",
+      "j:Violation"
+    ],
+    "ran": true,
+    "timeElapsedMs": 2450,
+    "issues": [
+      {
+        "prefix": "biom",
+        "label": "biom:ApplicationProfileName",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ApplicationProfileOrganizationName",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ApplicationProfileVersionIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:AssuranceAuditRevisionID",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:AssuranceFormatDescriptorText",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:AssuranceFormatOwnerID",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:AssuranceOrganization",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:AssuranceUTCDateTime",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ContentFirstRecordCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ContentRecordQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ContextCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:CrossReferenceIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:DiarizationDetailList",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:DiaryTaggedDate",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:DomainVersionNumberIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:EncounterIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:FingerprintAcquisitionProfileAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:FingerprintLegacyImageImpressionCaptureCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ImageHorizontalSmallLineLengthPixelQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:ImageVerticalSmallLineLengthPixelQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MajorCasePrintCodeText",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeExaminer",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeExaminerAffiliation",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeFeatureIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeFeatureReferenceIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeFingerPositionAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeFormatContactOrganization",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaeUniversalLatentWorkstationAnnotationText",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaLocationPoint",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:MinutiaLocationReferencePoint",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:PalmPrintAcquisitionProfileAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:RecordForwardOrganizations",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:RecordRapSheetRequestIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:RecordRetentionIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:SourceCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:Type22CrossReferenceID",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:UserDefinedFieldsAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:VoiceDataBinaryObject",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:EncounterDeviceIdentificationData",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:MessageContentHeader",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:OperatingSchedule",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:RelationshipBeginDateTime",
+        "comments": ""
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:RelationshipEndDateTime",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AdditionalCapacity24HourQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AdditionalCapacity72HourQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AdultGeneralServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AnesthesiaServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ApplicantName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AssistanceInNeedQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AssistanceTargetedQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:AvailableQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:BaselineQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:BeachProfileIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:BurnServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CardiologyServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CardioThoracicServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-CDamageText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-CRepairsText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-DDamageText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-DName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-DRepairsText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-EDamageText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-EName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-ERepairsText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-FDamageText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-FName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Cat-FRepairsText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CategoryInformation",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CategoryStructure",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CATGDamageText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CATGRepairsText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CDDebrisValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Certifications",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CommercialID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CommercialIDCategoryText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CompletedWorkLaborCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ContactPartyID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:Credentials",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CulvertRoadCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:CulvertRoadDamageIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DataLastVerifiedCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DataLastVerifiedDateByID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DataLastVerifiedNoteText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DebrisStagingIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DeliveryMethodText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DeploymentStatus",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DisasterDeclarationText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DisposalCommonName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:DisposalStagingName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EOCPlanCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EOCStatusCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMCostValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMDonationIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMGroundIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMHazardousIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMHistoricIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMNarrativeText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:EPMWaterIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:FacilityCategoryText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:FedFloodControlIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:FEDInfrastructureIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:FunctionalUtilitiesIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:HandServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ImpactedUnitsNumeric",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:InaccessibleDescriptionText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:InaccessibleHomesCountValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:IncidentActivationLevelText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:IncludeHigherCapabilityResourceIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:InCompletedWorkLaborCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:IndividualAssistanceFloodWaterDepthValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:InfectiousDiseasesServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:InvoiceImage",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:LaborDeliveryServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:LowWaterRoadCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MetricCommentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MFAffectedQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MFDestroyedQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MFMajorQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MFMinorQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:MinChildResourceClassQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:NotificationOriginationDateTime",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OrganizationIDProviderName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OriginatingMessageID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherBeachComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherBridgeCategoryText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherBridgeComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherBuildingComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCat-DText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCategoryDamText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCategoryRetentionDetentionText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCatGText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCommunicationsComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCulvertMaterialText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCulvertRoadText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherCulvertShapeText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherDebrisText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherEPMText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherGasComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherLeveeMaterialText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherLowWaterRoadText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherNavigationMaterialText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherParksText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherRoadText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherSnowText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherTransitComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherTransitText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherTreatmentComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OtherWaterStorageComponentText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OwnerIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OwnershipOrganization",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:OwningOrganization",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ParentOrganizationID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:PersonAlternateName",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:PrecedingMessageID",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:PrimaryResidenceIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:PrivateIneligibleInfrastructureIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:PutrescentDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:RecoveryWorkCompleteIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ReimplantationServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:RepairCostValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ResourceIDDescriptionText",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:ResourceIDIssuingDate",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SandSoilMudDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SFAffectedQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SFDestroyedQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SFMajorQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SFMinorQualifierCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:SpinalServiceCoverageStatusCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:StaffingCode",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:USACEBeachIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:VegetativeDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:VehicleDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:VesselDebrisQuantity",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:WetDebrisValue",
+        "comments": ""
+      },
+      {
+        "prefix": "em",
+        "label": "em:WhiteDebrisValue",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:AgencyCase",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:AgencyRecommendationsText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:Assessment",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:BiologicalParentDeterminationMethodAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:Caregiver",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:CaseFillerDescriptionText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:childSupportEnforcementCaseIDStatusText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:ChildWelfareCounselForWhomText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:DelinquentAct",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:DocumentCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:HearingCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:HomeStudyCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:JuvenileStatusOffenseIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:MaritalStatusCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:MissingChildAbductor",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:MissingChildCaller",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:MissingChildCompanion",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:MissingChildSuspect",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:NextCourtEvent",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:PermanencyAchievementDate",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:PreAdjudicationSupervision",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:PreTrialSupervision",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:ReasonableEffortsDescriptionText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:ReasonForInitialRemovalText",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:RequestedService",
+        "comments": ""
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:TransmittalRequestCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:DepartMethodText",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:DeportationOrderLocationText",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:DeportationReliefDate",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:RequestedDeportationDate",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:SchoolOwner",
+        "comments": ""
+      },
+      {
+        "prefix": "im",
+        "label": "im:StayRequestDate",
+        "comments": ""
+      },
+      {
+        "prefix": "intel",
+        "label": "intel:ThreatCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:Arrival",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:CustomsItemIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:Departure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsChargeableWeightMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsDiameterMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsDrainedWeightMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsGrossVolumeMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsGrossWeightMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsItemPackaging",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsItemShapeCode",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsNetVolumeMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsTareWeightMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsTariffCodeNumberCategoryText",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsVolumeMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:GoodsWeightMeasureSystemText",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:HazmatCommonName",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:HazmatShippingName",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:LocationFunctionAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:OperatingOrganizationName",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:ParentOrganizationName",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:RoleOfOrganizationCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:RoleOfPartyCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:ShippingContainerEmptyWeightMeasure",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:TradePartyAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:TransitPrincipal",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:TransportMeansOperatorIDCategory",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:TransportMeansOwnerIDCategory",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:WCODocumentCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:WCODocumentFunctionCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "it",
+        "label": "it:WCODocumentNameCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:Arrival",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:ConveyanceOnBoard",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:Departure",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:LastPortOfCall",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:VesselBoardingActivity",
+        "comments": ""
+      },
+      {
+        "prefix": "m",
+        "label": "m:VolumeUnitText",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:ArmedServiceCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:ContactHostNameText",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:DestinationLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:IdentificationUUID",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:MilitaryInstallationName",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:ObservationIDURI",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:ObservedObjectStandardIdentityCodeAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:PointOfOriginLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:PortOfDebarkationLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:PortOfEmbarkationLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:WGS84LocationLineString",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:AlienEncounterIdentification",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:BiographicCaptureDate",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:CaptureDuration",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:CaptureSoftware",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ClassOfAdmissionCode",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ClientApplicationSoftware",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:CreditCardIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:DeportationDepartProof",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ElectronicAddressText",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:EncounterDeviceCategoryAbstract",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:EntryDate",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:FingerPrintCardIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:FingerprintCompressionSoftware",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ImageQualitySoftware",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ImagesConcatenatedIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ImageSegmentationSoftware",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:JuvenileClaimedIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:JuvenileVerifiedIndicator",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:OrganizationPhoneEffectiveDate",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:OrganizationPhoneEndDate",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:PerformanceMetricsInformation",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:PersonSubjectEncounter",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ScreeningAlertCategoryCode",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:ScreeningDocumentStatus",
+        "comments": ""
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:TotalCaptureDuration",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:AADTRampYearDate",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:AADTRoadIntersectingNumeric",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:AADTRoadIntersectingYearDate",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:ApproachID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:AverageAnnualDailyTrafficYearDate",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:BeginningRampTerminalLocationID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:EndingRampTerminalLocationID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:InterchangeID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:JunctionID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:LocationRoadCrossingPoint",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:RampLengthValue",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:RouteNumeric",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:SegmentBeginPointLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:SegmentEndPointLocation",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:SegmentID",
+        "comments": ""
+      },
+      {
+        "prefix": "st",
+        "label": "st:SegmentLengthValue",
+        "comments": ""
+      }
+    ],
+    "timeStart": 1624939147640
+  },
+  {
+    "id": "property_group_invalid",
+    "description": "Property substitution groups must be valid (element and has a compatible type).",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "group",
+    "scope": "elements",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_group_unknown",
+    "description": "Property substitution groups must exist.",
+    "category": "Bad reference",
+    "component": "Property",
+    "field": "group",
+    "scope": "elements",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_name_augmentation",
+    "description": "Augmentation element names should correspond to the name of the augmentation point element for which they substitute.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Element name 'PersonAugmentation' is valid for an augmentation that substitutes for nc:PersonAugmentationPoint.",
+    "exampleInvalid": "Element name 'ManagerAugmentation' is not valid for an augmentation that substitutes for nc:PersonAugmentationPoint.",
+    "exceptionLabels": [
+      "geo:LocationFeature",
+      "geo:LocationGeometry"
+    ],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [
+      {
+        "prefix": "mo",
+        "label": "mo:AngularMeasureDecimalValue",
+        "problemValue": "AngularMeasureDecimalValue",
+        "comments": "Does not correspond with mo:CourseAngleDegreesMeasureAugmentationPoint"
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:CommentDestinationText",
+        "problemValue": "CommentDestinationText",
+        "comments": "Does not correspond with nc:CommentAugmentationPoint"
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:CommentKeywordText",
+        "problemValue": "CommentKeywordText",
+        "comments": "Does not correspond with nc:CommentAugmentationPoint"
+      }
+    ],
+    "timeStart": 1624939150090
+  },
+  {
+    "id": "property_name_camelCase_attribute",
+    "description": "Attribute names must begin with a lower case letter.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "attributes",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-48",
+    "exampleValid": "Attribute name 'sequenceID' is valid because it begins with a lower case letter.",
+    "exampleInvalid": "Attribute name 'SequenceID' is not valid because it begins with an upper case letter.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939150092
+  },
+  {
+    "id": "property_name_camelCase_element",
+    "description": "Element names must begin with an upper case letter.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "elements",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-49",
+    "exampleValid": "Element name 'Person' is valid because it begins with an upper case letter.",
+    "exampleInvalid": "Element name 'person' is not valid because it begins with a lower case letter.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 3,
+    "issues": [],
+    "timeStart": 1624939150094
+  },
+  {
+    "id": "property_name_duplicate",
+    "description": "Properties must have unique names within their namespaces.",
+    "category": "Duplicate",
+    "component": "Property",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 20,
+    "issues": [],
+    "timeStart": 1624939150097
+  },
+  {
+    "id": "property_name_invalidChar",
+    "description": "Property names must use valid characters.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-45",
+    "exampleValid": "Property name 'Person' uses valid characters.",
+    "exampleInvalid": "Property name 'PersonIsCitizen?' does not use valid characters.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 3,
+    "issues": [],
+    "timeStart": 1624939150117
+  },
+  {
+    "id": "property_name_missing",
+    "description": "Properties must have names.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150120
+  },
+  {
+    "id": "property_name_overlap",
+    "description": "Check for properties names that are repeated in a release (exclude augmentations, metadata and codes).",
+    "category": "Duplicate",
+    "component": "Property",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "info",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 54,
+    "issues": [
+      {
+        "prefix": "biom",
+        "label": "biom:DeviceCategoryText",
+        "problemValue": "DeviceCategoryText",
+        "comments": "Type: nc:TextType\nDef: A kind of device type"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:DeviceCategoryText",
+        "problemValue": "DeviceCategoryText",
+        "comments": "Type: nc:TextType\nDef: A kind of communication device."
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:PhysicalFeatureImage",
+        "problemValue": "PhysicalFeatureImage",
+        "comments": "Type: biom:PhysicalFeatureImageType\nDef: An image of a physical feature"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:PhysicalFeatureImage",
+        "problemValue": "PhysicalFeatureImage",
+        "comments": "Type: nc:ImageType\nDef: A digital image of a physical feature."
+      },
+      {
+        "prefix": "biom",
+        "label": "biom:SegmentID",
+        "problemValue": "SegmentID",
+        "comments": "Type: niem-xs:positiveInteger\nDef: An identifier for a specific time segment."
+      },
+      {
+        "prefix": "st",
+        "label": "st:SegmentID",
+        "problemValue": "SegmentID",
+        "comments": "Type: niem-xs:string\nDef: A unique segment identifier"
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:AlarmAudibleIndicator",
+        "problemValue": "AlarmAudibleIndicator",
+        "comments": "Type: niem-xs:boolean\nDef: True if an audible alarm was announced; false otherwise.  An indicator if an audible alarm was annunciated."
+      },
+      {
+        "prefix": "em",
+        "label": "em:AlarmAudibleIndicator",
+        "problemValue": "AlarmAudibleIndicator",
+        "comments": "Type: niem-xs:boolean\nDef: True if an audible alarm is sounding; false if the alarm is inaudible"
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:EmployeeID",
+        "problemValue": "EmployeeID",
+        "comments": "Type: niem-xs:string\nDef: An identifier for a person in the form of an employee id."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:EmployeeID",
+        "problemValue": "EmployeeID",
+        "comments": "Type: niem-xs:string\nDef: An identifier for a person in the form of an employee id."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:LocationDescriptionText",
+        "problemValue": "LocationDescriptionText",
+        "comments": "Type: cbrn:LocationDescriptionType\nDef: A free-form text description of the location of an object (e.g., radiation measurement instrument, radiation detector, or measured item) or nuclide source."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:LocationDescriptionText",
+        "problemValue": "LocationDescriptionText",
+        "comments": "Type: nc:TextType\nDef: A description of a location."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:RelatedCase",
+        "problemValue": "RelatedCase",
+        "comments": "Type: cbrn:CaseRelationshipType\nDef: A case that is related to a case of interest."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:RelatedCase",
+        "problemValue": "RelatedCase",
+        "comments": "Type: hs:RelatedCaseType\nDef: A case which is related in some way to another."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:RelativeLocation",
+        "problemValue": "RelativeLocation",
+        "comments": "Type: cbrn:RelativeLocationType\nDef: A set of information describing the location of an object (i.e., radiation measurement instrument, radiation detector, or measured item) or a radiation source relative to a reference point (Origin)."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:RelativeLocation",
+        "problemValue": "RelativeLocation",
+        "comments": "Type: nc:RelativeLocationType\nDef: A location identified by its proximity to another location."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:Report",
+        "problemValue": "Report",
+        "comments": "Type: cbrn:ReportType\nDef: A report provided on an unsolicited basis; i.e., not in response to a request message (Pull), but by Push from the entity providing the report."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Report",
+        "problemValue": "Report",
+        "comments": "Type: nc:ReportType\nDef: An account given of a particular matter, especially in the form of an official document, after thorough investigation or consideration by an appointed person or body."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:sequenceNumeric",
+        "problemValue": "sequenceNumeric",
+        "comments": "Type: xs:positiveInteger\nDef: A processing order of multiple MultimediaData elements; the elements should be processed in increasing order of this value."
+      },
+      {
+        "prefix": "it",
+        "label": "it:SequenceNumeric",
+        "problemValue": "SequenceNumeric",
+        "comments": "Type: niem-xs:nonNegativeInteger\nDef: A number indicating the position in a sequence."
+      },
+      {
+        "prefix": "em",
+        "label": "em:AlertInstructionsDescriptionText",
+        "problemValue": "AlertInstructionsDescriptionText",
+        "comments": "Type: nc:TextType\nDef: A description of the recommended action to be taken by recipients of the alert message. An extended human readable instruction to targeted recipients. If different instructions are intended for different recipients, they should be represented by use of multiple info blocks"
+      },
+      {
+        "prefix": "j",
+        "label": "j:AlertInstructionsDescriptionText",
+        "problemValue": "AlertInstructionsDescriptionText",
+        "comments": "Type: nc:TextType\nDef: A description of an action required By a Notified Party on receiving the Alert Notice."
+      },
+      {
+        "prefix": "em",
+        "label": "em:AlertNotification",
+        "problemValue": "AlertNotification",
+        "comments": "Type: em:AlertNotificationType\nDef: A notification of an incident or threat that may require a coordinated response or action. A type of NOTIFICATION"
+      },
+      {
+        "prefix": "j",
+        "label": "j:AlertNotification",
+        "problemValue": "AlertNotification",
+        "comments": "Type: j:AlertNotificationType\nDef: A process or activity of communicating an alert."
+      },
+      {
+        "prefix": "em",
+        "label": "em:ArrivalLocation",
+        "problemValue": "ArrivalLocation",
+        "comments": "Type: nc:LocationType\nDef: A textual description of the location where the specified resource has arrived at dateTime of the resource message when transported to or from an Incident"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:ArrivalLocation",
+        "problemValue": "ArrivalLocation",
+        "comments": "Type: nc:LocationType\nDef: A location of arrival."
+      },
+      {
+        "prefix": "em",
+        "label": "em:Owner",
+        "problemValue": "Owner",
+        "comments": "Type: nc:OrganizationType\nDef: An organization with a specific range of authority for specified resource(s)"
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:Owner",
+        "problemValue": "Owner",
+        "comments": "Type: stat:OwnerType\nDef: A statistical office or other authority responsible for defining, specifying, creating and making decisions about the maintenance of an information object and/or its metadata. Some information objects may have several Owners."
+      },
+      {
+        "prefix": "em",
+        "label": "em:Patient",
+        "problemValue": "Patient",
+        "comments": "Type: em:PatientType\nDef: A person receiving or registered to receive medical treatment."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:Patient",
+        "problemValue": "Patient",
+        "comments": "Type: hs:PatientType\nDef: A person receiving medical care."
+      },
+      {
+        "prefix": "em",
+        "label": "em:ServiceCallAssignedUnit",
+        "problemValue": "ServiceCallAssignedUnit",
+        "comments": "Type: em:ServiceCallAssignedUnitType\nDef: An element for for service call assigned unit detail"
+      },
+      {
+        "prefix": "j",
+        "label": "j:ServiceCallAssignedUnit",
+        "problemValue": "ServiceCallAssignedUnit",
+        "comments": "Type: nc:OrganizationType\nDef: A response unit responsible for handling a call for service."
+      },
+      {
+        "prefix": "em",
+        "label": "em:ServiceCallOriginator",
+        "problemValue": "ServiceCallOriginator",
+        "comments": "Type: em:ServiceCallOriginatorType\nDef: A person who places a call for service"
+      },
+      {
+        "prefix": "j",
+        "label": "j:ServiceCallOriginator",
+        "problemValue": "ServiceCallOriginator",
+        "comments": "Type: nc:PersonType\nDef: A person who places a call for service."
+      },
+      {
+        "prefix": "em",
+        "label": "em:ServiceCallResponseLocation",
+        "problemValue": "ServiceCallResponseLocation",
+        "comments": "Type: em:ServiceCallResponseLocationType\nDef: A data element for the location of a service call"
+      },
+      {
+        "prefix": "j",
+        "label": "j:ServiceCallResponseLocation",
+        "problemValue": "ServiceCallResponseLocation",
+        "comments": "Type: nc:LocationType\nDef: A location where a response unit should be sent to handle a call for service."
+      },
+      {
+        "prefix": "geo",
+        "label": "geo:Ellipse",
+        "problemValue": "Ellipse",
+        "comments": "Type: geo:EllipseType\nDef: An ellipse specified by a point, major axis, minor axis and rotation."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:Ellipse",
+        "problemValue": "Ellipse",
+        "comments": "Type: mo:EllipseType\nDef: An ellipse, expressed as an XY plane (projected onto earth's surface) ellipse. The major axis is oriented along reported azimuth, with zero being due North."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:Assessment",
+        "problemValue": "Assessment",
+        "comments": "Type: hs:JuvenileAssessmentType\nDef: A generic assessment."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Assessment",
+        "problemValue": "Assessment",
+        "comments": "Type: nc:AssessmentType\nDef: An evaluation, appraisal, or assessment of something or someone."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:Assessment",
+        "problemValue": "Assessment",
+        "comments": "Type: stat:AssessmentType\nDef: A result of the analysis of the quality and effectiveness of any activity undertaken by a statistical organization and recommendations on how these can be improved."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:AssessmentRecommendation",
+        "problemValue": "AssessmentRecommendation",
+        "comments": "Type: hs:AssessmentRecommendationType\nDef: A recommendation of an assessment."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:AssessmentRecommendation",
+        "problemValue": "AssessmentRecommendation",
+        "comments": "Type: nc:CommentType\nDef: A recommendation or result of an assessment."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:HearingCategoryAbstract",
+        "problemValue": "HearingCategoryAbstract",
+        "comments": "Type: null\nDef: A data concept for describing the category of court event."
+      },
+      {
+        "prefix": "j",
+        "label": "j:HearingCategoryAbstract",
+        "problemValue": "HearingCategoryAbstract",
+        "comments": "Type: null\nDef: A data concept for a kind of hearing conducted."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:HearingCategoryText",
+        "problemValue": "HearingCategoryText",
+        "comments": "Type: nc:TextType\nDef: A kind of court event."
+      },
+      {
+        "prefix": "j",
+        "label": "j:HearingCategoryText",
+        "problemValue": "HearingCategoryText",
+        "comments": "Type: nc:TextType\nDef: A kind of hearing conducted."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:ReportingOrganization",
+        "problemValue": "ReportingOrganization",
+        "comments": "Type: hs:ReportingOrganizationType\nDef: An organization reporting information."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:ReportingOrganization",
+        "problemValue": "ReportingOrganization",
+        "comments": "Type: nc:OrganizationType\nDef: An organization that provided the information."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:TargetPerson",
+        "problemValue": "TargetPerson",
+        "comments": "Type: nc:PersonType\nDef: A person that represents the end point of a directed association"
+      },
+      {
+        "prefix": "j",
+        "label": "j:TargetPerson",
+        "problemValue": "TargetPerson",
+        "comments": "Type: nc:PersonType\nDef: A person that is a target of an action."
+      },
+      {
+        "prefix": "im",
+        "label": "im:PartyContactInformationAssociation",
+        "problemValue": "PartyContactInformationAssociation",
+        "comments": "Type: im:PartyContactInformationAssociationType\nDef: An association between contact information and a Person or Organization"
+      },
+      {
+        "prefix": "it",
+        "label": "it:PartyContactInformationAssociation",
+        "problemValue": "PartyContactInformationAssociation",
+        "comments": "Type: it:PartyContactAssociationType\nDef: A relationship between a Party and its Contact Information."
+      },
+      {
+        "prefix": "ip",
+        "label": "ip:SectorName",
+        "problemValue": "SectorName",
+        "comments": "Type: nc:TextType\nDef: A major grouping name of critical infrastructure to which the facility belongs."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:SectorName",
+        "problemValue": "SectorName",
+        "comments": "Type: nc:TextType\nDef: A name of an area designated by boundaries within which a unit operates, and for which it is responsible."
+      },
+      {
+        "prefix": "it",
+        "label": "it:Agent",
+        "problemValue": "Agent",
+        "comments": "Type: it:AgentType\nDef: A data type for additional information about a party authorized to act on behalf of another person, organization or thing."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:Agent",
+        "problemValue": "Agent",
+        "comments": "Type: stat:AgentType\nDef: An agent is someone or something that bears some form of responsibility for a business process taking place, for the existence of an entity, or for another agent's business process."
+      },
+      {
+        "prefix": "it",
+        "label": "it:Arrival",
+        "problemValue": "Arrival",
+        "comments": "Type: nc:ActivityType\nDef: An Activity where a person, conveyance, or other objects comes to a specified location from another location."
+      },
+      {
+        "prefix": "m",
+        "label": "m:Arrival",
+        "problemValue": "Arrival",
+        "comments": "Type: m:PortVisitType\nDef: An arrival of a vessel in a port."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Arrival",
+        "problemValue": "Arrival",
+        "comments": "Type: nc:ArrivalType\nDef: A coming to one location from another."
+      },
+      {
+        "prefix": "it",
+        "label": "it:Departure",
+        "problemValue": "Departure",
+        "comments": "Type: nc:ActivityType\nDef: A Departure from a crossing or other location for a means of transport."
+      },
+      {
+        "prefix": "m",
+        "label": "m:Departure",
+        "problemValue": "Departure",
+        "comments": "Type: m:PortVisitType\nDef: A departure of a vessel from a port."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Departure",
+        "problemValue": "Departure",
+        "comments": "Type: nc:DepartureType\nDef: A leaving from one location to another."
+      },
+      {
+        "prefix": "j",
+        "label": "j:Recommendation",
+        "problemValue": "Recommendation",
+        "comments": "Type: nc:CommentType\nDef: A recommendation that results from an analysis."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Recommendation",
+        "problemValue": "Recommendation",
+        "comments": "Type: nc:RecommendationType\nDef: A suggestion or proposal as to the best course of action."
+      },
+      {
+        "prefix": "j",
+        "label": "j:Target",
+        "problemValue": "Target",
+        "comments": "Type: j:TargetType\nDef: A target or object against which an action is taken."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:Target",
+        "problemValue": "Target",
+        "comments": "Type: mo:TargetType\nDef: A role of an entity or object considered for possible engagement or other action."
+      },
+      {
+        "prefix": "j",
+        "label": "j:TargetDescriptionText",
+        "problemValue": "TargetDescriptionText",
+        "comments": "Type: nc:TextType\nDef: A description of a target or object for which an action taken."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:TargetDescriptionText",
+        "problemValue": "TargetDescriptionText",
+        "comments": "Type: nc:TextType\nDef: A description of a target."
+      },
+      {
+        "prefix": "j",
+        "label": "j:TargetLocation",
+        "problemValue": "TargetLocation",
+        "comments": "Type: nc:LocationType\nDef: A location that is a target of an action."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:TargetLocation",
+        "problemValue": "TargetLocation",
+        "comments": "Type: nc:LocationType\nDef: A geographic coordinate of the target."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:Condition",
+        "problemValue": "Condition",
+        "comments": "Type: mo:ConditionType\nDef: A set of variables of an operational environment or situation in which a unit, system, or individual is expected to operate and may affect performance. A physical or behavioral state of a system that is required for the achievement of an objective."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Condition",
+        "problemValue": "Condition",
+        "comments": "Type: nc:ConditionType\nDef: A requirement or stipulation."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:Device",
+        "problemValue": "Device",
+        "comments": "Type: nc:DeviceType\nDef: A device."
+      },
+      {
+        "prefix": "scr",
+        "label": "scr:Device",
+        "problemValue": "Device",
+        "comments": "Type: scr:EncounterDeviceType\nDef: An identifier that represents an ENCOUNTER DEVICE."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:Unit",
+        "problemValue": "Unit",
+        "comments": "Type: mo:UnitType\nDef: A military element whose structure is prescribed by competent authority."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:Unit",
+        "problemValue": "Unit",
+        "comments": "Type: stat:UnitType\nDef: An object of interest in a business process."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:Organization",
+        "problemValue": "Organization",
+        "comments": "Type: nc:OrganizationType\nDef: A unit which conducts some sort of business or operations."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:Organization",
+        "problemValue": "Organization",
+        "comments": "Type: stat:OrganizationType\nDef: A unique framework of authority within which a person or persons act, or are designated to act, towards some purpose."
+      }
+    ],
+    "timeStart": 1624939150121
+  },
+  {
+    "id": "property_name_spellcheck",
+    "description": "Property names must use terms that either have standard dictionary entries or are custom defined as Local Terminology.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-44",
+    "exampleValid": "Property name 'nc:StateFIPSCode' is valid if the nc namespace defines the meaning of 'FIPS' in its Local Terminology section.",
+    "exampleInvalid": "Property name 'nc:StateFIPSCode' is not valid if the nc namespace does not define 'FIPS' in its Local Terminology section.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 192,
+    "issues": [],
+    "timeStart": 1624939150179
+  },
+  {
+    "id": "property_name_repTerm_augmentation",
+    "description": "Augmentation property names should correspond to their augmentation point elements, with the representation term \"AugmentationPoint\" replaced by term \"Augmentation\".",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "name",
+    "scope": "augmentation points",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Property name 'PersonAugmentation' is valid for a property that substitutes for augmentation point element 'nc:PersonAugmentationPoint'.",
+    "exampleInvalid": "Property name 'ManagerAugmentation' is not valid for a property that substitutes for augmentation point element 'nc:PersonAugmentationPoint'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 4,
+    "issues": [],
+    "timeStart": 1624939150175
+  },
+  {
+    "id": "property_prefix_missing",
+    "description": "Properties must have a namespace prefix.",
+    "category": "Missing value",
+    "component": "Property",
+    "field": "prefix",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939150371
+  },
+  {
+    "id": "property_prefix_unknown",
+    "description": "Property namespace prefixes must be defined.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "prefix",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 7,
+    "issues": [],
+    "timeStart": 1624939150371
+  },
+  {
+    "id": "property_style_abstract",
+    "description": "An abstract property must be an element.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "style",
+    "scope": "abstracts",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_style_substitution",
+    "description": "A property with a substitution group must be an element.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "style",
+    "scope": "substitutions",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_type_abstract",
+    "description": "An abstract element should probably not have a data type.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "abstracts",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_type_amount",
+    "description": "Properties with an \"Amount\" representation term should have type nc:AmountType.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "amounts",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939150378
+  },
+  {
+    "id": "property_type_attribute",
+    "description": "An attribute must have a simple data type.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "attributes",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "property_type_binaryObject",
+    "description": "Properties with a \"BinaryObject\" representation term should have a binary simple-value data type.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "binaries",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939150380
+  },
+  {
+    "id": "property_type_element",
+    "description": "An element that is not abstract must have a complex data type.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "elements",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 9,
+    "issues": [],
+    "timeStart": 1624939150382
+  },
+  {
+    "id": "property_type_indicator",
+    "description": "Properties with an \"Indicator\" representation term should have a boolean data type.",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "indicators",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939150391
+  },
+  {
+    "id": "property_type_missing",
+    "description": "A property that is not abstract must have a data type.",
+    "category": "Missing value",
+    "component": "Property",
+    "field": "type",
+    "scope": "concretes",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150393
+  },
+  {
+    "id": "property_type_percent",
+    "description": "Properties with an \"Percent\" representation term should have data type \"nc:PercentType\".",
+    "category": "Invalid value",
+    "component": "Property",
+    "field": "type",
+    "scope": "percents",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150394
+  },
+  {
+    "id": "property_type_unknown",
+    "description": "A property's data type must exist.",
+    "category": "Bad reference",
+    "component": "Property",
+    "field": "type",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "subProperty_propertyQName_representation",
+    "description": "A representation property should only be contained within one type in the same namespace with a corresponding name",
+    "category": "Invalid value",
+    "component": "SubProperty",
+    "field": "property",
+    "scope": "representations",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Property nc:DateRepresentation can appear under type nc:DateType",
+    "exampleInvalid": "Property nc:DateRepresentation should not appear under nc:ActivityType",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939157113
+  },
+  {
+    "id": "type_base_association",
+    "description": "Association types must extend another association type.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "associations",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-21",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150396
+  },
+  {
+    "id": "type_base_augmentation",
+    "description": "Augmentation types must extend structures:AugmentationType.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-35",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939150397
+  },
+  {
+    "id": "type_base_csc",
+    "description": "Complex types with simple content (CSC) must have a simple or CSC base type.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "CSC types",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Simple content type HairColorCodeType can have a base type like HairColorCodeSimpleType (simple type).",
+    "exampleInvalid": "Simple content type HairColorCodeType cannot have a type like nc:PersonType (complex object type).",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 100,
+    "issues": [],
+    "timeStart": 1624939150397
+  },
+  {
+    "id": "type_base_metadata",
+    "description": "Metadata types must extend structures:MetadataType",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "metadata",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-39",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150497
+  },
+  {
+    "id": "type_base_role",
+    "description": "Object types that contain RoleOf elements should extend structures:ObjectType.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "roles",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type j:VictimType can contain nc:RoleOfPerson and extend structures:ObjectType",
+    "exampleInvalid": "Type j:VictimType should not both contain nc:RoleOfPerson and extend nc:PersonType",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 64,
+    "issues": [],
+    "timeStart": 1624939150498
+  },
+  {
+    "id": "type_base_simple",
+    "description": "Simple types should use a XML schema simple type as its base type.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "simple types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Simple type ext:HairColorCodeSimpleType can have base type xs:token.",
+    "exampleInvalid": "Simple type ext:HairColorCodeSimpleType should not have base type ext:ColorCodeSimpleType.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 178,
+    "issues": [],
+    "timeStart": 1624939150562
+  },
+  {
+    "id": "type_base_simpleContent",
+    "description": "Types that represent a value (simple content) must declare a base type.  Note: Simple union types have member types instead of a base type.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "base",
+    "scope": "simple content types",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type HairColorCodeSimpleType needs a base type like xs:string or xs:token.",
+    "exampleInvalid": "Type HairColorCodeSimpleType is not valid without a base type.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939150740
+  },
+  {
+    "id": "type_base_union",
+    "description": "Simple union types must not have a base type",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "base",
+    "scope": "unions",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939150741
+  },
+  {
+    "id": "type_base_unknown",
+    "description": "Types must have bases that are defined.",
+    "category": "Bad reference",
+    "component": "Type",
+    "field": "base",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type PersonType can extend type structures:ObjectType (this type exists).",
+    "exampleInvalid": "Type PersonType cannot extend type structures:BogusType (this type does not exist).",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 465,
+    "issues": [],
+    "timeStart": 1624939150742
+  },
+  {
+    "id": "type_definition_augmentation",
+    "description": "Augmentation types should follow a consistent pattern",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "definition",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Definitions 'A data type for additional information about a person' and 'A data type for additional information about nc:PersonType' are valid for em:PersonAugmentationType.",
+    "exampleInvalid": "Definitions 'A data type for additional information about a location' and 'A data type for additional information about nc:OrganizationType' are not valid for em:PersonAugmentationType.",
+    "exceptionLabels": [
+      "hs:ActivityInvolvedPersonAssociationAugmentationType"
+    ],
+    "ran": true,
+    "timeElapsedMs": 9,
+    "issues": [],
+    "timeStart": 1624939151207
+  },
+  {
+    "id": "type_definition_formatting",
+    "description": "Type definitions should have consistent formatting.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 3,
+    "issues": [],
+    "timeStart": 1624939151216
+  },
+  {
+    "id": "type_definition_missing_complex",
+    "description": "Complex types must have a definition.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "definition",
+    "scope": "complex types",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "9-26",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939151219
+  },
+  {
+    "id": "type_definition_missing_simple",
+    "description": "Simple types must have a definition.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "definition",
+    "scope": "simple types",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "9-12",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939151220
+  },
+  {
+    "id": "type_definition_phrase_complex",
+    "description": "Complex type definitions must begin with the standard opening phrase \"A data type\".",
+    "category": "Definition phrasing",
+    "component": "Type",
+    "field": "definition",
+    "scope": "complex types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-44",
+    "exampleValid": "Definition 'A data type for a human being' is valid for type 'PersonType'.",
+    "exampleInvalid": "Definition 'A human being' is not valid for type 'PersonType'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939151221
+  },
+  {
+    "id": "type_definition_phrase_simple",
+    "description": "Simple type definitions must begin with the standard opening phrase \"A data type\".",
+    "category": "Definition phrasing",
+    "component": "Type",
+    "field": "definition",
+    "scope": "simple types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-45",
+    "exampleValid": "Definition 'A data type for United States state codes' is valid for type usps:StateCodeSimpleType.",
+    "exampleInvalid": "Definition 'United States state codes' is not valid for type usps:StateCodeSimpleType.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939151222
+  },
+  {
+    "id": "type_definition_spellcheck",
+    "description": "Type definitions should use words and terms that are either defined in the dictionary or as \"Local Terminology\".",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "definition",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Definition 'A data type for FIPS state codes\" is valid if the term 'FIPS' is defined as Local Terminology in that namespace.",
+    "exampleInvalid": "Definition 'A data type for FIPS state codes\" is not recommended if the term 'FIPS' is not defined as Local Terminology in that namespace.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 78,
+    "issues": [],
+    "timeStart": 1624939151223
+  },
+  {
+    "id": "type_general_unused",
+    "description": "Check for types that do not have data properties, are not extended, do not serve as a base type, and are not unions.",
+    "category": "Invalid value",
+    "component": "Type",
+    "scope": "all",
+    "source": "model",
+    "severity": "info",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [
+      "nc:CalendarDate",
+      "nc:Chemical",
+      "nc:CommercialFacility",
+      "nc:Computer",
+      "nc:ContactAbstract",
+      "nc:CoordinatingAgency",
+      "nc:CourtCase",
+      "nc:DrugMeasure",
+      "nc:ElectronicEquipment",
+      "nc:ElectronicInstrument",
+      "nc:Email",
+      "nc:HazardousMaterial",
+      "nc:HazmatAbstract",
+      "nc:InjuryTreatment",
+      "nc:Kit",
+      "nc:Machinery",
+      "nc:OdometerReadingMeasure",
+      "nc:PersonWorkLocation",
+      "nc:ResidentialFacility",
+      "nc:RiskReductionFacility",
+      "nc:RiskReductionProgram",
+      "nc:RoleOfAbstract",
+      "nc:ServiceDeliveryNGO",
+      "nc:TowingCompany",
+      "nc:UTMCoordinateValue",
+      "stat:PopulationUnit"
+    ],
+    "ran": true,
+    "timeElapsedMs": 1195,
+    "issues": [],
+    "timeStart": 1624939151301
+  },
+  {
+    "id": "type_name_camelCase",
+    "description": "Type names must begin with an upper case letter.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-49",
+    "exampleValid": "Type name 'PersonType' is valid because it begins with an upper case letter.",
+    "exampleInvalid": "Type name 'personType' is not valid because it begins with a lower case letter.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939152496
+  },
+  {
+    "id": "type_name_duplicate",
+    "description": "Type names must not occur more than once in a single namespace.",
+    "category": "Duplicate",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Types 'justice:CaseType' and 'logistics:CaseType' are valid because even though they use the same name, they are defined in different namespaces.",
+    "exampleInvalid": "Type name 'CaseType' cannot be defined twice in the justice namespace.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 28,
+    "issues": [],
+    "timeStart": 1624939152497
+  },
+  {
+    "id": "type_name_inconsistent_codeType",
+    "description": "Complex types that use the representation term \"CodeType\" should be named similarly to their base type.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "name",
+    "scope": "code types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'HairColorCodeType' is valid with base type 'HairColorCodeSimpleType'.",
+    "exampleInvalid": "Type name 'HairColorCodeType' is not recommended with base type 'EyeColorCodeSimpleType'.",
+    "exceptionLabels": [
+      "nc:CodeType",
+      "stat:CodeType"
+    ],
+    "ran": true,
+    "timeElapsedMs": 4,
+    "issues": [
+      {
+        "prefix": "biom",
+        "label": "biom:FacialImageMissingReasonCodeType",
+        "problemValue": "FacialImageMissingReasonCodeType",
+        "comments": "base type biom:FingerprintImageMissingAreaReasonCodeSimpleType"
+      },
+      {
+        "prefix": "mmucc",
+        "label": "mmucc:CrashWeatherConditionCodeType",
+        "problemValue": "CrashWeatherConditionCodeType",
+        "comments": "base type mmucc:AtmosphericConditionCodeSimpleType"
+      }
+    ],
+    "timeStart": 1624939152525
+  },
+  {
+    "id": "type_name_invalidChar",
+    "description": "Type names must use valid characters.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-45",
+    "exampleValid": "Type name \"PersonType\" uses valid characters.",
+    "exampleInvalid": "Type name \"ID#Type\" does not use valid characters.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939152529
+  },
+  {
+    "id": "type_name_missing_complex",
+    "description": "Complex types must have a name.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "name",
+    "scope": "complex types",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "9-25",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 2,
+    "issues": [],
+    "timeStart": 1624939152530
+  },
+  {
+    "id": "type_name_missing_simple",
+    "description": "Simple types must have a name.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "name",
+    "scope": "simple types",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "9-10",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939152532
+  },
+  {
+    "id": "type_name_overlap",
+    "description": "Check for types names that are repeated in a release (exclude augmentations, metadata and codes).",
+    "category": "Duplicate",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "info",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 35,
+    "issues": [
+      {
+        "prefix": "biom",
+        "label": "biom:DeviceType",
+        "problemValue": "DeviceType",
+        "comments": "Base: structures:ObjectType\nDef: A data type definition contains a set of information regarding the captured device information"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:DeviceType",
+        "problemValue": "DeviceType",
+        "comments": "Base: nc:ItemType\nDef: A data type for a device."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:PercentType",
+        "problemValue": "PercentType",
+        "comments": "Base: cbrn:PercentSimpleType\nDef: A data type that defines the percent values"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:PercentType",
+        "problemValue": "PercentType",
+        "comments": "Base: niem-xs:decimal\nDef: A data type for a ratio, proper fraction, or percentage, with 100% represented as the value 100."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:RelativeLocationType",
+        "problemValue": "RelativeLocationType",
+        "comments": "Base: cbrn:RemarksComplexObjectType\nDef: A data type for describing the relative location of an object."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:RelativeLocationType",
+        "problemValue": "RelativeLocationType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a location identified by its proximity to another location."
+      },
+      {
+        "prefix": "cbrn",
+        "label": "cbrn:ReportType",
+        "problemValue": "ReportType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a report provided on an unsolicited basis; i.e., not in response to a request message (Pull), but by Push from the entity providing the report."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:ReportType",
+        "problemValue": "ReportType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for an account given of a particular matter, especially in the form of an official document, after thorough investigation or consideration by an appointed person or body."
+      },
+      {
+        "prefix": "em",
+        "label": "em:AlertNotificationType",
+        "problemValue": "AlertNotificationType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for an alert message"
+      },
+      {
+        "prefix": "j",
+        "label": "j:AlertNotificationType",
+        "problemValue": "AlertNotificationType",
+        "comments": "Base: em:NotificationType\nDef: A data type for a process or activity of communicating an alert."
+      },
+      {
+        "prefix": "em",
+        "label": "em:PatientType",
+        "problemValue": "PatientType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a person receiving or registered to receive medical treatment."
+      },
+      {
+        "prefix": "hs",
+        "label": "hs:PatientType",
+        "problemValue": "PatientType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a person receiving medical care."
+      },
+      {
+        "prefix": "geo",
+        "label": "geo:EllipseType",
+        "problemValue": "EllipseType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for an ellipse specified by a point, major axis, minor axis and rotation."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:EllipseType",
+        "problemValue": "EllipseType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for an ellipse, expressed as an XY plane (projected onto earth's surface) ellipse. The major axis is oriented along reported azimuth, with zero being due North."
+      },
+      {
+        "prefix": "it",
+        "label": "it:AgentType",
+        "problemValue": "AgentType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a party authorized to act on behalf of another person, organization or thing."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:AgentType",
+        "problemValue": "AgentType",
+        "comments": "Base: stat:IdentifiableArtifactType\nDef: A data type for someone or something that bears some form of responsibility for a business process taking place, for the existence of an entity, or for another agent's business process."
+      },
+      {
+        "prefix": "it",
+        "label": "it:ArrivalType",
+        "problemValue": "ArrivalType",
+        "comments": "Base: nc:ActivityType\nDef: A data type for the arrival activity of a vessel, person, conveyance etc.."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:ArrivalType",
+        "problemValue": "ArrivalType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a coming to one location from another."
+      },
+      {
+        "prefix": "it",
+        "label": "it:DepartureType",
+        "problemValue": "DepartureType",
+        "comments": "Base: nc:ActivityType\nDef: A data type for a departure from a crossing or other location for a means of transport"
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:DepartureType",
+        "problemValue": "DepartureType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a leaving from one location to another."
+      },
+      {
+        "prefix": "j",
+        "label": "j:TargetType",
+        "problemValue": "TargetType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a target or object against which an action is taken."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:TargetType",
+        "problemValue": "TargetType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a role of an entity or object considered for possible engagement or other action."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:ConditionType",
+        "problemValue": "ConditionType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a set of variables of an operational environment or situation in which a unit, system, or individual is expected to operate and may affect performance. A physical or behavioral state of a system that is required for the achievement of an objective."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:ConditionType",
+        "problemValue": "ConditionType",
+        "comments": "Base: nc:ActivityType\nDef: A data type for a requirement or stipulation."
+      },
+      {
+        "prefix": "mo",
+        "label": "mo:UnitType",
+        "problemValue": "UnitType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a military element whose structure is prescribed by competent authority."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:UnitType",
+        "problemValue": "UnitType",
+        "comments": "Base: stat:IdentifiableArtifactType\nDef: A data type for an object of interest in a business process."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:AssessmentType",
+        "problemValue": "AssessmentType",
+        "comments": "Base: nc:ActivityType\nDef: A data type for an evaluation, appraisal, or assessment of something or someone."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:AssessmentType",
+        "problemValue": "AssessmentType",
+        "comments": "Base: stat:IdentifiableArtifactType\nDef: A data type for a result of the analysis of the quality and effectiveness of any activity undertaken by a statistical organization and recommendations on how these can be improved."
+      },
+      {
+        "prefix": "nc",
+        "label": "nc:OrganizationType",
+        "problemValue": "OrganizationType",
+        "comments": "Base: structures:ObjectType\nDef: A data type for a body of people organized for a particular purpose."
+      },
+      {
+        "prefix": "stat",
+        "label": "stat:OrganizationType",
+        "problemValue": "OrganizationType",
+        "comments": "Base: stat:AgentType\nDef: A data type for a unique framework of authority within which a person or persons act, or are designated to act, towards some purpose."
+      }
+    ],
+    "timeStart": 1624939152533
+  },
+  {
+    "id": "type_name_repTerm_association",
+    "description": "Association type names must end with the representation term \"AssociationType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "associations",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'PersonLocationAssociationType' is a valid association type name.",
+    "exampleInvalid": "Type name 'PersonLocationType' is not a valid association type name.",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_name_repTerm_augmentation",
+    "description": "Augmentation type names must end with the representation term \"AugmentationType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-34",
+    "exampleValid": "Type name 'PersonAugmentationType' is a valid augmentation type name.",
+    "exampleInvalid": "Type name 'PersonType' is not a valid augmentation type name.",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_name_repTerm_codeSimpleType",
+    "description": "Simple types that use the representation term \"CodeSimpleType\" must declare codes.",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "code simple types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-8",
+    "exampleValid": "Type name 'WeekdayCodeSimpleType' is valid if the type declares codes.",
+    "exampleInvalid": "Type name 'WeekdayCodeSimpleType' is not valid if the type does not declare codes.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1400,
+    "issues": [],
+    "timeStart": 1624939152568
+  },
+  {
+    "id": "type_name_repTerm_codeType",
+    "description": "Complex types that use the representation term \"CodeType\" must have a base type that uses the representation term \"CodeSimpleType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "code types",
+    "source": "model",
+    "severity": "warning",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-18",
+    "exampleValid": "Type name 'WeekdayCodeSimpleType' is not valid if the type does not declare codes.",
+    "exampleInvalid": "Type name 'WeekdayCodeType' is not valid with base type 'string'",
+    "exceptionLabels": [
+      "nc:CodeType",
+      "stat:CodeType"
+    ],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939153969
+  },
+  {
+    "id": "type_name_repTerm_complex",
+    "description": "Complex type names must not end with the representation term \"SimpleType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "complex types",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'IDSimpleType' is valid if the type is simple.",
+    "exampleInvalid": "Type name 'IDSimpleType' is not valid if the type is complex.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939153969
+  },
+  {
+    "id": "type_name_repTerm_list",
+    "description": "Simple list type names must end with the representation term \"ListSimpleType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "lists",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'DecimalListSimpleType' is a valid list type name.",
+    "exampleInvalid": "Type name 'DecimalValuesSimpleType' is not a valid list type name.",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_name_repTerm_metadata",
+    "description": "Metadata type names must end with the representation term \"MetadataType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "metadata",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'SourceMetadataType' is a valid metadata type name.",
+    "exampleInvalid": "Type name 'SourceType' is not a valid metadata type name.",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_name_repTerm_simple",
+    "description": "Simple type names must end with the representation term \"SimpleType\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "simple types",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-3",
+    "exampleValid": "Type name 'IDSimpleType' is valid if the type is simple.",
+    "exampleInvalid": "Type name 'IDType' is not valid if the type is simple.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939153970
+  },
+  {
+    "id": "type_name_repTerm_type",
+    "description": "Type names must end with the representation term \"Type\".",
+    "category": "Rep term",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "11-1",
+    "exampleValid": "Type name 'PersonType' is valid.",
+    "exampleInvalid": "Type name 'Person' is not valid.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939153971
+  },
+  {
+    "id": "type_name_reservedTerm_type",
+    "description": "Type names should not use the term \"Type\" in the name other than as the final representation term.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "warning",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type name 'IDCategoryCodeType' is valid because the term 'Type' only appears at the end of the name.",
+    "exampleInvalid": "Type name 'IDTypeCodeType' is not valid because the term 'Type' is used in the middle of the name.",
+    "exceptionLabels": [
+      "biom:Type2CrossReferenceListType",
+      "j:PersonBloodTypeCodeSimpleType",
+      "j:PersonBloodTypeCodeType",
+      "jp3-52:AirspaceCoordinatingMeasureTypeAndUsageType",
+      "jp3-52:AirspaceCoordinatingMeasureTypeCodeSimpleType",
+      "jp3-52:AirspaceCoordinatingMeasureTypeCodeType",
+      "mo:UnitTypeCodeTextSimpleType",
+      "mo:UnitTypeCodeTextType"
+    ],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939153971
+  },
+  {
+    "id": "type_name_spellcheck",
+    "description": "Type names must use terms that either have standard dictionary entries or are custom defined as Local Terminology.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "name",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "NDR",
+    "version": "4.0",
+    "rule": "10-44",
+    "exampleValid": "Type name 'ncic:VMOCodeType' is valid if the ncic namespace defines the meaning of 'VMO' in its Local Terminology section.",
+    "exampleInvalid": "Type name 'ncic:VMOCodeType' is not valid if the ncic namespace does not defined 'VMO' in its Local Terminology section.",
+    "exceptionLabels": [],
+    "notes": "NDR rule does not mention local terminology.",
+    "ran": true,
+    "timeElapsedMs": 78,
+    "issues": [
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:ETNCodeSimpleType",
+        "problemValue": "ETN",
+        "comments": "ncic-5.0.1:ETNCodeSimpleType"
+      },
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:ETNCodeType",
+        "problemValue": "ETN",
+        "comments": "ncic-5.0.1:ETNCodeType"
+      },
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:ROVCodeSimpleType",
+        "problemValue": "ROV",
+        "comments": "ncic-5.0.1:ROVCodeSimpleType"
+      },
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:ROVCodeType",
+        "problemValue": "ROV",
+        "comments": "ncic-5.0.1:ROVCodeType"
+      },
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:VehicleEPDCodeSimpleType",
+        "problemValue": "EPD",
+        "comments": "ncic-5.0.1:VehicleEPDCodeSimpleType"
+      },
+      {
+        "prefix": "ncic-5.0.1",
+        "label": "ncic-5.0.1:VehicleEPDCodeType",
+        "problemValue": "EPD",
+        "comments": "ncic-5.0.1:VehicleEPDCodeType"
+      }
+    ],
+    "timeStart": 1624939153972
+  },
+  {
+    "id": "type_prefix_missing",
+    "description": "Types must have a namespace prefix.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "prefix",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type PersonType can be associated with a namespace prefix like 'nc'.",
+    "exampleInvalid": "Type PersonType should not have a missing namespace prefix.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939154050
+  },
+  {
+    "id": "type_prefix_unknown",
+    "description": "Type namespace prefixes must be defined.",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "prefix",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type PersonType can have namespace prefix 'nc' if that prefix is declared.",
+    "exampleInvalid": "Type PersonType cannot have namespace prefix 'unk' if there is no declaration of what 'unk' is.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 5,
+    "issues": [],
+    "timeStart": 1624939154050
+  },
+  {
+    "id": "type_style_association",
+    "description": "Types with names that end with \"AssociationType\" must have style \"association\".",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "style",
+    "scope": "associations",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_style_augmentation",
+    "description": "Types with names that end with \"AugmentationType\" must have style \"augmentation\".",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "style",
+    "scope": "augmentations",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_style_metadata",
+    "description": "Types with names that end with \"MetadataType\" must have style \"metadata\".",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "style",
+    "scope": "metadata",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exceptionLabels": [],
+    "ran": false,
+    "timeElapsedMs": 0,
+    "issues": []
+  },
+  {
+    "id": "type_style_missing",
+    "description": "Types must have a style.",
+    "category": "Missing value",
+    "component": "Type",
+    "field": "style",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type PersonType has style 'object'.",
+    "exampleInvalid": "Type PersonType does not have a style.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 0,
+    "issues": [],
+    "timeStart": 1624939154056
+  },
+  {
+    "id": "type_style_unknown",
+    "description": "Type styles should be one of the following: object, adapter, association, augmentation, CSC, simple, list, union, or blank (defaults to \"object\").",
+    "category": "Invalid value",
+    "component": "Type",
+    "field": "style",
+    "scope": "all",
+    "source": "model",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Type PersonType has permitted style 'object'.",
+    "exampleInvalid": "Type PersonType cannot have unknown style 'myCustomObject'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 1,
+    "issues": [],
+    "timeStart": 1624939154056
+  },
+  {
+    "id": "facet_definition_specialChars",
+    "description": "Sample facet definitions should be checked to ensure their special characters have been encoded correctly.",
+    "category": "Special characters",
+    "component": "Facet",
+    "field": "definition",
+    "scope": "sample values",
+    "source": "release",
+    "severity": "error",
+    "spec": "",
+    "version": "",
+    "rule": "",
+    "exampleValid": "Code facet 'CIV' in genc:CountryAlpha3CodeSimpleType should have correctly-encoded definition 'CÔTE D’IVOIRE'",
+    "exampleInvalid": "Code facet 'CIV' in genc:CountryAlpha3CodeSimpleType should not have incorrectly-encoded definition 'CÃ”TE Dâ€™IVOIRE'.",
+    "exceptionLabels": [],
+    "ran": true,
+    "timeElapsedMs": 6,
+    "issues": [],
+    "timeElapsedMilliseconds": 0,
+    "timeStart": 1624939154132
+  }
+]

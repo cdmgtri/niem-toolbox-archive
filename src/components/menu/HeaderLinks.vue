@@ -4,7 +4,7 @@
     <b-nav class="navbar-nav ml-auto">
 
       <b-nav-item :to="'/'" exact>Home</b-nav-item>
-      <b-nav-item :to="'/browse'" exact>Browse</b-nav-item>
+      <b-nav-item :to="'/sources'" exact>Browse</b-nav-item>
       <b-nav-item :to="'/search'" exact>Search</b-nav-item>
 
       <b-nav-item :to="'/settings'" exact>
@@ -65,9 +65,10 @@
     },
     data: () => {
       return {
-        releaseKey: "5.0",
+        releaseKey: "5.1",
         releaseKeys: [
-          { text: "NIEM 5.0", value: "5.0", default: true },
+          { text: "NIEM 5.0", value: "5.1", default: true },
+          { text: "NIEM 5.0", value: "5.0", default: false },
           { text: "NIEM 4.2", value: "4.2", disabled: true }
         ]
       }

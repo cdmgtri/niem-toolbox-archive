@@ -1,0 +1,29 @@
+
+import { NIEM } from "niem-model";
+import { NIEMModelQA } from "niem-model-qa";
+
+let qa = new NIEMModelQA();
+
+export async function init() {
+  await qa.init();
+}
+
+/**
+ * @param {String} releaseJSON
+ */
+export async function checkRelease({userKey, modelKey, releaseKey}) {
+
+  let niem = new NIEM();
+  let json = require("../assets/releases/niem-release-5.0.json");
+
+  await niem.load(json);
+
+  let release = await niem.releases.get(userKey, modelKey, releaseKey);
+
+  await qa.init();
+  await qa.spellChecker.init(release);
+  await qa.run(release, true);
+
+  return qa._tests;
+
+}

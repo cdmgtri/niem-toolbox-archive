@@ -124,7 +124,9 @@
                 </b-dropdown-group>
 
                 <b-dropdown-divider/>
+                <b-form-checkbox class="ml-4" style="display: inline-flex" v-model="headerDefinition">Preview definitions?</b-form-checkbox>
 
+                <b-dropdown-divider/>
                 <b-dropdown-group header="Copy results for...">
                   <b-dropdown-item size="sm" @click="copyResults('excel')">Excel</b-dropdown-item>
                   <b-dropdown-item size="sm" @click="copyResults('markdown')">Markdown list</b-dropdown-item>
@@ -141,7 +143,7 @@
           <br/>
 
           <!-- Results -->
-          <property-row v-for="property in filteredProperties" :key="property.qname" :property="property"/>
+          <property-row v-for="property in filteredProperties" :key="property.qname" :property="property" :headerDefinition="headerDefinition"/>
         </div>
 
       </b-col>
@@ -182,6 +184,7 @@ export default {
       sortOrder: "core",
       showTooltip: false,
       disableTooltip: true,
+      headerDefinition: false,
 
       /** @type {PropertyInstance[]} */
       properties: [],

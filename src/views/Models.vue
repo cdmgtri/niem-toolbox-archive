@@ -1,71 +1,39 @@
 
 <template>
   <div>
-    <div v-for="userKey in userKeys" :key="userKey">
-
-      <b-alert show>
-        <h1>{{ userKey }}</h1>
-      </b-alert>
-
-      <div v-for="model in userModels(userKey)" :key="model.modelKey">
-        <details open>
-          <summary>
-            <h4 class="section">{{ model.modelKey }}</h4>
-          </summary>
-
-          <b-list-group>
-            <b-list-group-item v-for="release in modelReleases(userKey, model.modelKey)" :key="release.releaseKey">
-              <b-link :to="releaseLink(userKey, model.modelKey, release.releaseKey)">
-                Release {{ release.releaseKey }}
-              </b-link>
-            </b-list-group-item>
-          </b-list-group>
-        </details>
-      </div>
-      <br/>
-
-    </div>
+    <b-breadcrumb :items="breadcrumbs"/>
+    <b-alert show>
+      <h1>{{ userKey }}</h1>
+      <hr/>
+      <span>All data models published by {{ userKey }}</span>
+    </b-alert>
+    <models-info :userKey="userKey"/>
+    <br/>
   </div>
 </template>
 
 <script>
 
-import { data } from "../utils/index";
+import { getBreadcrumbs } from "../utils/index";
+import ModelsInfo from "../components/niem/ModelsInfo.vue";
 
 export default {
 
   name: "Models",
 
+  components: {
+    ModelsInfo
+  },
+
   data() {
+
+    let { userKey } = this.$route.params;
+
     return {
-      /** @type {String[]} */
-      userKeys: [],
-
-      models: [],
-      releases: [],
+      /** @type {String} */
+      userKey,
+      breadcrumbs: getBreadcrumbs(this.$route)
     }
-  },
-
-  methods: {
-
-    userModels(userKey) {
-      return this.models.filter( model => model.userKey == userKey );
-    },
-
-    modelReleases(userKey, modelKey) {
-      return this.releases.filter( release => release.userKey == userKey && release.modelKey == modelKey );
-    },
-
-    releaseLink(userKey, modelKey, releaseKey) {
-      return `/${userKey}/${modelKey}/${releaseKey}/`;
-    }
-
-  },
-
-  async mounted() {
-    this.userKeys = await data.userKeys.find();
-    this.models = await data.models.find();
-    this.releases = await data.releases.find();
   }
 
 }

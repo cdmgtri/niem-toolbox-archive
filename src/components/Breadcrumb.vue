@@ -1,13 +1,13 @@
 
 <template>
   <div>
-    <b-breadcrumb :items="breadcrumb" :class="{'release-other': !defaultReleaseIndicator}"/>
+    <b-breadcrumb :items="breadcrumbs" :class="{'release-other': !defaultReleaseIndicator}"/>
   </div>
 </template>
 
 <script>
 
-import { breadcrumbs, data } from "../utils/index";
+import { getBreadcrumbs } from "../utils/index";
 
 export default {
 
@@ -15,7 +15,7 @@ export default {
 
   data() {
     return {
-      breadcrumb: breadcrumbs(this.$route)
+      breadcrumbs: getBreadcrumbs(this.$route)
     }
   },
 

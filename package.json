@@ -2,8 +2,12 @@
   "name": "niem-toolbox",
   "version": "1.0.0",
   "description": "Capabilities to support NIEM modeling and development work.",
+  "bin": {
+    "niem-toolbox": "scripts/niem-toolbox.sh"
+  },
   "scripts": {
     "assets": "vue-asset-generate -a src/assets/images/logo.2.png -o public/img/icons",
+    "cli": "npm i -g",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "pm2": "pm2 start ecosystem.config.yaml",

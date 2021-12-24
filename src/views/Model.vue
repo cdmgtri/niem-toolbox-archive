@@ -1,28 +1,28 @@
 
 <template>
   <div>
-    <b-breadcrumb :items="breadcrumb"/>
-    <div>
-
-      <h1>{{ userKey}} {{ modelKey }}</h1>
-
-      <b-list-group>
-        <b-list-group-item v-for="release in releases" :key="release.releaseKey">
-          <b-link :to="releaseLink(release.releaseKey)">Release {{ release.releaseKey }}</b-link>
-        </b-list-group-item>
-      </b-list-group>
-
-    </div>
+    <b-breadcrumb :items="breadcrumbs"/>
+    <b-alert show>
+      <h1>{{ userKey }} {{ modelKey }}</h1>
+      <hr/>
+      <span>All releases from the {{ userKey }} {{ modelKey }}</span>
+    </b-alert>
+    <releases-info :userKey="userKey" :modelKey="modelKey"/>
   </div>
 </template>
 
 <script>
 
-import { breadcrumbs, data } from "../utils/index";
+import { getBreadcrumbs } from "../utils/index";
+import ReleasesInfo from "../components/niem/ReleasesInfo.vue";
 
 export default {
 
   name: "Model",
+
+  components: {
+    ReleasesInfo
+  },
 
   data() {
     let { userKey, modelKey } = this.$route.params;
@@ -30,19 +30,8 @@ export default {
     return {
       userKey,
       modelKey,
-      breadcrumb: breadcrumbs(this.$route),
-      releases: undefined
+      breadcrumbs: getBreadcrumbs(this.$route),
     }
-  },
-
-  methods: {
-    releaseLink(releaseKey) {
-      return `/${this.userKey}/${this.modelKey}/${releaseKey}/`;
-    }
-  },
-
-  async mounted() {
-    this.releases = await data.releases.find(this.$route.params);
   }
 
 }

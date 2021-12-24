@@ -22,54 +22,33 @@ export let SubPropertyInstance = new SubProperty();
 /**
  * @param {{params: Object, path: string}} route
  */
-export function breadcrumbs(route) {
+export function getBreadcrumbs(route) {
 
-  let {userKey, modelKey, releaseKey, prefix, qname} = route.params;
+  let crumbs = [];
+  let currentIndex = 0;
+  let currentPath = "";
+  let segments = route.path.replace(/^\//, "").replace(/\/$/, "").split("/");
 
+  crumbs.push( { text: "Home", to: "/" });
 
-  let breadcrumb = [];
-  let path = "";
-  let activeIndex = -1;
+  segments.forEach( segment => {
+    currentPath += "/" + segment;
+    currentIndex = currentIndex + 1;
 
-  if (userKey) {
-    breadcrumb.push({text: userKey, to: `/`});
-    activeIndex = 0;
-  }
+    /** @type {{text: string, to?: string, active?: boolean}} */
+    let crumb = { text: segment };
 
-  if (modelKey) {
-    path = `/${userKey}/${modelKey}`;
-    breadcrumb.push({text: modelKey, to: path});
-    activeIndex = 1;
-  }
+    if (currentIndex < segments.length) {
+      crumb.to = currentPath;
+    }
+    else {
+      crumb.active = true;
+    }
 
-  if (releaseKey) {
-    path += `/${releaseKey}`;
-    breadcrumb.push({text: releaseKey, to: path});
-    activeIndex = 2;
-  }
+    crumbs.push(crumb);
+  });
 
-  if (prefix) {
-    breadcrumb.push({text: "namespaces", to: `${path}/namespaces`});
-
-    path += `/namespaces/${prefix}`;
-    breadcrumb.push({text: prefix, to: path});
-    activeIndex = 4;
-  }
-
-  if (qname) {
-
-    let group = (route.path.includes("properties")) ? "properties" : "types";
-
-    breadcrumb.push({text: group, to: `${path}/${group}`});
-    breadcrumb.push({text: qname, to: `${path}/${group}/${qname}`});
-    activeIndex = 4;
-  }
-
-  // Do not create a link for the currently active page
-  delete breadcrumb[activeIndex].to;
-  breadcrumb[activeIndex].active = true;
-
-  return breadcrumb;
+  return crumbs;
 
 }
 
@@ -82,4 +61,9 @@ export function updateXPath(currentXPath="", property) {
   if (!property || property.isAbstract == true) return currentXPath;
   if (currentXPath == "") return property.qname;
   return currentXPath + "/" + property.qname;
+}
+
+
+export function getReleaseLink(userKey, modelKey, releaseKey) {
+  return `/sources/${userKey}/${modelKey}/${releaseKey}/`;
 }

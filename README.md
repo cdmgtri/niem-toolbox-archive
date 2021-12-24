@@ -65,7 +65,7 @@ Individually typing or copy-pasting each of the NIEM fields listed above for eac
 ## Getting started
 
 ```sh
-npm i cdmgtri:niem-assistant
+npm i cdmgtri:niem-toolbox
 ```
 
 ## Usage

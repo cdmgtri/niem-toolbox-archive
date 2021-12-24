@@ -21,7 +21,8 @@ export default new Vuex.Store({
     },
 
     availableReleases: [
-      { userKey: "niem", modelKey: "model", releaseKey: "5.0", label: "5.0-draft", selected: true },
+      { userKey: "niem", modelKey: "model", releaseKey: "5.1", label: "5.1-draft", selected: true },
+      { userKey: "niem", modelKey: "model", releaseKey: "5.0", label: "5.0", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "4.2", label: "4.2", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "4.1", label: "4.1", selected: false },
       { userKey: "niem", modelKey: "model", releaseKey: "4.0", label: "4.0", selected: false },
@@ -35,7 +36,7 @@ export default new Vuex.Store({
 
     defaultUserKey: "niem",
     defaultModelKey: "model",
-    defaultReleaseKey: "5.0",
+    defaultReleaseKey: "5.1",
     defaultNIEMReleaseKey: undefined
 
   },
@@ -123,6 +124,7 @@ export default new Vuex.Store({
         await new Promise(resolve => setTimeout(resolve, 100));
         let json = require("./assets/releases/niem-release-" + rel.releaseKey + ".json");
         await context.state.niem.load(json);
+        rel.timestamp = json[0].timestamp;
       }
 
       // Mark the release as loaded

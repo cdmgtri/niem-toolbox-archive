@@ -10,6 +10,10 @@
           <p>Loading {{ progress.completedWords }} of {{ progress.totalWords }} most common property terms into tag cloud.</p>
         </div>
 
+        <b-button variant="link" @click="printUniqueTerms(false)">Print unique terms</b-button> |
+        <b-button variant="link" @click="printUniqueTerms(true)">Print unique terms with counts</b-button> |
+        <b-button variant="link" @click="printRepeatedTerms()">Print repeated terms</b-button>
+
         <div class="div-wordCloud">
           <vue-word-cloud :style="style" :words="words" :spacing="0.65" :color="color" :progress.sync="progress">
             <template slot-scope="{text}">
@@ -104,12 +108,53 @@ export default {
       this.weightTopRange = weightRange.topThird;
       this.weightBottomRange = weightRange.bottomThird;
       this.loaded = true;
+
+      console.log(this.words);
     },
 
     color([, weight]) {
       if (weight > this.weightTopRange) return "#005170";
       if (weight > this.weightBottomRange) return "#2d7479";
       return "BLACK";
+    },
+
+    /**
+     * @param {boolean} includeCount
+     */
+    printUniqueTerms(includeCount) {
+      // Terms need to be sorted by weight, then alphabetically
+      let counts = {};
+      this.words.forEach( word => {
+        let term = word[0];
+        let count = word[1];
+        if (includeCount) {
+          term += ` (${count})`;
+        }
+        if (!counts[count]) {
+          counts[count] = [];
+        }
+        counts[count].push(term);
+      });
+
+      // Sort descending
+      let keys = Object.keys(counts).sort((a, b) => b - a);
+
+      let termList = "";
+      for (let key of keys) {
+        termList += counts[key].sort().join("\n") + "\n";
+      }
+
+      // this.words.forEach( word => termList += word[0] + "\n" );
+      console.log(termList)
+    },
+
+    printRepeatedTerms() {
+      let termList = "";
+      this.words.forEach( word => {
+        let count = word[1];
+        termList += (word[0] + " ").repeat(count);
+      });
+      console.log(termList)
     }
 
   },

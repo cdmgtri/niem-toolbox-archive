@@ -14,6 +14,20 @@
     <!-- Types -->
     <object-list v-if="types" :types="types" label="Types" :listHeader="`Types in namespace ${namespace.prefix}`" :open="false"/>
 
+    <b-card>
+      <details>
+        <summary>Kinds of types</summary>
+        <br/>
+        <object-list v-if="objects" :types="objects" label="Object types" :open="false"/>
+        <object-list v-if="associations" :types="associations" label="Association types" :open="false"/>
+        <object-list v-if="augmentations" :types="augmentations" label="Augmentation types" :open="false"/>
+        <object-list v-if="metadata" :types="metadata" label="Metadata types" :open="false"/>
+        <object-list v-if="csc" :types="csc" label="CSC types" :open="false"/>
+        <object-list v-if="simple" :types="simple" label="Simple types" :open="false"/>
+      </details>
+    </b-card>
+    <br/>
+
     <!-- Local Terms -->
     <local-term-table v-if="localTerms" :localTerms="localTerms" :open="false"/>
 
@@ -116,6 +130,36 @@ export default {
         "Style": this.namespace.style,
         "URI": this.namespace.uri
       }
+    },
+
+    objects() {
+      if (!this.types) return;
+      return this.types.filter( type => type.style == "object" );
+    },
+
+    associations() {
+      if (!this.types) return;
+      return this.types.filter( type => type.style == "association" );
+    },
+
+    augmentations() {
+      if (!this.types) return;
+      return this.types.filter( type => type.style == "augmentation" );
+    },
+
+    metadata() {
+      if (!this.types) return;
+      return this.types.filter( type => type.style == "metadata" );
+    },
+
+    csc() {
+      if (!this.types) return;
+      return this.types.filter( type => type.style == "CSC" );
+    },
+
+    simple() {
+      if (!this.types) return;
+      return this.types.filter( type => type.isSimpleType == true );
     },
 
     /**

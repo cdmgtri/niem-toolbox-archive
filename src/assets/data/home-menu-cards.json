@@ -10,7 +10,7 @@
     "links": [
       {
         "text": "Browse components",
-        "route": "/browse"
+        "route": "/users"
       },
       {
         "text": "Search components",

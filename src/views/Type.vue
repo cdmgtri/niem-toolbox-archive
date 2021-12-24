@@ -23,6 +23,10 @@
       <!-- Data properties -->
       <object-list v-if="dataProperties" :properties="dataProperties" label="Properties of this type" :listHeader="`Properties of type ${type.qname}`" :open="false"/>
 
+      <!-- Member types -->
+      <object-list v-if="members && members.length > 0" :types="members" label="Union member types" :listHeader="`Member types for type ${type.qname}`" :open="false"/>
+
+
     </template>
 
   </object-page>
@@ -54,6 +58,7 @@ export default {
       children: undefined,
       descendants: undefined,
       dataProperties: undefined,
+      members: undefined,
       details: undefined
     }
   },
@@ -64,7 +69,8 @@ export default {
     this.parents = await this.type.parents();
     this.dataProperties = (await this.type.dataProperties.find()).sort(Component.sortByCoreQName);
     this.children = await this.type.childTypes();
-    this.descendants = await this.type.descendantTypes(false)
+    this.descendants = await this.type.descendantTypes(false);
+    this.members = await this.type.members();
 
     this.details = {
       "Prefix": this.type.prefix,

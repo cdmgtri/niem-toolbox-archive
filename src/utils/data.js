@@ -21,6 +21,10 @@ class Data {
   get models() {
     return {
 
+      get: async (userKey, modelKey) => {
+        return this.niem.models.get(userKey, modelKey);
+      },
+
       /**
        * @param {Object} [criteria]
        * @param {String} [criteria.userKey]
@@ -84,7 +88,7 @@ class Data {
       },
 
       route: ({userKey, modelKey, releaseKey, prefix}) => {
-        return `/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
+        return `/sources/${userKey}/${modelKey}/${releaseKey}/namespaces/${prefix}`;
       }
 
     }
@@ -217,7 +221,7 @@ class Data {
 
       route: ({userKey, modelKey, releaseKey, qname}) => {
         if (!qname) return;
-        return `/${userKey}/${modelKey}/${releaseKey}/properties/${qname}`;
+        return `/sources/${userKey}/${modelKey}/${releaseKey}/properties/${qname}`;
       },
 
       /**
@@ -293,7 +297,7 @@ class Data {
 
       route: ({userKey, modelKey, releaseKey, qname}) => {
         if (!qname) return;
-        return `/${userKey}/${modelKey}/${releaseKey}/types/${qname}`;
+        return `/sources/${userKey}/${modelKey}/${releaseKey}/types/${qname}`;
       }
 
     }

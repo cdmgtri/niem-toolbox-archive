@@ -15,6 +15,7 @@
       <b-form-group>
         <b-form-checkbox v-for="release in availableReleases" :key="release.releaseKey" v-model="release.selected" class="checkbox" @change="reloadReleases">
           {{ release.userKey }}-{{ release.modelKey }}-{{ release.label }}
+          <small v-if="release.timestamp"> - generated {{ release.timestamp }}</small>
         </b-form-checkbox>
       </b-form-group>
     </details>

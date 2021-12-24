@@ -1,6 +1,6 @@
 
 <template>
-  <object-row v-if="property" :definition="property.definition" :label="label" :spacer="spacer">
+  <object-row v-if="property" :definition="property.definition" :label="label" :spacer="spacer" :headerDefinition="headerDefinition">
 
     <template #header>
 
@@ -79,6 +79,11 @@ export default {
       // Trailing line break following the row
       type: Boolean,
       default: false
+    },
+    headerDefinition: {
+      // Include the definition in the summary header or the details
+      type: Boolean,
+      default: false
     }
   },
 
@@ -123,7 +128,7 @@ export default {
       let isElement = this.property.isElement == true ? "" : false;
       let isAbstract = this.property.isAbstract == true ? true : "";
 
-      return `${this.xpath}\t${this.property.prefix}\t${this.property.name}\t${this.property.definition}\t${this.property.typeQName}\t${group}\t${isElement}\t${isAbstract}`;
+      return `${this.xpath}\t${this.property.prefix}\t${this.property.name}\t${this.property.typeQName}\t${this.property.definition}\t${group}\t${isElement}\t${isAbstract}`;
     }
 
   },

@@ -7,12 +7,18 @@
         <summary>
           <span v-if="label">{{ label }} </span>
           <slot name="header"/>
+
+          <!-- Definition -->
+          <span v-if="definition && headerDefinition">
+            <br/>
+            <p class="pl-3"><copy-span :text="definition" label="definition"/></p>
+          </span>
         </summary>
 
         <div v-if="load==true" class="component-summary">
 
           <!-- Definition -->
-          <p v-if="definition"><copy-span :text="definition" label="definition"/></p>
+          <p v-if="definition && !headerDefinition"><copy-span :text="definition" label="definition"/></p>
 
           <slot name="details"/>
 
@@ -50,6 +56,11 @@ export default {
     },
     spacer: {
       // Trailing line break following the row
+      type: Boolean,
+      default: false
+    },
+    headerDefinition: {
+      // Include the definition in the summary header or the details
       type: Boolean,
       default: false
     }

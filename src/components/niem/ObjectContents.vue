@@ -3,7 +3,7 @@
   <div v-if="property || type">
 
     <!-- Substitutions -->
-    <object-list v-if="substitutions.length > 0" :properties="substitutions" :parentXPath="xpath" :label="'Substitutions'" :listHeader="`Substitutions for ${property.qname}`"/>
+    <object-list v-if="substitutions.length > 0" :properties="substitutions" :parentXPath="xpath" label="Substitutions" :listHeader="`Substitutions for ${property.qname}`"/>
 
     <!-- Facets -->
     <facet-table v-if="facets.length > 0" :facets="facets"/>
@@ -11,12 +11,19 @@
     <!-- Inherited, contained, and augmentation properties -->
     <available-properties v-if="computedType" :type="computedType" :parentXPath="xpath"/>
 
+    <!-- Type union members -->
+    <object-list v-if="members.length > 0" :types="members" label="Type Union Members" :listHeader="`Type union members for ${type.qname}`"/>
+
+    <!-- Base type -->
+    <type-row v-if="base" :type="base" label="Base type" :spacer="true"/>
+
   </div>
 </template>
 
 <script>
 
 import { Property } from "niem-model";
+import FacetTable from "./FacetTable.vue";
 
 export default {
 
@@ -38,9 +45,10 @@ export default {
   },
 
   components: {
+    AvailableProperties: () => import("./AvailableProperties.vue"),
+    FacetTable,
     ObjectList: () => import("./ObjectList.vue"),
-    FacetTable: () => import("./FacetTable.vue"),
-    AvailableProperties: () => import("./AvailableProperties.vue")
+    TypeRow: () => import("./TypeRow.vue")
   },
 
   data() {
@@ -48,6 +56,8 @@ export default {
       computedType: this.type,
       facets: [],
       substitutions: [],
+      members: [],
+      base: undefined
     }
   },
 
@@ -59,6 +69,16 @@ export default {
     }
     else if (this.type) {
       this.facets = await this.type.contents.facets();
+    }
+
+    if (this.computedType) {
+      this.members = await this.computedType.members();
+
+      if (this.computedType.isSimpleContent == true) {
+        if (this.facets.length == 0 && this.substitutions.length == 0 && this.members.length == 0) {
+          this.base = await this.computedType.base();
+        }
+      }
     }
 
   }
